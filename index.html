@@ -10,12 +10,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#07080a; --panel:#101317; --panel2:#161b20; --line:#222a31; --line2:#2c3640;
-  --red:#ff2d55; --red-dim:#5a1021; --green:#31ff8c; --green-dim:#0f4a2c;
-  --gold:#ffc93c; --gold-dim:#5c4200; --blue:#4aa8ff;
+  --bg:#07080a; --panel:#101317; --panel2:#161b20; --line:#222a31;
+  --red:#ff2d55; --green:#31ff8c; --gold:#ffc93c; --blue:#4aa8ff;
   --text:#d9dfe5; --dim:#7f8993;
-  --display:'Oswald','Arial Narrow',Impact,sans-serif;
-  --body:'Golos Text',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --display:'Oswald',sans-serif; --body:'Golos Text',sans-serif;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--bg)}
@@ -37,6 +35,7 @@ body::before{
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 
+/* header */
 .me{display:flex;align-items:center;gap:10px}
 .avatar{
   width:42px;height:42px;border-radius:50%;flex:none;overflow:hidden;display:grid;place-items:center;
@@ -49,18 +48,19 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .gear{font-size:20px;padding:8px;color:var(--dim);min-width:44px;min-height:44px}
 .gear:active{color:var(--green)}
 
+/* vault */
 .vault{padding:4px 2px 0}
 .vault .lbl{color:var(--dim);font-size:12px;letter-spacing:.3px;text-transform:uppercase}
 .balance{
   font:700 clamp(40px,14vw,58px)/1.05 var(--display);color:var(--green);
-  text-shadow:0 0 18px rgba(49,255,140,.55);letter-spacing:.5px;
-  transition:transform .15s;
+  text-shadow:0 0 18px rgba(49,255,140,.55);letter-spacing:.5px;transition:transform .15s;
 }
 .balance.bump{transform:scale(1.04)}
 .income{color:var(--green);opacity:.85;font-size:13px}
 .income.pres{color:var(--gold);opacity:1}
 .income .boost{color:var(--gold);font-weight:600}
 
+/* alert */
 .alert{
   position:sticky;top:8px;z-index:5;padding:10px 12px;border:1px solid var(--red);border-radius:8px;
   background:rgba(40,6,14,.96);box-shadow:0 0 18px rgba(255,45,85,.5);animation:pulse 1s infinite;
@@ -73,6 +73,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .alert .row button.buy{border-color:var(--green);color:var(--green);background:rgba(49,255,140,.08)}
 @keyframes pulse{50%{box-shadow:0 0 4px rgba(255,45,85,.25)}}
 
+/* deal */
 .deal{
   position:relative;height:130px;border-radius:14px;border:2px solid var(--red);
   background:linear-gradient(180deg,#2a0912,#12060a);
@@ -94,6 +95,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .fl.crit{color:var(--gold);font-size:26px;text-shadow:0 0 12px var(--gold)}
 @keyframes fly{to{transform:translateY(-70px);opacity:0}}
 
+/* cards */
 .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px}
 .card.atk{border-left:3px solid var(--red)}
 .card.def{border-left:3px solid var(--green)}
@@ -102,6 +104,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .card h2{margin:0 0 8px;font:700 17px var(--display);letter-spacing:.4px;display:flex;align-items:center;gap:6px}
 .card p{margin:0 0 10px;color:var(--dim);font-size:13px}
 
+/* leaderboard */
 .lb{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
 .lb-row{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:center;padding:8px 10px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);font-size:13px}
 .lb-row.me{border-color:var(--green);background:rgba(15,74,44,.25);box-shadow:0 0 10px rgba(49,255,140,.2)}
@@ -115,7 +118,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .lb-row .nm .you{color:var(--green);font-size:11px;font-weight:500}
 .lb-row .cash{color:var(--green);font-weight:600;text-align:right;font-size:13px}
 
-/* используется и для списка друзей */
+/* targets / friends */
 .t{
   display:grid;grid-template-columns:1fr auto;gap:2px 8px;text-align:left;width:100%;
   padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);
@@ -125,8 +128,10 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .t .c{text-align:right;color:var(--green);font-weight:600}
 .t .m{color:var(--dim);font-size:11px}
 .t .c.low{color:var(--red)}
-.t button{grid-row:2;grid-column:2;padding:8px 12px;min-width:auto;font-size:12px;min-height:36px;align-self:end}
+.t button{grid-row:2;grid-column:2;padding:8px 12px;border:1px solid var(--red);border-radius:6px;color:var(--red);font-size:12px;font-weight:600;min-height:36px;align-self:end}
+.t button:disabled{opacity:.5;border-color:var(--line);color:var(--dim)}
 
+/* buttons */
 .btn{
   width:100%;padding:12px;border-radius:8px;font:700 16px var(--display);letter-spacing:.4px;
   border:1px solid var(--red);color:#fff;background:linear-gradient(180deg,#5a1021,#2a0912);
@@ -142,6 +147,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .btn-row{display:flex;gap:8px}
 .btn-row .btn{flex:1}
 
+/* stats / upgrades */
 .stat{display:flex;justify-content:space-between;margin-bottom:10px}
 .stat b{color:var(--green);font:700 20px var(--display)}
 
@@ -156,11 +162,13 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 }
 .up button:disabled{border-color:var(--line);color:var(--dim);cursor:not-allowed}
 
+/* log */
 .log{margin:0;padding:0;list-style:none;font-size:13px;color:var(--dim)}
 .log li{padding:5px 0;border-top:1px solid var(--line)}
 .log li:first-child{border-top:0}
 .log .ok{color:var(--green)} .log .bad{color:var(--red)} .log .gold{color:var(--gold)}
 
+/* toast */
 .toast{
   position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,30px);
   max-width:90%;padding:10px 16px;border-radius:8px;background:#0b0e11;border:1px solid var(--green);
@@ -170,6 +178,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .toast.bad{border-color:var(--red);color:var(--red)}
 .toast.gold{border-color:var(--gold);color:var(--gold)}
 
+/* modal */
 .modal{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
 .modal[hidden]{display:none}
 .modal-content{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -178,6 +187,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .modal-content input[type=checkbox]{width:20px;height:20px;accent-color:var(--green)}
 .modal-close{position:sticky;top:0;float:right;font-size:20px;color:var(--dim);padding:4px 10px;margin:-4px -6px 0 0}
 
+/* quests */
 .quest{display:grid;grid-template-columns:1fr auto;gap:4px 8px;padding:9px 0;border-top:1px solid var(--line)}
 .quest:first-child{border-top:0}
 .quest .qn{font-weight:600;font-size:13px}
@@ -190,6 +200,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .quest-progress{width:100%;height:3px;background:var(--panel2);border-radius:2px;overflow:hidden;margin-top:4px;grid-column:1/3}
 .quest-progress i{display:block;height:100%;background:var(--green);border-radius:2px}
 
+/* achievements */
 .ach{display:grid;grid-template-columns:22px 1fr;gap:2px 8px;padding:7px 0;border-top:1px solid var(--line);font-size:13px}
 .ach:first-child{border-top:0}
 .ach .ic{grid-row:1/3;color:var(--dim);font-weight:700}
@@ -199,6 +210,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .ach .ds{color:var(--dim);font-size:11px}
 .ach .rw{color:var(--gold);font-size:11px}
 
+/* minigame */
 .mg-track{position:relative;width:100%;height:50px;background:var(--panel2);border-radius:8px;border:1px solid var(--line);overflow:hidden;margin:16px 0}
 .mg-zone{position:absolute;top:0;bottom:0;background:linear-gradient(180deg,rgba(49,255,140,.35),rgba(49,255,140,.15));border-left:2px solid var(--green);border-right:2px solid var(--green)}
 .mg-marker{position:absolute;top:0;bottom:0;width:3px;background:var(--gold);box-shadow:0 0 12px var(--gold);left:0}
@@ -208,6 +220,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .mg-result.bad{color:var(--red)}
 .mg-hint{text-align:center;color:var(--dim);font-size:12px;margin-bottom:8px}
 
+/* iap shop */
 .shop-pack{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--line);gap:8px}
 .shop-pack:first-child{border-top:0}
 .shop-pack .info{flex:1;min-width:0}
@@ -215,10 +228,12 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .shop-pack .info .d{color:var(--dim);font-size:11px}
 .shop-pack > button{padding:9px 14px;border-radius:8px;background:linear-gradient(180deg,#3a2400,#1a1000);border:1px solid var(--gold);color:var(--gold);font-weight:700;font-size:13px;min-height:44px;min-width:74px;flex:none}
 
+/* ad modal */
 .ad-modal-content{text-align:center;padding:30px 20px}
 .ad-modal-content .big-em{font-size:64px;margin-bottom:16px;animation:bob 1s infinite}
 @keyframes bob{50%{transform:translateY(-8px)}}
 
+/* share preview */
 .share-preview{width:100%;max-width:400px;border-radius:12px;border:1px solid var(--line);margin:12px 0;display:block}
 
 @media (prefers-reduced-motion:reduce){
@@ -398,16 +413,15 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   'use strict';
 
   // ============================================================
-  // CONSTANTS
+  // НАСТРОЙКИ (ТВОИ ССЫЛКИ)
   // ============================================================
-  const BOT_LINK = 'https://t.me/YOUR_BOT/YOUR_APP';
-  const BACKEND_URL = '';
+  const BOT_LINK = 'https://t.me/black_market_game_bot'; // Твой бот
+  const BACKEND_URL = 'https://black-market-server-l431.onrender.com'; // URL твоего сервера на Render
+
   const SHARE_TEXT = 'Меня прессуют конкуренты! Зайди и помоги отбиться:';
   const RAID_WARN_MS = 12000;
   const SAVE_KEY = 'blackmarket_v3';
-  const OLD_KEY = 'blackmarket_v2';
   const OFFLINE_CAP = 7200;
-  const OFFLINE_LOG_MIN_SEC = 300;
   const MAX_GUARDS = 30;
   const PRESTIGE_BASE = 1e6;
   const COMBO_MS = 1200;
@@ -419,7 +433,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   const AD_CD = 60000;
 
   // ============================================================
-  // TELEGRAM SETUP
+  // TELEGRAM
   // ============================================================
   const tg = window.Telegram && window.Telegram.WebApp;
   if (tg) {
@@ -492,7 +506,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   }
 
   // ============================================================
-  // SOUND
+  // SOUND & HAPTICS
   // ============================================================
   let audioCtx = null;
   function beep(freq, dur, type = 'sine', vol = 0.08) {
@@ -509,9 +523,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     } catch (e) {}
   }
 
-  // ============================================================
-  // HAPTIC
-  // ============================================================
   const haptic = type => {
     if (!s.settings.haptics) return;
     try {
@@ -568,12 +579,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
       s = Object.assign(defState(), raw);
       s.settings = Object.assign(defState().settings, raw.settings || {});
       s.achievements = raw.achievements || {};
-    } else {
-      const old = JSON.parse(localStorage.getItem(OLD_KEY) || '{}');
-      if (Object.keys(old).length) {
-        s = Object.assign(defState(), old);
-        s.settings = Object.assign(defState().settings, old.settings || {});
-      }
     }
   } catch (e) { console.warn('save load failed', e); }
 
@@ -750,7 +755,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
         <span class="n">${esc(f.emoji)} ${esc(f.name)}</span>
         <span class="c${pct < 40 ? ' low' : ''}">${pct}%</span>
         <span class="m">в сейфе ${fmt(f.cash)} $</span>
-        <button class="btn" data-fid="${f.id}" ${disabled}>${btnTxt}</button>
+        <button data-fid="${f.id}" ${disabled}>${btnTxt}</button>
       </div>`;
     }).join('');
   }
@@ -976,7 +981,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   });
 
   // ============================================================
-  // IAP / STAR PACKS
+  // IAP / STAR PACKS (ИНТЕГРАЦИЯ С RENDER)
   // ============================================================
   const STAR_PACKS = [
     { id: 'cash_small', emoji: '💰', title: 'Пачка кэша', desc: 'x10 дохода за 1 час', stars: 50,
@@ -1011,37 +1016,40 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     const pack = STAR_PACKS.find(p => p.id === id);
     if (!pack) return;
 
-    const grant = () => {
-      pack.apply();
-      s.starsPurchases[id] = (s.starsPurchases[id] || 0) + 1;
-      track('iap_success', { id });
-      toast(`Куплено: ${pack.title}`, 'gold');
-      beep(1000, 0.2, 'triangle');
-      render();
-    };
-
-    if (!BACKEND_URL || !tg || !tg.openInvoice) {
-      // Демо-режим
+    // Заглушка, если сервер недоступен (например, не запущен на Render)
+    if (!BACKEND_URL) {
       const msg = `[ДЕМО] «${pack.title}» за ${pack.stars} ⭐?\n\nВ продакшене откроется оплата через Telegram Stars.`;
-      if (tg && tg.showConfirm) tg.showConfirm(msg, ok => { if (ok) grant(); });
-      else if (confirm(msg)) grant();
+      if (tg && tg.showConfirm) tg.showConfirm(msg, ok => { if (ok) pack.apply(); render(); });
+      else if (confirm(msg)) { pack.apply(); render(); }
       return;
     }
 
+    // Боевой режим — запрос на Render
     fetch(BACKEND_URL + '/invoice', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ packId: id, userId: tgUser && tgUser.id, initData: tg.initData })
+      body: JSON.stringify({ packId: id, userId: tgUser && tgUser.id })
     })
       .then(r => r.json())
       .then(data => {
         if (!data.invoiceLink) throw new Error('no invoice');
         tg.openInvoice(data.invoiceLink, status => {
-          if (status === 'paid') grant();
-          else if (status === 'failed' || status === 'cancelled') toast('Оплата отменена', 'bad');
+          if (status === 'paid') {
+            pack.apply();
+            s.starsPurchases[id] = (s.starsPurchases[id] || 0) + 1;
+            track('iap_success', { id });
+            toast(`Куплено: ${pack.title}`, 'gold');
+            beep(1000, 0.2, 'triangle');
+            render();
+          } else if (status === 'failed' || status === 'cancelled') {
+            toast('Оплата отменена', 'bad');
+          }
         });
       })
-      .catch(() => toast('Ошибка оплаты', 'bad'));
+      .catch(err => {
+        console.error(err);
+        toast('Ошибка сервера. Проверь Render.', 'bad');
+      });
   }
 
   // ============================================================
@@ -1174,7 +1182,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     const link = BOT_LINK + (BOT_LINK.includes('?') ? '&' : '?') + 'startapp=ref_' + uid;
     const text = SHARE_TEXT + ' ' + link;
 
-    // 1) Нативный шер с файлом
     if (navigator.share && navigator.canShare) {
       try {
         const file = new File([lastShareBlob], 'blackmarket.png', { type: 'image/png' });
@@ -1184,10 +1191,9 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
           $('shareModal').hidden = true;
           return;
         }
-      } catch (e) { /* cancelled */ }
+      } catch (e) {}
     }
 
-    // 2) Fallback — текстовая ссылка
     const shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(SHARE_TEXT);
     if (tg && tg.openTelegramLink) tg.openTelegramLink(shareUrl);
     else window.open(shareUrl, '_blank');
@@ -1205,7 +1211,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   });
 
   // ============================================================
-  // HEADER
+  // HEADER & UPGRADES
   // ============================================================
   $('uname').textContent = userName;
   const av = $('avatar');
@@ -1215,9 +1221,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     av.appendChild(img);
   } else av.textContent = userName[0].toUpperCase();
 
-  // ============================================================
-  // UPGRADES UI
-  // ============================================================
   const UPS = [
     { k: 'point', n: 'Подпольная точка', d: () => `+2 $/с базовых. Сейчас ${fmt(income())} $/с` },
     { k: 'conn',  n: 'Связи',            d: () => `+2 $ за сделку. Сейчас +${fmt(tapVal())} $` },
@@ -1390,12 +1393,11 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   $('sndChk').addEventListener('change', e => { s.settings.sound = e.target.checked; });
   $('hapChk').addEventListener('change', e => { s.settings.haptics = e.target.checked; });
   $('resetBtn').addEventListener('click', () => {
-    const doReset = () => { localStorage.removeItem(SAVE_KEY); localStorage.removeItem(OLD_KEY); location.reload(); };
+    const doReset = () => { localStorage.removeItem(SAVE_KEY); location.reload(); };
     if (tg && tg.showConfirm) tg.showConfirm('Сбросить весь прогресс?', ok => { if (ok) doReset(); });
     else if (confirm('Сбросить весь прогресс?')) doReset();
   });
 
-  // Глобальный close — с чисткой мини-игры
   document.addEventListener('click', e => {
     const id = e.target.dataset && e.target.dataset.close;
     let target = null;
@@ -1526,7 +1528,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   // BOOT
   // ============================================================
   const awaySec = Math.min((now() - s.ts) / 1000, OFFLINE_CAP);
-  if (awaySec > OFFLINE_LOG_MIN_SEC) {
+  if (awaySec > 300) {
     const g = Math.floor(awaySec * income());
     add(g);
     addLog(`Пока тебя не было (${Math.floor(awaySec / 60)} мин): +${fmt(g)} $`, 'ok');
@@ -1555,7 +1557,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     tickRaid(t);
     render();
 
-    // Троттл: список друзей максимум 2 раза/сек
     if (!$('friendsModal').hidden && t - lastFriendsModalRender > 500) {
       renderFriendsList();
       lastFriendsModalRender = t;
