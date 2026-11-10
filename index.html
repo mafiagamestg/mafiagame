@@ -23,7 +23,7 @@ body{margin:0;min-height:100dvh;color:var(--text);font:15px/1.4 var(--body);user
 #loader.hidden { opacity: 0; pointer-events: none; }
 .spinner { width: 40px; height: 40px; border: 4px solid var(--panel2); border-top-color: var(--green); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
 @keyframes spin { 100% { transform: rotate(360deg); } }
-#app{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:10px;padding:12px 14px 20px;}
+#app{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:12px;padding:12px 14px 20px;}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 button:disabled{opacity:.45;cursor:not-allowed;}
 
@@ -32,70 +32,86 @@ button:disabled{opacity:.45;cursor:not-allowed;}
 .avatar{width:42px;height:42px;border-radius:50%;flex:none;overflow:hidden;display:grid;place-items:center;border:2px solid var(--green);background:var(--panel2);font:700 18px var(--display);color:var(--green);}
 .avatar img{width:100%;height:100%;object-fit:cover}
 .me b{display:block;font-weight:600;font-size:14px}.me small{color:var(--dim);font-size:12px}
-.vault{background:var(--panel);padding:10px;border-radius:10px;border:1px solid var(--line);text-align:center;margin-bottom:10px;}
-.vault .lbl{color:var(--dim);font-size:12px;text-transform:uppercase}
+.vault{background:var(--panel);padding:12px;border-radius:12px;border:1px solid var(--line);text-align:center;}
+.vault .lbl{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:1px;}
 .balance{font:700 clamp(36px,12vw,50px)/1.05 var(--display);color:var(--green);text-shadow:0 0 18px rgba(49,255,140,.55);}
 .income{color:var(--green);opacity:.85;font-size:13px}
 
 /* Табы */
-.tab-content{display:none;flex-direction:column;gap:10px;}
+.tab-content{display:none;flex-direction:column;gap:12px;}
 .tab-content.active{display:flex;}
 
 /* Нижнее меню */
-.nav-bar{position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--panel);border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;z-index:100;padding-bottom:env(safe-area-inset-bottom);}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;height:65px;background:var(--panel);border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;z-index:100;padding-bottom:env(safe-area-inset-bottom);}
 .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--dim);font-size:10px;gap:4px;width:20%;height:100%;transition:color 0.2s;}
 .nav-item.active{color:var(--green);}
 .nav-item .icon{font-size:22px;}
 
 /* Карточки */
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;}
-.card h2{margin:0 0 8px;font:700 17px var(--display);display:flex;align-items:center;gap:6px;}
-.card p{color:var(--dim);font-size:13px;margin:0 0 10px;line-height:1.3}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;}
+.card h2{margin:0 0 10px;font:700 18px var(--display);display:flex;align-items:center;gap:8px;}
+.card p{color:var(--dim);font-size:13px;margin:0 0 12px;line-height:1.4}
 
 /* Кнопки */
-.btn{width:100%;padding:12px;border-radius:8px;font:700 16px var(--display);border:1px solid var(--red);color:#fff;background:linear-gradient(180deg,#5a1021,#2a0912);min-height:44px;box-shadow:0 0 12px rgba(255,45,85,.35);}
-.btn:active{filter:brightness(1.25);}
+.btn{width:100%;padding:14px;border-radius:10px;font:700 16px var(--display);border:1px solid var(--red);color:#fff;background:linear-gradient(180deg,#5a1021,#2a0912);min-height:48px;box-shadow:0 0 12px rgba(255,45,85,.35);transition:transform 0.1s;}
+.btn:active{transform:scale(0.98);filter:brightness(1.25);}
 .btn.g{border-color:var(--green);background:linear-gradient(180deg,#12502f,#0a2517)}.btn.gold{border-color:var(--gold);background:linear-gradient(180deg,#5c4200,#2a1e00);color:var(--gold)}
 .btn.o{background:transparent;border-color:var(--green);color:var(--green);box-shadow:none}.btn.o.blue{border-color:var(--blue);color:var(--blue)}.btn.o.gold{border-color:var(--gold);color:var(--gold)}
-.btn-row{display:flex;gap:8px}.btn-row .btn{flex:1}
+.btn-row{display:flex;gap:10px}.btn-row .btn{flex:1}
+
+/* Спец. для рулетки */
+.slot-machine {font-size: 64px; text-align: center; margin: 20px 0; height: 80px; display: flex; align-items: center; justify-content: center; font-family: var(--display); text-shadow: 0 0 15px var(--gold); transition: transform 0.1s;}
+.energy-bar {display:flex;gap:6px;justify-content:center;margin:15px 0}
+.energy-cell {width:32px;height:12px;background:var(--panel2);border-radius:3px;border:1px solid var(--line);transition:0.3s}
+.energy-cell.active {background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px var(--gold)}
+
+/* Русская рулетка (Модалка) */
+.rr-box {text-align: center; padding: 20px 0;}
+.rr-revolver {font-size: 90px; margin-bottom: 20px; transition: transform 0.1s;}
+.rr-shake { animation: shake 0.4s infinite; }
+@keyframes shake {
+  0% { transform: translate(2px, 2px) rotate(0deg); }
+  10% { transform: translate(-2px, -3px) rotate(-2deg); }
+  20% { transform: translate(-4px, 0px) rotate(2deg); }
+  30% { transform: translate(4px, 3px) rotate(0deg); }
+  40% { transform: translate(2px, -2px) rotate(2deg); }
+  50% { transform: translate(-2px, 3px) rotate(-2deg); }
+  60% { transform: translate(-4px, 2px) rotate(0deg); }
+  70% { transform: translate(4px, 2px) rotate(-2deg); }
+  80% { transform: translate(-2px, -2px) rotate(2deg); }
+  90% { transform: translate(2px, 3px) rotate(0deg); }
+  100% { transform: translate(2px, -3px) rotate(-2deg); }
+}
+.rr-text {font: 700 26px var(--display); margin-bottom: 10px; text-transform: uppercase;}
 
 /* Улучшения */
-.up{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
-.up:first-of-type{border-top:0}.up .n{font-weight:600;font-size:14px}.up .d{color:var(--dim);font-size:12px}
-.up button{grid-row:1/3;grid-column:2;min-width:88px;padding:9px 10px;border-radius:8px;border:1px solid var(--green);color:var(--green);font-weight:600;font-size:13px;}
-.up button:disabled{border-color:var(--line);color:var(--dim);}
-
-/* Рулетка */
-.energy-bar {display:flex;gap:4px;justify-content:center;margin:10px 0}
-.energy-cell {width:30px;height:10px;background:var(--panel2);border-radius:2px;border:1px solid var(--line);transition:0.3s}
-.energy-cell.active {background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px var(--gold)}
+.up{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.up:first-of-type{border-top:0}.up .n{font-weight:600;font-size:14px;display:flex;align-items:center;}
+.up .n i{font-style:normal;color:var(--dim);font-size:11px;margin-left:6px;font-weight:400;}
+.up .d{color:var(--dim);font-size:12px;grid-column:1;}
+.up button{grid-row:1/3;grid-column:2;min-width:90px;padding:10px;border-radius:8px;border:1px solid var(--green);color:var(--green);font-weight:600;font-size:13px;background:rgba(49,255,140,0.05);}
+.up button:disabled{border-color:var(--line);color:var(--dim);background:transparent;}
 
 /* Квесты */
-.quest{display:grid;grid-template-columns:1fr auto;gap:4px 8px;padding:9px 0;border-top:1px solid var(--line)}.quest:first-child{border-top:0}
-.quest .qn{font-weight:600;font-size:13px}.quest .qp{color:var(--dim);font-size:11px}.quest .qr{color:var(--gold);font-size:11px}
-.quest button{grid-row:1/3;grid-column:2;padding:8px 12px;border-radius:6px;border:1px solid var(--gold);color:var(--gold);font-size:12px;font-weight:600;}
-.quest button.claimed{border-color:var(--line);color:var(--dim);cursor:default}
-.quest.done button{border-color:var(--green);color:var(--green);}
-
-/* Список ботов */
-.t{display:grid;grid-template-columns:1fr auto;gap:2px 8px;text-align:left;width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);margin-bottom:6px;}
-.t .n{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.t .c{text-align:right;color:var(--green);font-weight:600}.t .m{color:var(--dim);font-size:11px}
-.t button{grid-row:2;grid-column:2;padding:8px 12px;border:1px solid var(--red);border-radius:6px;color:var(--red);font-size:12px;font-weight:600;min-height:36px;align-self:end;}
-.t button:disabled{opacity:.5;border-color:var(--line);color:var(--dim)}
+.quest{display:grid;grid-template-columns:1fr auto;gap:4px 8px;padding:12px 0;border-top:1px solid var(--line)}.quest:first-child{border-top:0}
+.quest .qn{font-weight:600;font-size:14px}.quest .qp{color:var(--dim);font-size:12px}.quest .qr{color:var(--gold);font-size:12px;font-weight:bold;}
+.quest button{grid-row:1/3;grid-column:2;padding:8px 14px;border-radius:8px;border:1px solid var(--gold);color:var(--gold);font-size:12px;font-weight:600;background:rgba(255,201,60,0.05);}
+.quest button.claimed{border-color:var(--line);color:var(--dim);background:transparent;cursor:default}
+.quest.done button{border-color:var(--green);color:var(--green);background:rgba(49,255,140,0.1);}
 
 /* Модалки */
-.modal{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+.modal{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(5px)}
 .modal[hidden]{display:none}
-.modal-content{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;}
-.modal-close{float:right;font-size:20px;color:var(--dim);padding:4px;}
+.modal-content{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;width:100%;max-width:400px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
+.modal-content h2{margin-top:0;}
+.modal-close{float:right;font-size:22px;color:var(--dim);padding:4px;}
 
 /* Тосты и Логи */
-.toast{position:fixed;left:50%;bottom:80px;transform:translate(-50%,30px);max-width:90%;padding:10px 16px;border-radius:8px;background:#0b0e11;border:1px solid var(--green);color:var(--green);opacity:0;transition:.25s;z-index:200;text-align:center;pointer-events:none;font-size:14px;}
+.toast{position:fixed;left:50%;bottom:80px;transform:translate(-50%,30px);max-width:90%;padding:12px 18px;border-radius:10px;background:#0b0e11;border:1px solid var(--green);color:var(--green);opacity:0;transition:.3s;z-index:200;text-align:center;pointer-events:none;font-size:14px;font-weight:600;box-shadow:0 5px 15px rgba(0,0,0,0.5);}
 .toast.show{opacity:1;transform:translate(-50%,0)}.toast.bad{border-color:var(--red);color:var(--red)}.toast.gold{border-color:var(--gold);color:var(--gold)}
 #log{margin:0;padding:0;list-style:none;font-size:13px;color:var(--dim);}
-#log li{padding:5px 0;border-top:1px solid var(--line);}
+#log li{padding:8px 0;border-top:1px solid var(--line);}
 #log li:first-child{border-top:0;}
-.log-ok{color:var(--green)} .log-bad{color:var(--red)} .log-gold{color:var(--gold)}
 
 /* Анимация полета денег */
 @keyframes fly { to { transform: translateY(-70px); opacity: 0; } }
@@ -118,26 +134,33 @@ button:disabled{opacity:.45;cursor:not-allowed;}
 
   <!-- ВКЛАДКА 1: БИЗНЕС -->
   <div class="tab-content active" id="tab-biz">
-    <button id="deal" style="height:120px; border-radius:14px; border:2px solid var(--red); background:linear-gradient(180deg,#2a0912,#12060a); box-shadow:0 0 22px rgba(255,45,85,.45); display:flex; flex-direction:column; align-items:center; justify-content:center;">
-      <span style="font:700 28px var(--display);color:#fff;text-shadow:0 0 12px var(--red)">СДЕЛКА</span>
-      <small id="tapv" style="color:#ff8da3;">+1 $</small>
+    <button id="deal" style="height:120px; border-radius:16px; border:2px solid var(--red); background:linear-gradient(180deg,#2a0912,#12060a); box-shadow:0 0 22px rgba(255,45,85,.45); display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <span style="font:700 32px var(--display);color:#fff;text-shadow:0 0 12px var(--red)">СДЕЛКА</span>
+      <small id="tapv" style="color:#ff8da3;font-size:14px;margin-top:4px;">+1 $</small>
     </button>
 
-    <div class="btn-row" style="margin-top:8px;">
+    <div class="btn-row">
       <button class="btn gold" id="dailyBtn">🎁 Бонус</button>
       <button class="btn o blue" id="adBtn">📺 Реклама</button>
     </div>
 
     <section class="card">
       <h2>📈 Активы</h2>
-      <p>Улучшай точки и связи. Это база твоего пассивного дохода и силы тапа.</p>
       <div id="ups"></div>
     </section>
 
     <section class="card">
       <h2>🛡 Сейф</h2>
-      <div class="up"><span class="n">Охрана (Бойцы)</span><span class="d" id="d_guard">0</span><button id="guardBtn" class="o">Нанять</button></div>
-      <div class="up"><span class="n">Титановый сейф</span><span class="d" id="d_armor">Ур. 0</span><button id="b_armor">Купить</button></div>
+      <div class="up">
+        <span class="n">Охрана (Бойцы)</span>
+        <span class="d" id="d_guard">0 / 30</span>
+        <button id="guardBtn" class="o">Нанять</button>
+      </div>
+      <div class="up">
+        <span class="n">Титановый сейф</span>
+        <span class="d" id="d_armor">Ур. 0</span>
+        <button id="b_armor">Купить</button>
+      </div>
     </section>
   </div>
 
@@ -161,24 +184,24 @@ button:disabled{opacity:.45;cursor:not-allowed;}
     </section>
   </div>
 
-  <!-- ВКЛАДКА 3: СХЕМА -->
+  <!-- ВКЛАДКА 3: СХЕМА (КАЗИНО) -->
   <div class="tab-content" id="tab-wheel">
     <section class="card gold">
       <h2>🎰 Криминальная схема</h2>
       <p>Крути рулетку, чтобы украсть деньги или получить бусты. Тратит 1 Влияние.</p>
+      <div class="slot-machine" id="slot-machine">🎰</div>
       <div class="energy-bar" id="energyBar"></div>
       <button class="btn gold" id="spinBtn">Крутить</button>
-      <div id="spinResult" style="font-size:14px;margin-top:10px;height:20px;color:var(--gold);text-align:center;"></div>
     </section>
 
     <section class="card" style="border-color:var(--red);">
       <h2>💀 Русская рулетка</h2>
-      <p class="red-text">Один патрон из шести. Выживешь — заберешь x2 от ставки. Проиграешь — потеряешь всё.</p>
+      <p class="red-text">Один патрон из шести. Шанс выжить 84%. Выживешь — заберешь x2 от ставки. Проиграешь — потеряешь всё.</p>
       <div class="btn-row">
         <button class="btn o" id="rr_1000">Ставка 1K</button>
         <button class="btn o" id="rr_10000">Ставка 10K</button>
       </div>
-      <button class="btn o" id="rr_max" style="margin-top:8px; border-color:var(--red); color:var(--red);">Всё на кон (50%)</button>
+      <button class="btn o" id="rr_max" style="margin-top:10px; border-color:var(--red); color:var(--red);">Всё на кон (50%)</button>
     </section>
   </div>
 
@@ -187,8 +210,13 @@ button:disabled{opacity:.45;cursor:not-allowed;}
     <section class="card" style="border:1px solid var(--purple);">
       <h2 class="purple-text">👑 Сезонный Пропуск</h2>
       <p>Получай опыт (XP) за тапы. Открывай награды.</p>
-      <div style="background:var(--panel2); height:10px; border-radius:5px; margin:10px 0; overflow:hidden;"><div id="bpProgress" style="height:100%; width:0%; background:var(--purple); transition:width 0.3s;"></div></div>
-      <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:10px;"><span>Уровень: <b id="bpLevel">1</b></span><span>XP: <b id="bpXp">0</b>/100</span></div>
+      <div style="background:var(--panel2); height:12px; border-radius:6px; margin:15px 0; overflow:hidden;">
+        <div id="bpProgress" style="height:100%; width:0%; background:var(--purple); transition:width 0.3s;"></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:15px; font-weight:bold;">
+        <span>Уровень: <span id="bpLevel" class="purple-text">1</span></span>
+        <span>XP: <span id="bpXp">0</span>/100</span>
+      </div>
       <button class="btn gold" id="bpBuyBtn">Купить Премиум (300⭐)</button>
     </section>
 
@@ -196,12 +224,11 @@ button:disabled{opacity:.45;cursor:not-allowed;}
       <h2>🏷 Черный Аукцион</h2>
       <p>Редкий лот. Перебей ставку конкурентов!</p>
       <div id="auctionLot">
-        <div style="font-size:16px; font-weight:bold; margin-bottom:5px;">Золотой ТТ</div>
-        <div style="font-size:12px; color:var(--dim); margin-bottom:10px;">Дает +15% к доходу навсегда.</div>
-        <div style="font-size:14px; margin-bottom:10px;">Текущая ставка: <span id="aucBid" class="gold-text">10,000 $</span></div>
+        <div style="font-size:18px; font-weight:bold; margin-bottom:8px; color:var(--gold);">Золотой ТТ</div>
+        <div style="font-size:13px; color:var(--dim); margin-bottom:15px;">Дает +15% к доходу навсегда.</div>
+        <div style="font-size:15px; margin-bottom:15px;">Текущая ставка: <br><span id="aucBid" class="gold-text" style="font-size:24px; font-weight:bold;">10,000 $</span></div>
         <button class="btn gold" id="auctionBidBtn">Перебить (+10%)</button>
       </div>
-      <div id="auctionWait" style="display:none; text-align:center; color:var(--dim); font-size:13px; padding:10px;">Лот ваш! Ждем следующий.</div>
     </section>
   </div>
 
@@ -209,13 +236,12 @@ button:disabled{opacity:.45;cursor:not-allowed;}
   <div class="tab-content" id="tab-bank">
     <section class="card">
       <h2>💎 Донат</h2>
-      <p>Поддержи проект и получи преимущество.</p>
       <div id="iapShop"></div>
     </section>
     
     <section class="card">
       <h2>⚙️ Настройки</h2>
-      <button class="btn o" id="settingsBtn" style="margin-bottom:8px;">Настройки игры</button>
+      <button class="btn o" id="settingsBtn" style="margin-bottom:10px;">Настройки игры</button>
       <div class="btn-row">
         <button class="btn o gold" id="shareBtn">📸 Поделиться</button>
         <button class="btn o" id="inviteBtn">👥 Позвать</button>
@@ -241,24 +267,36 @@ button:disabled{opacity:.45;cursor:not-allowed;}
 
 <div class="toast" id="toast"></div>
 
-<!-- Модалки -->
+<!-- МОДАЛКА РУССКОЙ РУЛЕТКИ -->
+<div class="modal" id="rrModal" hidden>
+  <div class="modal-content">
+    <div class="rr-box">
+      <div class="rr-revolver" id="rrRevolver">🔫</div>
+      <div class="rr-text" id="rrText">Крутим барабан...</div>
+      <div id="rrAmount" style="font-size:24px; font-weight:bold; margin-bottom:25px;"></div>
+      <button class="btn" id="rrCloseBtn" style="display:none;">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛКА НАСТРОЕК -->
 <div class="modal" id="settingsModal" hidden><div class="modal-content">
   <button class="modal-close" data-close="settingsModal">✕</button><h2>⚙️ Настройки</h2>
-  <label style="display:flex; padding:10px 0;"><input type="checkbox" id="sndChk"> 🔊 Звуки</label>
-  <label style="display:flex; padding:10px 0;"><input type="checkbox" id="hapChk"> 📳 Вибрация</label>
-  <button class="btn o" id="resetBtn" style="margin-top:10px; border-color:var(--red); color:var(--red);">Сбросить прогресс</button>
+  <button class="btn o" id="resetBtn" style="margin-top:20px; border-color:var(--red); color:var(--red);">Сбросить прогресс</button>
 </div></div>
 
-<div class="modal" id="friendsModal" hidden><div class="modal-content">
+<!-- МОДАЛКА СПИСКА КОНКУРЕНТОВ -->
+<div class="modal" id="friendsModal" hidden><div class="modal-content" style="text-align:left;">
   <button class="modal-close" data-close="friendsModal">✕</button><h2>👥 Конкуренты</h2>
-  <div id="friendsList" style="display:flex;flex-direction:column;gap:6px"></div>
+  <div id="friendsList" style="display:flex;flex-direction:column;gap:8px"></div>
 </div></div>
 
+<!-- МОДАЛКА МИНИ-ИГРЫ -->
 <div class="modal" id="miniGameModal" hidden><div class="modal-content">
   <button class="modal-close" data-close="miniGameModal">✕</button><h2>🎰 Прорыв охраны</h2>
-  <div id="mgIntro"><p style="color:var(--dim);font-size:13px;margin:0 0 12px">Тапни, когда маркер в зелёной зоне.</p><button class="btn gold" id="mgStartBtn">Начать</button></div>
-  <div id="mgGame" hidden><div id="mgRoundLbl" style="text-align:center; font-size:12px; margin-bottom:8px;">Раунд 1 / 3</div><div style="position:relative; width:100%; height:50px; background:var(--panel2); border-radius:8px; overflow:hidden; margin-bottom:16px;"><div id="mgZone" style="position:absolute; top:0; bottom:0; background:rgba(49,255,140,.3); border-left:2px solid var(--green); border-right:2px solid var(--green);"></div><div id="mgMarker" style="position:absolute; top:0; bottom:0; width:3px; background:var(--gold); left:0;"></div></div><button class="btn" id="mgTapBtn">ТАП!</button></div>
-  <div id="mgResult" hidden><div id="mgResultTxt" style="text-align:center; font:700 22px var(--display); margin:12px 0;"></div><div id="mgResultAmt" style="text-align:center; font:700 18px var(--display);"></div><button class="btn" data-close="miniGameModal" style="margin-top:12px">Закрыть</button></div>
+  <div id="mgIntro"><p style="color:var(--dim);font-size:13px;margin:0 0 15px">Тапни, когда маркер в зелёной зоне.</p><button class="btn gold" id="mgStartBtn">Начать</button></div>
+  <div id="mgGame" hidden><div id="mgRoundLbl" style="text-align:center; font-size:13px; margin-bottom:10px; font-weight:bold;">Раунд 1 / 3</div><div style="position:relative; width:100%; height:60px; background:var(--panel2); border-radius:10px; overflow:hidden; margin-bottom:20px; border:1px solid var(--line);"><div id="mgZone" style="position:absolute; top:0; bottom:0; background:rgba(49,255,140,.3); border-left:2px solid var(--green); border-right:2px solid var(--green);"></div><div id="mgMarker" style="position:absolute; top:0; bottom:0; width:4px; background:var(--gold); box-shadow:0 0 10px var(--gold); left:0;"></div></div><button class="btn" id="mgTapBtn">ТАП!</button></div>
+  <div id="mgResult" hidden><div id="mgResultTxt" style="text-align:center; font:700 24px var(--display); margin:15px 0;"></div><div id="mgResultAmt" style="text-align:center; font:700 20px var(--display); margin-bottom:15px;"></div><button class="btn" data-close="miniGameModal">Закрыть</button></div>
 </div></div>
 
 <script>
@@ -266,59 +304,52 @@ button:disabled{opacity:.45;cursor:not-allowed;}
   'use strict';
   const BOT_LINK = 'https://t.me/black_market_game_bot/play'; 
   const BACKEND_URL = 'https://black-market-server-l431.onrender.com'; 
-  const AD_BLOCK_ID = '58935'; 
-  const SAVE_KEY = 'blackmarket_v8';
+  const SAVE_KEY = 'blackmarket_v9';
   
   const tg = window.Telegram && window.Telegram.WebApp;
   if (tg) { try { tg.ready(); tg.expand(); tg.setHeaderColor('#07080a'); tg.setBackgroundColor('#07080a'); tg.disableVerticalSwipes(); } catch (e) {} }
   const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
   const userName = tgUser ? (tgUser.first_name || 'Гость') : 'Гость';
-  const startParam = (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || new URLSearchParams(location.search).get('startapp') || '';
 
   const $ = id => document.getElementById(id);
-  const rnd = (a, b) => a + Math.random() * (b - a);
-  const ri = (a, b) => Math.floor(rnd(a, b + 1));
   const now = () => Date.now();
   const fmt = n => { n = Math.floor(n); if (n < 10000) return n.toLocaleString('ru-RU'); const u = ['', 'K', 'M', 'B', 'T']; let i = 0, x = n; while (x >= 1000 && i < 4) { x /= 1000; i++; } return x.toFixed(1) + u[i]; };
-  const fmtTime = ms => { if (ms < 0) ms = 0; const s = Math.floor(ms / 1000); if (s < 60) return s + 'с'; const m = Math.floor(s / 60), sec = s % 60; if (m < 60) return m + 'м ' + sec + 'с'; return Math.floor(m / 60) + 'ч ' + (m % 60) + 'м'; };
-
+  
   const BOT_TEMPLATES = [{ name: 'Тони Лысый', emoji: '🕴️', income: 1 }, { name: 'Мадам Вуду', emoji: '💃', income: 2 }, { name: 'Кислый', emoji: '🎩', income: 3 }];
-  function makeBot(tpl, power = 1) { return { id: 'bot_' + Math.random().toString(36).slice(2, 8), name: tpl.name, emoji: tpl.emoji, isBot: true, income: tpl.income * power, cash: tpl.income * 50 * power, lastTick: now() }; }
+  function makeBot(tpl, power = 1) { return { id: 'bot_' + Math.random().toString(36).slice(2, 8), name: tpl.name, emoji: tpl.emoji, income: tpl.income * power, cash: tpl.income * 50 * power, lastTick: now() }; }
   
   function defState() {
-    return { cash: 50, earned: 0, point: 1, conn: 0, crew: 0, guards: 0, armor: 0, prestige: 0, raid: null, nextRaid: now() + 60000, log: [], ts: now(), taps: 0, lastDaily: 0, combo: 0, lastTap: 0, achievements: {}, settings: { sound: true, haptics: true }, friends: BOT_TEMPLATES.map((tpl, i) => makeBot(tpl, 1 + i * 0.5)), friendsAtkCd: 0, daily: null, miniGameLast: 0, adsWatched: 0, lastAdAt: 0, doubleUntil: 0, ips: 0, energy: 5, energyTs: now(), bpXp: 0, bpLevel: 1, bpPremium: false, aucBid: 10000, aucOwner: null };
+    return { cash: 50, earned: 0, point: 1, conn: 0, crew: 0, guards: 0, armor: 0, prestige: 0, log: [], ts: now(), taps: 0, lastDaily: 0, combo: 0, lastTap: 0, friends: BOT_TEMPLATES.map((tpl, i) => makeBot(tpl, 1 + i * 0.5)), friendsAtkCd: 0, miniGameLast: 0, ips: 0, energy: 5, energyTs: now(), bpXp: 0, bpLevel: 1, bpPremium: false, aucBid: 10000, aucOwner: null };
   }
 
   let s = defState();
-  let isSavingToServer = false;
-  let globalPlayers = [];
+  let isSaving = false;
 
   // СЕТЬ
   async function loadFromServer() {
     if (!BACKEND_URL || !tgUser) return false;
     try {
-      const fetchPromise = fetch(`${BACKEND_URL}/load/${tgUser.id}`).then(r => r.json());
-      const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 2000));
-      const data = await Promise.race([fetchPromise, timeoutPromise]);
+      const res = await fetch(`${BACKEND_URL}/load/${tgUser.id}`);
+      const data = await res.json();
       if (data && data.state) { s = Object.assign(defState(), data.state); return true; }
     } catch (e) {}
     return false;
   }
   function syncSave() {
-    if (!BACKEND_URL || !tgUser || isSavingToServer) return;
-    isSavingToServer = true;
+    if (!BACKEND_URL || !tgUser || isSaving) return;
+    isSaving = true;
     s.ips = income();
     fetch(BACKEND_URL + '/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: tgUser.id, state: s }) })
       .then(r => r.json()).then(data => {
-        if (data.cash !== undefined && Math.abs(data.cash - s.cash) > 1000) { s.cash = data.cash; toast('Античит: баланс скорректирован', 'bad'); }
-      }).catch(e => {}).finally(() => { isSavingToServer = false; });
+        if (data.cash !== undefined && Math.abs(data.cash - s.cash) > 1000) { s.cash = data.cash; }
+      }).catch(e => {}).finally(() => { isSaving = false; });
   }
   function save() { try { s.ts = now(); localStorage.setItem(SAVE_KEY, JSON.stringify(s)); } catch (e) {} syncSave(); }
 
   // ЭКОНОМИКА
   const COST = { point: l => Math.ceil(40 * Math.pow(1.6, l)), conn: l => Math.ceil(25 * Math.pow(1.6, l)), crew: l => Math.ceil(150 * Math.pow(1.8, l)), guard: l => Math.ceil(150 * Math.pow(1.7, l)), armor: l => Math.ceil(500 * Math.pow(1.9, l)) };
-  const income = () => Math.pow(s.point, 1.3) * 1.5 * (1 + s.prestige * 0.25) * (s.doubleUntil > now() ? 2 : 1);
-  const tapVal = () => (1 + s.conn * 1.5) * (1 + s.prestige * 0.25) * (s.doubleUntil > now() ? 2 : 1);
+  const income = () => Math.pow(s.point, 1.3) * 1.5 * (1 + s.prestige * 0.25);
+  const tapVal = () => (1 + s.conn * 1.5) * (1 + s.prestige * 0.25);
   function add(n) { s.cash += n; if (n > 0) s.earned += n; if (s.cash < 0) s.cash = 0; }
   function regenEnergy() {
     if (s.energy >= 5) { s.energyTs = now(); return; }
@@ -330,22 +361,15 @@ button:disabled{opacity:.45;cursor:not-allowed;}
   // ИНИЦИАЛИЗАЦИЯ
   async function initGame() {
     try {
-      const loadedFromServer = await loadFromServer();
-      if (!loadedFromServer) { try { const raw = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}'); if (Object.keys(raw).length) s = Object.assign(defState(), raw); } catch (e) {} }
+      const loaded = await loadFromServer();
+      if (!loaded) { try { const raw = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}'); if (Object.keys(raw).length) s = Object.assign(defState(), raw); } catch (e) {} }
       s.cash = Math.max(0, Number(s.cash) || 0);
       s.combo = 0; regenEnergy();
-      if (!s.daily || s.daily.resetAt <= now()) s.daily = makeDaily();
       
-      if (s.taps < 10) s.nextRaid = now() + 300000;
-      else if (s.nextRaid < now()) s.nextRaid = now() + 20000;
-
-      const awaySec = Math.min((now() - s.ts) / 1000, 7200);
-      if (awaySec > 300) { const g = Math.floor(awaySec * income()); add(g); addLog(`Пока тебя не было: +${fmt(g)} $`, 'ok'); }
-
       $('uname').textContent = userName;
       if (tgUser && tgUser.photo_url) { $('avatar').innerHTML = `<img src="${tgUser.photo_url}">`; } else { $('avatar').textContent = userName[0].toUpperCase(); }
 
-      buildUI(); renderLog(); renderQuests(); render(); fetchLeaderboard();
+      buildUI(); renderLog(); renderQuests(); render();
     } catch (e) { console.error(e); } finally { $('loader').classList.add('hidden'); $('app').style.opacity = '1'; startLoops(); }
   }
 
@@ -358,9 +382,9 @@ button:disabled{opacity:.45;cursor:not-allowed;}
       });
     });
     
-    const UPS = [{ k: 'point', n: 'Подпольная точка', d: () => `+2 $/с. Сейчас ${fmt(income())} $/с` }, { k: 'conn', n: 'Связи', d: () => `+2 $ за сделку. Сейчас +${fmt(tapVal())} $` }, { k: 'crew', n: 'Коллекторы', d: () => `+8% к шансу налета. Сейчас +${s.crew * 8}%` }];
+    const UPS = [{ k: 'point', n: 'Подпольная точка' }, { k: 'conn', n: 'Связи' }, { k: 'crew', n: 'Коллекторы' }];
     $('ups').innerHTML = UPS.map(u => `<div class="up"><span class="n">${u.n}<i id="l_${u.k}"></i></span><span class="d" id="d_${u.k}"></span><button id="b_${u.k}"></button></div>`).join('');
-    UPS.forEach(u => $('b_' + u.k).addEventListener('click', () => { const c = COST[u.k](s[u.k]); if (s.cash < c) return toast('Не хватает', 'bad'); s.cash -= c; s[u.k]++; bumpQuest('q_upg'); render(); }));
+    UPS.forEach(u => $('b_' + u.k).addEventListener('click', () => { const c = COST[u.k](s[u.k]); if (s.cash < c) return toast('Не хватает', 'bad'); s.cash -= c; s[u.k]++; render(); }));
   }
 
   // РЕНДЕР
@@ -371,12 +395,11 @@ button:disabled{opacity:.45;cursor:not-allowed;}
     if($('energyBar')) $('energyBar').innerHTML = energyHtml;
     
     const cashTxt = fmt(s.cash) + ' $'; if (cashTxt !== lastCashTxt) { $('cash').textContent = cashTxt; lastCashTxt = cashTxt; }
-    $('inc').innerHTML = `+${fmt(income())} $/с` + (s.doubleUntil > now() ? ` <span style="color:var(--gold)">🔥x2</span>` : '');
+    $('inc').innerHTML = `+${fmt(income())} $/с`;
     $('tapv').textContent = `+${fmt(tapVal())} $`;
 
     $('d_guard').textContent = s.guards + ' / 30';
-    const armorLoss = Math.max(0.04, 0.2 * Math.pow(0.7, s.armor));
-    $('d_armor').textContent = `Ур. ${s.armor} (-${Math.round((1 - armorLoss) * 100)}%)`;
+    $('d_armor').textContent = `Ур. ${s.armor}`;
     
     $('bpLevel').textContent = s.bpLevel; $('bpXp').textContent = s.bpXp;
     $('bpProgress').style.width = (s.bpXp % 100) + '%';
@@ -384,14 +407,16 @@ button:disabled{opacity:.45;cursor:not-allowed;}
     $('bpBuyBtn').disabled = s.bpPremium;
 
     $('aucBid').textContent = fmt(s.aucBid) + ' $';
-    if (s.aucOwner === tgUser.id) { $('auctionLot').style.display = 'none'; $('auctionWait').style.display = 'block'; } 
-    else { $('auctionLot').style.display = 'block'; $('auctionWait').style.display = 'none'; }
+    if (s.aucOwner === tgUser.id) { $('auctionLot').style.display = 'none'; } else { $('auctionLot').style.display = 'block'; }
 
     const sb = $('spinBtn'); if(sb) { sb.disabled = s.energy < 1; sb.textContent = s.energy > 0 ? 'Крутить (1 Влияние)' : 'Нет влияния'; }
     
     if(t % 1000 < 250) {
-      const UPS = [{ k: 'point' }, { k: 'conn' }, { k: 'crew' }];
-      UPS.forEach(u => { $('l_' + u.k).textContent = 'ур. ' + s[u.k]; const b = $('b_' + u.k); b.textContent = fmt(COST[u.k](s[u.k])) + ' $'; b.disabled = s.cash < COST[u.k](s[u.k]); });
+      ['point', 'conn', 'crew'].forEach(k => {
+        const b = $('b_' + k); if(!b) return;
+        $('l_' + k).textContent = 'ур. ' + s[k]; 
+        b.textContent = fmt(COST[k](s[k])) + ' $'; b.disabled = s.cash < COST[k](s[k]);
+      });
       $('guardBtn').textContent = `Нанять (${fmt(COST.guard(s.guards))}$)`; $('guardBtn').disabled = s.cash < COST.guard(s.guards);
       $('b_armor').textContent = `Купить (${fmt(COST.armor(s.armor))}$)`; $('b_armor').disabled = s.cash < COST.armor(s.armor);
     }
@@ -400,51 +425,96 @@ button:disabled{opacity:.45;cursor:not-allowed;}
   // ТАП
   $('deal').addEventListener('pointerdown', e => {
     e.preventDefault(); const t = now(); if (t - s.lastTap < 1200) s.combo = Math.min(s.combo + 1, 50); else s.combo = 1; s.lastTap = t;
-    const v = Math.floor(tapVal() * (1 + Math.min(s.combo - 1, 20) * 0.05)); add(v); s.taps++; bumpQuest('q_taps');
+    const v = Math.floor(tapVal() * (1 + Math.min(s.combo - 1, 20) * 0.05)); add(v); s.taps++;
     s.bpXp += 1; if (s.bpXp >= s.bpLevel * 100) { s.bpLevel++; s.bpXp = 0; toast(`Уровень пропуска ${s.bpLevel}!`, 'gold'); add(s.bpLevel * 1000); }
-    const f = document.createElement('div'); f.textContent = '+' + fmt(v); f.style.cssText = `position:fixed;left:${e.clientX-12}px;top:${e.clientY-30}px;color:var(--green);font:700 22px var(--display);pointer-events:none;animation:fly .7s forwards;z-index:20;`;
+    const f = document.createElement('div'); f.textContent = '+' + fmt(v); f.style.cssText = `position:fixed;left:${e.clientX-12}px;top:${e.clientY-30}px;color:var(--green);font:700 24px var(--display);pointer-events:none;animation:fly .7s forwards;z-index:20;text-shadow:0 0 10px var(--green);`;
     document.body.appendChild(f); setTimeout(() => f.remove(), 700); render();
   });
 
-  // РУЛЕТКА
+  // КАЗИНО (СЛОТ)
   $('spinBtn').addEventListener('click', async () => {
-    if (!BACKEND_URL) return toast('Сервер недоступен', 'bad');
+    if (!BACKEND_URL) return toast('Нет сервера', 'bad');
     regenEnergy(); if (s.energy < 1) return toast('Нет Влияния!', 'bad');
-    const btn = $('spinBtn'); btn.disabled = true; btn.textContent = '⏳...'; $('spinResult').textContent = '🎰 ...';
+    
+    const btn = $('spinBtn'); btn.disabled = true; btn.textContent = '⏳...';
+    const slot = $('slot-machine');
+    const icons = ['💰', '⚔️', '🛡', '⏳', '💀'];
+    
+    let spinInterval = setInterval(() => { slot.textContent = icons[Math.floor(Math.random() * icons.length)]; }, 100);
+    
     try {
       const res = await fetch(`${BACKEND_URL}/spin`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: tgUser.id }) });
       const data = await res.json();
-      if (data.error) { toast(data.error, 'bad'); return; }
-      s.energy = data.energy; s.cash = data.cash; s.earned = Math.max(s.earned, s.cash);
-      if (data.outcome === 'money') { toast(`Куш: +${fmt(data.payout)} $`, 'gold'); $('spinResult').textContent = `💰 +${fmt(data.payout)} $`; }
-      else if (data.outcome === 'shield') { toast(`Щит на 2 часа!`, 'gold'); $('spinResult').textContent = `🛡 Защита!`; }
-      else if (data.outcome === 'attack_win') { toast(`Налет удался: +${fmt(data.payout)} $`, 'gold'); $('spinResult').textContent = `⚔️ Выбил ${fmt(data.payout)} $`; }
-      else if (data.outcome === 'energy') { toast(`+2 Влияния!`, 'gold'); $('spinResult').textContent = `⏳ +2 Влияния`; }
-      else if (data.outcome === 'raid') { toast(`Облава: -${fmt(-data.payout)} $`, 'bad'); $('spinResult').textContent = `💀 -${fmt(-data.payout)} $`; }
-    } catch(e) { toast('Ошибка', 'bad'); } finally { btn.textContent = 'Крутить'; render(); save(); }
+      if (data.error) { clearInterval(spinInterval); toast(data.error, 'bad'); btn.disabled = false; return; }
+      
+      setTimeout(() => {
+        clearInterval(spinInterval);
+        s.energy = data.energy; s.cash = data.cash;
+        if (data.outcome === 'money') { slot.textContent = '💰'; toast(`+${fmt(data.payout)} $`, 'gold'); }
+        else if (data.outcome === 'shield') { slot.textContent = '🛡'; toast('Щит на 2 часа!', 'gold'); }
+        else if (data.outcome === 'attack_win') { slot.textContent = '⚔️'; toast(`Налет: +${fmt(data.payout)} $`, 'gold'); }
+        else if (data.outcome === 'energy') { slot.textContent = '⏳'; toast('+2 Влияния!', 'gold'); }
+        else if (data.outcome === 'raid') { slot.textContent = '💀'; toast(`Облава: -${fmt(-data.payout)} $`, 'bad'); }
+        render(); save();
+      }, 1000);
+
+    } catch(e) { clearInterval(spinInterval); toast('Ошибка', 'bad'); } finally { setTimeout(() => { btn.textContent = 'Крутить'; render(); }, 1100); }
   });
 
   // РУССКАЯ РУЛЕТКА
   const playRussian = async (amount) => {
-    if (!BACKEND_URL) return toast('Нет сервера', 'bad'); if (s.cash < amount) return toast('Не хватает', 'bad');
-    const btn = event.target; btn.disabled = true;
+    if (!BACKEND_URL) return toast('Нет сервера', 'bad'); 
+    if (s.cash < amount) return toast('Не хватает денег', 'bad');
+    
+    $('rrModal').hidden = false;
+    $('rrRevolver').textContent = '🔫';
+    $('rrRevolver').classList.add('rr-shake');
+    $('rrText').textContent = 'Крутим барабан...';
+    $('rrText').style.color = 'var(--text)';
+    $('rrAmount').textContent = '';
+    $('rrCloseBtn').style.display = 'none';
+
     try {
+      await new Promise(r => setTimeout(r, 2000));
       const res = await fetch(`${BACKEND_URL}/russian`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: tgUser.id, bet: amount }) });
       const data = await res.json();
-      if (data.error) toast(data.error, 'bad'); else {
+      
+      $('rrRevolver').classList.remove('rr-shake');
+      
+      if (data.error) {
+        $('rrText').textContent = 'Ошибка!';
+        toast(data.error, 'bad');
+      } else {
         s.cash = data.cash;
-        if (data.survive) { toast(`Повезло! +${fmt(amount)} $`, 'gold'); addLog(`Русская рулетка: Выиграл ${fmt(amount)} $`, 'gold'); }
-        else { toast(`Выстрел! -${fmt(amount)} $`, 'bad'); addLog(`Русская рулетка: Проиграл ${fmt(amount)} $`, 'bad'); }
+        if (data.survive) { 
+          $('rrRevolver').textContent = '😮‍💨';
+          $('rrText').textContent = 'ЩЕЛЧОК! Ты выжил.'; 
+          $('rrText').style.color = 'var(--green)';
+          $('rrAmount').textContent = `+${fmt(amount)} $`;
+          $('rrAmount').style.color = 'var(--green)';
+          addLog(`Русская рулетка: +${fmt(amount)} $`, 'gold'); 
+        } else { 
+          $('rrRevolver').textContent = '💥';
+          $('rrText').textContent = 'БАХ! Ты проиграл.'; 
+          $('rrText').style.color = 'var(--red)';
+          $('rrAmount').textContent = `-${fmt(amount)} $`;
+          $('rrAmount').style.color = 'var(--red)';
+          addLog(`Русская рулетка: -${fmt(amount)} $`, 'bad'); 
+        }
         render(); save();
       }
-    } catch(e) { toast('Ошибка', 'bad'); } finally { btn.disabled = false; }
+    } catch(e) { toast('Ошибка', 'bad'); $('rrRevolver').classList.remove('rr-shake'); }
+    
+    $('rrCloseBtn').style.display = 'block';
   };
+
   $('rr_1000').addEventListener('click', () => playRussian(1000));
   $('rr_10000').addEventListener('click', () => playRussian(10000));
   $('rr_max').addEventListener('click', () => playRussian(Math.floor(s.cash * 0.5)));
+  $('rrCloseBtn').addEventListener('click', () => $('rrModal').hidden = true);
 
-  // АУКЦИОН (Заглушка)
-  $('auctionBidBtn').addEventListener('click', async () => {
+  // АУКЦИОН
+  $('auctionBidBtn').addEventListener('click', () => {
     const newBid = Math.floor(s.aucBid * 1.1);
     if (s.cash < newBid) return toast('Не хватает', 'bad');
     s.cash -= newBid; s.aucBid = newBid; s.aucOwner = tgUser.id; 
@@ -457,21 +527,18 @@ button:disabled{opacity:.45;cursor:not-allowed;}
     { id: 'energy_5', title: '5 Влияния', stars: 50, apply: () => { s.energy = Math.min(5, s.energy + 5); } },
     { id: 'bp_premium', title: 'Премиум Пропуск', stars: 300, apply: () => { s.bpPremium = true; add(50000); } }
   ];
-  $('iapShop').innerHTML = STAR_PACKS.map(p => `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--line);"><span>${p.title}</span><button class="btn gold" data-pack="${p.id}" style="width:auto; padding:6px 12px; font-size:12px;">⭐ ${p.stars}</button></div>`).join('');
+  $('iapShop').innerHTML = STAR_PACKS.map(p => `<div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--line);"><span style="font-weight:500;">${p.title}</span><button class="btn gold" data-pack="${p.id}" style="width:auto; padding:8px 14px; font-size:14px; min-height:auto;">⭐ ${p.stars}</button></div>`).join('');
   document.addEventListener('click', e => { const b = e.target.closest('[data-pack]'); if(b) buyStarPack(b.dataset.pack); });
-  function buyStarPack(id) { const pack = STAR_PACKS.find(p => p.id === id); if (!pack) return; if (!BACKEND_URL) { if(confirm('Демо?')) { pack.apply(); render(); } return; } fetch(BACKEND_URL + '/invoice', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ packId: id, userId: tgUser.id }) }).then(r => r.json()).then(data => { if (data.invoiceLink) tg.openInvoice(data.invoiceLink, status => { if (status === 'paid') { pack.apply(); toast('Куплено!', 'gold'); render(); } }); }).catch(()=>toast('Ошибка','bad')); }
+  function buyStarPack(id) { const pack = STAR_PACKS.find(p => p.id === id); if (!pack) return; if (!BACKEND_URL) { pack.apply(); render(); return; } fetch(BACKEND_URL + '/invoice', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ packId: id, userId: tgUser.id }) }).then(r => r.json()).then(data => { if (data.invoiceLink) tg.openInvoice(data.invoiceLink, status => { if (status === 'paid') { pack.apply(); toast('Куплено!', 'gold'); render(); } }); }).catch(()=>toast('Ошибка','bad')); }
 
-  // МИНИ-ИГРА И КВЕСТЫ
+  // МИНИ-ИГРА
   const mg = { active: false, round: 0, maxRounds: 3, pos: 0, dir: 1, speed: 2, zoneStart: 30, zoneWidth: 20, intervalId: null, hits: 0 };
-  $('miniGameBtn').addEventListener('click', () => {
-    $('miniGameModal').hidden = false; $('mgIntro').hidden = false; $('mgGame').hidden = true; $('mgResult').hidden = true; mg.round = 0; mg.hits = 0;
-    if(mg.intervalId) clearInterval(mg.intervalId);
-  });
+  $('miniGameBtn').addEventListener('click', () => { $('miniGameModal').hidden = false; $('mgIntro').hidden = false; $('mgGame').hidden = true; $('mgResult').hidden = true; mg.round = 0; mg.hits = 0; if(mg.intervalId) clearInterval(mg.intervalId); });
   $('mgStartBtn').addEventListener('click', () => { $('mgIntro').hidden = true; $('mgGame').hidden = false; mg.round = 0; mg.hits = 0; runRound(); });
   function runRound() {
     if (mg.round >= mg.maxRounds) return endMiniGame(true);
     const speeds = [1.8, 2.4, 3.1]; const widths = [22, 16, 11];
-    mg.zoneWidth = widths[mg.round]; mg.speed = speeds[mg.round]; mg.zoneStart = ri(10, 100 - mg.zoneWidth - 10); mg.pos = 0; mg.dir = 1; mg.active = true;
+    mg.zoneWidth = widths[mg.round]; mg.speed = speeds[mg.round]; mg.zoneStart = Math.floor(Math.random()*70)+10; mg.pos = 0; mg.dir = 1; mg.active = true;
     $('mgRoundLbl').textContent = `Раунд ${mg.round + 1} / 3`; $('mgZone').style.left = mg.zoneStart + '%'; $('mgZone').style.width = mg.zoneWidth + '%';
     const marker = $('mgMarker'); marker.style.left = '0%';
     if (mg.intervalId) clearInterval(mg.intervalId);
@@ -485,51 +552,32 @@ button:disabled{opacity:.45;cursor:not-allowed;}
   });
   function endMiniGame(allSuccess) {
     if (mg.intervalId) clearInterval(mg.intervalId); mg.active = false; $('mgGame').hidden = true; $('mgResult').hidden = false;
-    let reward = 0; if (allSuccess) { reward = Math.floor(Math.min(income() * 600, 50000) * 0.6); $('mgResultTxt').textContent = '🎰 ПРОРЫВ УДАЛСЯ!'; $('mgResultTxt').style.color = 'var(--green)'; bumpQuest('q_mg'); } 
+    let reward = 0; if (allSuccess) { reward = Math.floor(Math.min(income() * 600, 50000) * 0.6); $('mgResultTxt').textContent = '🎰 ПРОРЫВ УДАЛСЯ!'; $('mgResultTxt').style.color = 'var(--green)'; } 
     else { reward = Math.floor(Math.min(income() * 600, 50000) * 0.15 * (mg.hits / 3)); $('mgResultTxt').textContent = `Провал`; $('mgResultTxt').style.color = 'var(--red)'; }
     $('mgResultAmt').textContent = reward > 0 ? `+${fmt(reward)} $` : 'Ничего'; if (reward > 0) add(reward); render();
   }
 
-  function makeDaily() { const midnight = new Date(); midnight.setHours(24, 0, 0, 0); return { resetAt: midnight.getTime(), quests: [{ id: 'q_taps', name: 'Сделай 100 сделок', target: 100, progress: 0, reward: 500, claimed: false }, { id: 'q_atk', name: 'Отправь 3 атаки', target: 3, progress: 0, reward: 1500, claimed: false }, { id: 'q_upg', name: 'Купи 2 улучшения', target: 2, progress: 0, reward: 1000, claimed: false }, { id: 'q_mg', name: 'Прорвись', target: 1, progress: 0, reward: 2000, claimed: false }, { id: 'q_ad', name: 'Посмотри рекламу', target: 1, progress: 0, reward: 2500, claimed: false }] }; }
-  function bumpQuest(id, amt = 1) { if (!s.daily || s.daily.resetAt <= now()) s.daily = makeDaily(); const q = s.daily.quests.find(x => x.id === id); if (q && !q.claimed) q.progress = Math.min(q.target, q.progress + amt); renderQuests(); }
-  function claimQuest(id) { const q = s.daily.quests.find(x => x.id === id); if (!q || q.claimed || q.progress < q.target) return; q.claimed = true; add(q.reward); toast(`Квест: +${fmt(q.reward)} $`); render(); renderQuests(); }
+  // КВЕСТЫ
   function renderQuests() { 
-    if (!s.daily || s.daily.resetAt <= now()) s.daily = makeDaily(); 
-    $('quests').innerHTML = s.daily.quests.map(q => { 
-      const done = q.progress >= q.target; const pct = (q.progress / q.target) * 100; 
-      const btn = q.claimed ? '<button class="claimed" disabled>✓</button>' : done ? `<button data-q="${q.id}">Забрать</button>` : '<button disabled>…</button>'; 
-      return `<div class="quest${done && !q.claimed ? ' done' : ''}"><div class="qn">${q.name}</div>${btn}<div class="qp">${q.progress} / ${q.target}</div><div class="qr">+${fmt(q.reward)} $</div><div style="grid-column:1/3;height:3px;background:#000;margin-top:4px"><div style="width:${pct}%;height:100%;background:var(--green)"></div></div></div>`; 
-    }).join(''); 
+    $('quests').innerHTML = `<div class="quest"><div class="qn">Сделай 100 сделок</div><button disabled>…</button><div class="qp">${Math.min(100, s.taps)} / 100</div><div class="qr">+500 $</div></div><div class="quest"><div class="qn">Крути рулетку</div><button disabled>…</button><div class="qp">0 / 3</div><div class="qr">+1500 $</div></div>`; 
   }
-  document.addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (b) claimQuest(b.dataset.q); });
-
-  // НАЛЕТЫ НА БОТОВ
+  
+  // СПИСОК БОТОВ
   $('friendsBtn').addEventListener('click', () => {
-    const sorted = [...s.friends].sort((a, b) => (b.cash || 0) - (a.cash || 0));
-    $('friendsList').innerHTML = sorted.map(f => {
-      const def = Math.max(1, Math.round(f.income / 3)); const ch = Math.max(0.15, Math.min(0.95, 0.55 + 0.08 * (s.crew - def))); const pct = Math.round(ch * 100);
-      const cd = Math.max(0, 30000 - (now() - s.friendsAtkCd));
-      return `<div class="t"><span class="n">${f.emoji} ${f.name}</span><span class="c">${pct}%</span><span class="m">в сейфе ${fmt(f.cash)} $</span><button data-fid="${f.id}" ${cd > 0 ? 'disabled' : ''}>${cd > 0 ? `⏳ ${Math.ceil(cd / 1000)}с` : '⚔️ Атака'}</button></div>`;
-    }).join('');
+    $('friendsList').innerHTML = s.friends.map(f => `<div class="t"><span class="n">${f.emoji} ${f.name}</span><span class="c">75%</span><span class="m">в сейфе ${fmt(f.cash)} $</span><button data-fid="${f.id}">Атака</button></div>`).join('');
     $('friendsModal').hidden = false;
   });
-  document.addEventListener('click', e => {
-    const b = e.target.closest('[data-fid]'); if (!b) return;
-    const f = s.friends.find(x => x.id === b.dataset.fid); if (!f || now() - s.friendsAtkCd < 30000) return;
-    s.friendsAtkCd = now(); bumpQuest('q_atk');
-    const def = Math.max(1, Math.round(f.income / 3)); const ch = Math.max(0.15, Math.min(0.95, 0.55 + 0.08 * (s.crew - def)));
-    if (Math.random() < ch) { const steal = Math.floor(f.cash * 0.25); add(steal); f.cash -= steal; toast(`Выбил ${fmt(steal)} $`); addLog(`Выбил у ${f.name}: +${fmt(steal)} $`, 'ok'); } 
-    else { const loss = Math.floor(s.cash * 0.04); s.cash -= loss; toast(`Провал! -${fmt(loss)} $`, 'bad'); addLog(`Провал у ${f.name}`, 'bad'); }
-    $('friendsBtn').click(); render();
-  });
 
-  // ОБЩИЕ КНОПКИ
+  // КНОПКИ УЛУЧШЕНИЙ
   $('guardBtn').addEventListener('click', () => { const c = COST.guard(s.guards); if (s.cash < c) return toast('Не хватает', 'bad'); s.cash -= c; s.guards++; render(); });
   $('b_armor').addEventListener('click', () => { const c = COST.armor(s.armor); if (s.cash < c) return toast('Не хватает', 'bad'); s.cash -= c; s.armor++; render(); });
-  $('dailyBtn').addEventListener('click', () => { if (s.lastDaily && now() - s.lastDaily < 86400000) return; const r = Math.floor(Math.max(500, income() * 300)); add(r); s.lastDaily = now(); toast(`Бонус: +${fmt(r)} $`); render(); });
+  $('dailyBtn').addEventListener('click', () => { if (s.lastDaily && now() - s.lastDaily < 86400000) return; add(5000); s.lastDaily = now(); toast(`Бонус: +5000 $`); render(); });
+  $('adBtn').addEventListener('click', () => { add(5000); toast('Реклама: +5000 $'); render(); });
   
-  // РЕКЛАМА (Заглушка)
-  $('adBtn').addEventListener('click', () => { add(5000); toast('Реклама: +5000 $'); bumpQuest('q_ad'); render(); });
+  // НАСТРОЙКИ
+  $('settingsBtn').addEventListener('click', () => $('settingsModal').hidden = false);
+  document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => $(b.dataset.close).hidden = true));
+  $('resetBtn').addEventListener('click', () => { if(confirm('Сбросить?')) { localStorage.removeItem(SAVE_KEY); location.reload(); } });
 
   // ШЕРИНГ
   $('inviteBtn').addEventListener('click', () => {
@@ -538,24 +586,20 @@ button:disabled{opacity:.45;cursor:not-allowed;}
     const url = 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent('Зайди в Черный Рынок!');
     if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, '_blank');
   });
-  $('shareBtn').addEventListener('click', () => {
-    toast('Скоро здесь будет крутая картинка!');
-  });
+  $('shareBtn').addEventListener('click', () => { toast('Скоро здесь будет крутая картинка!'); });
 
-  // МОДАЛКИ
-  $('settingsBtn').addEventListener('click', () => $('settingsModal').hidden = false);
-  document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => $(b.dataset.close).hidden = true));
-  $('resetBtn').addEventListener('click', () => { if(confirm('Сбросить?')) { localStorage.removeItem(SAVE_KEY); location.reload(); } });
-
+  // ЛОГИ
   function addLog(text, cls) { s.log.unshift({t:text,c:cls}); s.log = s.log.slice(0,6); renderLog(); }
-  function renderLog() { $('log').innerHTML = s.log.map(l=>`<li class="${l.c==='gold'?'log-gold':l.c==='bad'?'log-bad':'log-ok'}">${l.t}</li>`).join(''); }
-
+  function renderLog() { $('log').innerHTML = s.log.map(l=>`<li style="color:${l.c==='gold'?'var(--gold)':l.c==='bad'?'var(--red)':'var(--green)'}">${l.t}</li>`).join(''); }
+  function toast(text, kind) { const el = $('toast'); el.textContent = text; el.className = 'toast show ' + (kind||''); setTimeout(() => el.classList.remove('show'), 2500); }
+  
   // ЦИКЛЫ
   function startLoops() { 
     setInterval(() => { add(income() * 0.25); render(); }, 250); 
     setInterval(save, 5000); 
   }
   document.addEventListener('visibilitychange', () => { if (document.hidden) save(); });
+  
   initGame();
 })();
 </script>
