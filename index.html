@@ -65,7 +65,7 @@ button:disabled{opacity:.45;cursor:not-allowed;}
 .up button{grid-row:1/3;grid-column:2;min-width:88px;padding:9px 10px;border-radius:8px;border:1px solid var(--green);color:var(--green);font-weight:600;font-size:13px;}
 .up button:disabled{border-color:var(--line);color:var(--dim);}
 
-/* Элементы рулетки */
+/* Рулетка */
 .energy-bar {display:flex;gap:4px;justify-content:center;margin:10px 0}
 .energy-cell {width:30px;height:10px;background:var(--panel2);border-radius:2px;border:1px solid var(--line);transition:0.3s}
 .energy-cell.active {background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px var(--gold)}
@@ -77,7 +77,7 @@ button:disabled{opacity:.45;cursor:not-allowed;}
 .quest button.claimed{border-color:var(--line);color:var(--dim);cursor:default}
 .quest.done button{border-color:var(--green);color:var(--green);}
 
-/* Друзья/Боты */
+/* Список ботов */
 .t{display:grid;grid-template-columns:1fr auto;gap:2px 8px;text-align:left;width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);margin-bottom:6px;}
 .t .n{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.t .c{text-align:right;color:var(--green);font-weight:600}.t .m{color:var(--dim);font-size:11px}
 .t button{grid-row:2;grid-column:2;padding:8px 12px;border:1px solid var(--red);border-radius:6px;color:var(--red);font-size:12px;font-weight:600;min-height:36px;align-self:end;}
@@ -89,13 +89,16 @@ button:disabled{opacity:.45;cursor:not-allowed;}
 .modal-content{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;}
 .modal-close{float:right;font-size:20px;color:var(--dim);padding:4px;}
 
-/* Тосты и логи */
+/* Тосты и Логи */
 .toast{position:fixed;left:50%;bottom:80px;transform:translate(-50%,30px);max-width:90%;padding:10px 16px;border-radius:8px;background:#0b0e11;border:1px solid var(--green);color:var(--green);opacity:0;transition:.25s;z-index:200;text-align:center;pointer-events:none;font-size:14px;}
 .toast.show{opacity:1;transform:translate(-50%,0)}.toast.bad{border-color:var(--red);color:var(--red)}.toast.gold{border-color:var(--gold);color:var(--gold)}
 #log{margin:0;padding:0;list-style:none;font-size:13px;color:var(--dim);}
 #log li{padding:5px 0;border-top:1px solid var(--line);}
 #log li:first-child{border-top:0;}
 .log-ok{color:var(--green)} .log-bad{color:var(--red)} .log-gold{color:var(--gold)}
+
+/* Анимация полета денег */
+@keyframes fly { to { transform: translateY(-70px); opacity: 0; } }
 </style>
 </head>
 <body>
@@ -198,7 +201,7 @@ button:disabled{opacity:.45;cursor:not-allowed;}
         <div style="font-size:14px; margin-bottom:10px;">Текущая ставка: <span id="aucBid" class="gold-text">10,000 $</span></div>
         <button class="btn gold" id="auctionBidBtn">Перебить (+10%)</button>
       </div>
-      <div id="auctionWait" style="display:none; text-align:center; color:var(--dim); font-size:13px; padding:10px;">Ждем следующий лот...</div>
+      <div id="auctionWait" style="display:none; text-align:center; color:var(--dim); font-size:13px; padding:10px;">Лот ваш! Ждем следующий.</div>
     </section>
   </div>
 
@@ -264,7 +267,7 @@ button:disabled{opacity:.45;cursor:not-allowed;}
   const BOT_LINK = 'https://t.me/black_market_game_bot/play'; 
   const BACKEND_URL = 'https://black-market-server-l431.onrender.com'; 
   const AD_BLOCK_ID = '58935'; 
-  const SAVE_KEY = 'blackmarket_v7';
+  const SAVE_KEY = 'blackmarket_v8';
   
   const tg = window.Telegram && window.Telegram.WebApp;
   if (tg) { try { tg.ready(); tg.expand(); tg.setHeaderColor('#07080a'); tg.setBackgroundColor('#07080a'); tg.disableVerticalSwipes(); } catch (e) {} }
@@ -283,7 +286,7 @@ button:disabled{opacity:.45;cursor:not-allowed;}
   function makeBot(tpl, power = 1) { return { id: 'bot_' + Math.random().toString(36).slice(2, 8), name: tpl.name, emoji: tpl.emoji, isBot: true, income: tpl.income * power, cash: tpl.income * 50 * power, lastTick: now() }; }
   
   function defState() {
-    return { cash: 50, earned: 0, point: 1, conn: 0, crew: 0, guards: 0, armor: 0, prestige: 0, raid: null, nextRaid: now() + 60000, log: [], ts: now(), taps: 0, lastDaily: 0, combo: 0, lastTap: 0, achievements: {}, settings: { sound: true, haptics: true }, friends: BOT_TEMPLATES.map((tpl, i) => makeBot(tpl, 1 + i * 0.5)), friendsAtkCd: 0, daily: null, miniGameLast: 0, adsWatched: 0, lastAdAt: 0, doubleUntil: 0, ips: 0, energy: 5, energyTs: now(), bpXp: 0, bpLevel: 1, bpPremium: false, aucBid: 10000, aucOwner: null, aucEnd: now() + 3600000 };
+    return { cash: 50, earned: 0, point: 1, conn: 0, crew: 0, guards: 0, armor: 0, prestige: 0, raid: null, nextRaid: now() + 60000, log: [], ts: now(), taps: 0, lastDaily: 0, combo: 0, lastTap: 0, achievements: {}, settings: { sound: true, haptics: true }, friends: BOT_TEMPLATES.map((tpl, i) => makeBot(tpl, 1 + i * 0.5)), friendsAtkCd: 0, daily: null, miniGameLast: 0, adsWatched: 0, lastAdAt: 0, doubleUntil: 0, ips: 0, energy: 5, energyTs: now(), bpXp: 0, bpLevel: 1, bpPremium: false, aucBid: 10000, aucOwner: null };
   }
 
   let s = defState();
@@ -301,12 +304,6 @@ button:disabled{opacity:.45;cursor:not-allowed;}
     } catch (e) {}
     return false;
   }
-
-  async function fetchLeaderboard() {
-    if (!BACKEND_URL) return;
-    try { const res = await fetch(`${BACKEND_URL}/leaderboard`); globalPlayers = await res.json() || []; } catch(e) {}
-  }
-
   function syncSave() {
     if (!BACKEND_URL || !tgUser || isSavingToServer) return;
     isSavingToServer = true;
@@ -361,7 +358,6 @@ button:disabled{opacity:.45;cursor:not-allowed;}
       });
     });
     
-    // Настройка кнопок улучшений
     const UPS = [{ k: 'point', n: 'Подпольная точка', d: () => `+2 $/с. Сейчас ${fmt(income())} $/с` }, { k: 'conn', n: 'Связи', d: () => `+2 $ за сделку. Сейчас +${fmt(tapVal())} $` }, { k: 'crew', n: 'Коллекторы', d: () => `+8% к шансу налета. Сейчас +${s.crew * 8}%` }];
     $('ups').innerHTML = UPS.map(u => `<div class="up"><span class="n">${u.n}<i id="l_${u.k}"></i></span><span class="d" id="d_${u.k}"></span><button id="b_${u.k}"></button></div>`).join('');
     UPS.forEach(u => $('b_' + u.k).addEventListener('click', () => { const c = COST[u.k](s[u.k]); if (s.cash < c) return toast('Не хватает', 'bad'); s.cash -= c; s[u.k]++; bumpQuest('q_upg'); render(); }));
@@ -388,12 +384,11 @@ button:disabled{opacity:.45;cursor:not-allowed;}
     $('bpBuyBtn').disabled = s.bpPremium;
 
     $('aucBid').textContent = fmt(s.aucBid) + ' $';
-    if (s.aucOwner === tgUser.id) { $('auctionLot').style.display = 'none'; $('auctionWait').style.display = 'block'; $('auctionWait').textContent = 'Лот ваш! Ждем следующий.'; } 
+    if (s.aucOwner === tgUser.id) { $('auctionLot').style.display = 'none'; $('auctionWait').style.display = 'block'; } 
     else { $('auctionLot').style.display = 'block'; $('auctionWait').style.display = 'none'; }
 
     const sb = $('spinBtn'); if(sb) { sb.disabled = s.energy < 1; sb.textContent = s.energy > 0 ? 'Крутить (1 Влияние)' : 'Нет влияния'; }
     
-    // Кнопки магазина обновляем раз в секунду
     if(t % 1000 < 250) {
       const UPS = [{ k: 'point' }, { k: 'conn' }, { k: 'crew' }];
       UPS.forEach(u => { $('l_' + u.k).textContent = 'ур. ' + s[u.k]; const b = $('b_' + u.k); b.textContent = fmt(COST[u.k](s[u.k])) + ' $'; b.disabled = s.cash < COST[u.k](s[u.k]); });
@@ -448,7 +443,7 @@ button:disabled{opacity:.45;cursor:not-allowed;}
   $('rr_10000').addEventListener('click', () => playRussian(10000));
   $('rr_max').addEventListener('click', () => playRussian(Math.floor(s.cash * 0.5)));
 
-  // АУКЦИОН
+  // АУКЦИОН (Заглушка)
   $('auctionBidBtn').addEventListener('click', async () => {
     const newBid = Math.floor(s.aucBid * 1.1);
     if (s.cash < newBid) return toast('Не хватает', 'bad');
@@ -535,6 +530,17 @@ button:disabled{opacity:.45;cursor:not-allowed;}
   
   // РЕКЛАМА (Заглушка)
   $('adBtn').addEventListener('click', () => { add(5000); toast('Реклама: +5000 $'); bumpQuest('q_ad'); render(); });
+
+  // ШЕРИНГ
+  $('inviteBtn').addEventListener('click', () => {
+    const uid = tgUser ? tgUser.id : '';
+    const link = BOT_LINK + '?startapp=ref_' + uid;
+    const url = 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent('Зайди в Черный Рынок!');
+    if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, '_blank');
+  });
+  $('shareBtn').addEventListener('click', () => {
+    toast('Скоро здесь будет крутая картинка!');
+  });
 
   // МОДАЛКИ
   $('settingsBtn').addEventListener('click', () => $('settingsModal').hidden = false);
