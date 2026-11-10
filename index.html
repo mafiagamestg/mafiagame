@@ -19,6 +19,8 @@ body{margin:0;min-height:100dvh;color:var(--text);font:15px/1.4 var(--b);user-se
 #app{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:12px;padding:12px 14px 20px}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 button:disabled{opacity:.45;cursor:not-allowed}
+
+/* Шапка */
 .me{display:flex;align-items:center;gap:10px;margin-bottom:5px}
 .avatar{width:42px;height:42px;border-radius:50%;flex:none;overflow:hidden;display:grid;place-items:center;border:2px solid var(--green);background:var(--panel2);font:700 18px var(--d);color:var(--green)}
 .avatar img{width:100%;height:100%;object-fit:cover}
@@ -28,15 +30,21 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .vault .lbl{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:1px}
 .balance{font:700 clamp(36px,12vw,50px)/1.05 var(--d);color:var(--green);text-shadow:0 0 18px rgba(49,255,140,.55)}
 .income{color:var(--green);opacity:.85;font-size:13px}
+
+/* Табы */
 .tab-content{display:none;flex-direction:column;gap:12px}
 .tab-content.active{display:flex}
 .nav-bar{position:fixed;bottom:0;left:0;right:0;height:65px;background:var(--panel);border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
 .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--dim);font-size:10px;gap:4px;width:20%;height:100%;transition:color .2s}
 .nav-item.active{color:var(--green)}
 .nav-item .icon{font-size:22px}
+
+/* Карточки */
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
 .card h2{margin:0 0 10px;font:700 18px var(--d);display:flex;align-items:center;gap:8px}
 .card p{color:var(--dim);font-size:13px;margin:0 0 12px;line-height:1.4}
+
+/* Кнопки */
 .btn{width:100%;padding:14px;border-radius:10px;font:700 16px var(--d);border:1px solid var(--red);color:#fff;background:linear-gradient(180deg,#5a1021,#2a0912);min-height:48px;box-shadow:0 0 12px rgba(255,45,85,.35);transition:transform .1s}
 .btn:active{transform:scale(.98);filter:brightness(1.25)}
 .btn.g{border-color:var(--green);background:linear-gradient(180deg,#12502f,#0a2517)}
@@ -46,16 +54,22 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .btn.o.gold{border-color:var(--gold);color:var(--gold)}
 .btn-row{display:flex;gap:10px}
 .btn-row .btn{flex:1}
+
+/* Казино */
 .slot-machine{font-size:64px;text-align:center;margin:20px 0 10px;height:80px;display:flex;align-items:center;justify-content:center;font-family:var(--d);text-shadow:0 0 15px var(--gold);transition:transform .1s}
 .spin-result-text{text-align:center;font-weight:bold;font-size:15px;margin-bottom:15px;min-height:22px;color:var(--gold)}
 .energy-bar{display:flex;gap:6px;justify-content:center;margin:15px 0}
 .energy-cell{width:32px;height:12px;background:var(--panel2);border-radius:3px;border:1px solid var(--line);transition:.3s}
 .energy-cell.active{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px var(--gold)}
+
+/* Русская рулетка */
 .rr-box{text-align:center;padding:20px 0}
 .rr-revolver{font-size:90px;margin-bottom:20px}
 .rr-shake{animation:shake .4s infinite}
 @keyframes shake{0%{transform:translate(2px,2px) rotate(0)}25%{transform:translate(-2px,-3px) rotate(-2deg)}50%{transform:translate(-2px,3px) rotate(2deg)}75%{transform:translate(2px,-2px) rotate(-2deg)}100%{transform:translate(2px,-3px) rotate(-2deg)}}
 .rr-text{font:700 26px var(--d);margin-bottom:10px;text-transform:uppercase}
+
+/* Улучшения */
 .up{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
 .up:first-of-type{border-top:0}
 .up .n{font-weight:600;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -63,35 +77,49 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .up .d{color:var(--dim);font-size:12px;grid-column:1;line-height:1.2}
 .up button{grid-row:1/3;grid-column:2;min-width:95px;padding:10px;border-radius:8px;border:1px solid var(--green);color:var(--green);font-weight:600;font-size:13px;background:rgba(49,255,140,.05)}
 .up button:disabled{border-color:var(--line);color:var(--dim);background:transparent}
+
+/* Батл Пасс */
 .bp-level{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid var(--line);font-size:14px}
 .bp-level.done{color:var(--dim);text-decoration:line-through}
 .bp-level button{padding:6px 12px;border-radius:6px;border:1px solid var(--gold);color:var(--gold);background:rgba(255,201,60,.1);font-weight:bold}
-.quest{display:grid;grid-template-columns:1fr auto;gap:4px 8px;padding:12px 0;border-top:1px solid var(--line)}
+
+/* ИСПРАВЛЕННЫЕ КВЕСТЫ (FLEXBOX) */
+.quest{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
 .quest:first-child{border-top:0}
-.quest .qn{font-weight:600;font-size:14px}
+.quest .info{display:flex;flex-direction:column;gap:4px}
+.quest .qn{font-weight:600;font-size:14px;color:var(--text)}
 .quest .qp{color:var(--dim);font-size:12px}
 .quest .qr{color:var(--gold);font-size:12px;font-weight:bold}
-.quest button{grid-row:1/3;grid-column:2;padding:8px 14px;border-radius:8px;border:1px solid var(--gold);color:var(--gold);font-size:12px;font-weight:600;background:rgba(255,201,60,.05)}
+.quest button{padding:8px 14px;border-radius:8px;border:1px solid var(--gold);color:var(--gold);font-size:12px;font-weight:600;background:rgba(255,201,60,.1);white-space:nowrap}
 .quest button.claimed{border-color:var(--line);color:var(--dim);background:transparent}
 .quest.done button{border-color:var(--green);color:var(--green);background:rgba(49,255,140,.1)}
+
+/* Модалки */
 .modal{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(5px)}
 .modal[hidden]{display:none}
 .modal-content{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;width:100%;max-width:400px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.5)}
 .modal-content h2{margin-top:0}
 .modal-close{float:right;font-size:22px;color:var(--dim);padding:4px}
+
+/* Тосты */
 .toast{position:fixed;left:50%;bottom:80px;transform:translate(-50%,30px);max-width:90%;padding:12px 18px;border-radius:10px;background:#0b0e11;border:1px solid var(--green);color:var(--green);opacity:0;transition:.3s;z-index:200;text-align:center;pointer-events:none;font-size:14px;font-weight:600;box-shadow:0 5px 15px rgba(0,0,0,.5)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.bad{border-color:var(--red);color:var(--red)}
 .toast.gold{border-color:var(--gold);color:var(--gold)}
+
 #log{margin:0;padding:0;list-style:none;font-size:13px;color:var(--dim)}
 #log li{padding:8px 0;border-top:1px solid var(--line)}
 #log li:first-child{border-top:0}
-.t{display:grid;grid-template-columns:1fr auto;gap:4px 8px;text-align:left;width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);margin-bottom:8px}
+
+/* Список ботов */
+.t{display:flex;justify-content:space-between;align-items:center;text-align:left;width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);margin-bottom:8px}
+.t .info{display:flex;flex-direction:column;gap:4px}
 .t .n{font-weight:600;font-size:14px}
-.t .c{text-align:right;color:var(--green);font-weight:600}
+.t .c{color:var(--green);font-weight:600}
 .t .m{color:var(--dim);font-size:12px}
-.t button{grid-row:2;grid-column:2;padding:8px 12px;border:1px solid var(--red);border-radius:6px;color:var(--red);font-size:12px;font-weight:600;min-height:36px;align-self:end;background:rgba(255,45,85,.1)}
+.t button{padding:8px 12px;border:1px solid var(--red);border-radius:6px;color:var(--red);font-size:12px;font-weight:600;min-height:36px;background:rgba(255,45,85,.1);white-space:nowrap}
 .t button:disabled{opacity:.5;border-color:var(--line);color:var(--dim);background:transparent}
+
 @keyframes fly{to{transform:translateY(-70px);opacity:0}}
 </style>
 </head>
@@ -194,7 +222,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 'use strict';
 const BOT_LINK='https://t.me/black_market_game_bot/play';
 const BACKEND_URL='https://black-market-server-l431.onrender.com';
-const SAVE_KEY='blackmarket_v15';
+const SAVE_KEY='blackmarket_v17';
 const tg=window.Telegram&&window.Telegram.WebApp;
 if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#07080a');tg.setBackgroundColor('#07080a');tg.disableVerticalSwipes()}catch(e){}}
 const tgUser=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user;
@@ -287,7 +315,15 @@ const q1Done=s.quests.taps>=100;
 const q2Done=s.quests.spins>=3;
 const q1Btn=s.quests.claimed[0]?`<button class="claimed" disabled>✓</button>`:q1Done?`<button data-quest="0">Забрать</button>`:`<button disabled>…</button>`;
 const q2Btn=s.quests.claimed[1]?`<button class="claimed" disabled>✓</button>`:q2Done?`<button data-quest="1">Забрать</button>`:`<button disabled>…</button>`;
-$('quests').innerHTML=`<div class="quest ${q1Done&&!s.quests.claimed[0]?'done':''}"><div class="qn">Сделай 100 сделок</div>${q1Btn}<div class="qp">${Math.min(100,s.quests.taps)} / 100</div><div class="qr">+500 $</div></div><div class="quest ${q2Done&&!s.quests.claimed[1]?'done':''}"><div class="qn">Крути рулетку 3 раза</div>${q2Btn}<div class="qp">${Math.min(3,s.quests.spins)} / 3</div><div class="qr">+1500 $</div></div>`;
+$('quests').innerHTML=`
+<div class="quest ${q1Done&&!s.quests.claimed[0]?'done':''}">
+<div class="info"><div class="qn">Сделай 100 сделок</div><div class="qp">${Math.min(100,s.quests.taps)} / 100</div><div class="qr">+500 $</div></div>
+${q1Btn}
+</div>
+<div class="quest ${q2Done&&!s.quests.claimed[1]?'done':''}">
+<div class="info"><div class="qn">Крути рулетку 3 раза</div><div class="qp">${Math.min(3,s.quests.spins)} / 3</div><div class="qr">+1500 $</div></div>
+${q2Btn}
+</div>`;
 }
 
 document.addEventListener('click',e=>{
@@ -495,7 +531,7 @@ const def=Math.max(1,Math.round(f.income/3));
 const ch=Math.max(.15,Math.min(.95,.55+.08*(s.crew-def)));
 const pct=Math.round(ch*100);
 const cd=Math.max(0,30000-(now()-s.friendsAtkCd));
-return `<div class="t"><span class="n">${f.emoji} ${f.name}</span><span class="c">${pct}%</span><span class="m">в сейфе ${fmt(f.cash)} $</span><button data-fid="${f.id}" ${cd>0?'disabled':''}>${cd>0?`⏳ ${Math.ceil(cd/1000)}с`:'⚔️ Атака'}</button></div>`;
+return `<div class="t"><div class="info"><div class="n">${f.emoji} ${f.name}</div><div class="m">В сейфе: ${fmt(f.cash)} $</div><div class="c">Шанс: ${pct}%</div></div><button data-fid="${f.id}" ${cd>0?'disabled':''}>${cd>0?`⏳ ${Math.ceil(cd/1000)}с`:'⚔️ Атака'}</button></div>`;
 }).join('');
 $('friendsModal').hidden=false;
 });
