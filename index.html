@@ -806,11 +806,11 @@ button:disabled {
 </div></div>
 
 <script>
-(() => {
+  (() => {
   'use strict';
   const BOT_LINK = 'https://t.me/black_market_game_bot/play'; 
   const BACKEND_URL = 'https://black-market-server-l431.onrender.com'; 
-  const SAVE_KEY = 'blackmarket_v12';
+  const SAVE_KEY = 'blackmarket_v14';
   
   const tg = window.Telegram && window.Telegram.WebApp;
   if (tg) { 
@@ -857,7 +857,8 @@ button:disabled {
       friends: BOT_TEMPLATES.map((tpl, i) => makeBot(tpl, 1 + i * 0.5)), 
       friendsAtkCd: 0, miniGameLast: 0, ips: 0, energy: 5, energyTs: now(), 
       bpXp: 0, bpLevel: 1, bpPremium: false, bpClaimed: [], 
-      aucBid: 10000, aucOwner: null 
+      aucBid: 10000, aucOwner: null,
+      quests: { taps: 0, spins: 0, claimed: [false, false] }
     };
   }
 
@@ -875,6 +876,7 @@ button:disabled {
       const data = await res.json();
       if (data && data.state) { 
         s = Object.assign(defState(), data.state); 
+        if (!s.quests) s.quests = { taps: 0, spins: 0, claimed: [false, false] };
         return true; 
       }
     } catch (e) {}
@@ -910,7 +912,7 @@ button:disabled {
   }
 
   // ==========================================
-  // ЭКОНОМИКА
+  // ЭКОНОМИКА И ЛОГИКА
   // ==========================================
   const COST = { 
     point: l => Math.ceil(40 * Math.pow(1.6, l)), 
@@ -997,9 +999,9 @@ button:disabled {
     });
     
     const UPS = [
-      { k: 'point', n: 'Подпольная точка', d: () => `Доход: +${fmt(Math.pow(s.point+1, 1.3)*1.5 - Math.pow(s.point, 1.3)*1.5)} $/с` }, 
-      { k: 'conn', n: 'Связи', d: () => `Тап: +1.5 $` }, 
-      { k: 'crew', n: 'Коллекторы', d: () => `Шанс налета: +8%` }
+      { k: 'point', n: 'Подпольная точка' }, 
+      { k: 'conn', n: 'Связи' }, 
+      { k: 'crew', n: 'Коллекторы' }
     ];
     
     $('ups').innerHTML = UPS.map(u => `
@@ -1021,6 +1023,7 @@ button:disabled {
     });
   }
 
+  // Рендер Батл Пасса
   function renderBP() {
     let html = '';
     for(let i=1; i<=10; i++) {
@@ -1054,6 +1057,49 @@ button:disabled {
       });
     });
   }
+
+  // Рендер Квестов
+  function renderQuests() { 
+    const q1Done = s.quests.taps >= 100;
+    const q2Done = s.quests.spins >= 3;
+    
+    const q1Btn = s.quests.claimed[0] ? `<button class="claimed" disabled>✓</button>` : q1Done ? `<button data-quest="0">Забрать</button>` : `<button disabled>…</button>`;
+    const q2Btn = s.quests.claimed[1] ? `<button class="claimed" disabled>✓</button>` : q2Done ? `<button data-quest="1">Забрать</button>` : `<button disabled>…</button>`;
+
+    $('quests').innerHTML = `
+      <div class="quest ${q1Done && !s.quests.claimed[0] ? 'done' : ''}">
+        <div class="qn">Сделай 100 сделок</div>
+        ${q1Btn}
+        <div class="qp">${Math.min(100, s.quests.taps)} / 100</div>
+        <div class="qr">+500 $</div>
+      </div>
+      <div class="quest ${q2Done && !s.quests.claimed[1] ? 'done' : ''}">
+        <div class="qn">Крути рулетку 3 раза</div>
+        ${q2Btn}
+        <div class="qp">${Math.min(3, s.quests.spins)} / 3</div>
+        <div class="qr">+1500 $</div>
+      </div>
+    `; 
+  }
+
+  // Обработчик квестов
+  document.addEventListener('click', e => {
+    const qBtn = e.target.closest('[data-quest]');
+    if (qBtn) {
+      const id = +qBtn.dataset.quest;
+      if (id === 0 && s.quests.taps >= 100 && !s.quests.claimed[0]) {
+        s.quests.claimed[0] = true;
+        add(500);
+        toast('Квест выполнен: +500 $', 'gold');
+        renderQuests(); render(); save();
+      } else if (id === 1 && s.quests.spins >= 3 && !s.quests.claimed[1]) {
+        s.quests.claimed[1] = true;
+        add(1500);
+        toast('Квест выполнен: +1500 $', 'gold');
+        renderQuests(); render(); save();
+      }
+    }
+  });
 
   let lastCashTxt = '';
   function render() {
@@ -1102,11 +1148,18 @@ button:disabled {
     }
     
     if(t % 1000 < 250) {
+      const UPS_DESC = {
+        point: () => `Доход: +${fmt(Math.pow(s.point+1, 1.3)*1.5 - Math.pow(s.point, 1.3)*1.5)} $/с`,
+        conn: () => `Тап: +1.5 $`,
+        crew: () => `Шанс налета: +8%`
+      };
+
       ['point', 'conn', 'crew'].forEach(k => {
         const b = $('b_' + k); 
         if(!b) return;
         
         $('l_' + k).textContent = 'ур. ' + s[k]; 
+        $('d_' + k).textContent = UPS_DESC[k](); 
         b.textContent = fmt(COST[k](s[k])) + ' $'; 
         b.disabled = s.cash < COST[k](s[k]);
       });
@@ -1135,6 +1188,7 @@ button:disabled {
     const v = Math.floor(tapVal() * (1 + Math.min(s.combo - 1, 20) * 0.05)); 
     add(v); 
     s.taps++;
+    s.quests.taps++; 
     
     s.bpXp += 1; 
     if (s.bpXp >= s.bpLevel * 100) { 
@@ -1150,6 +1204,7 @@ button:disabled {
     
     document.body.appendChild(f); 
     setTimeout(() => f.remove(), 700); 
+    renderQuests();
     render();
   });
 
@@ -1194,6 +1249,7 @@ button:disabled {
         clearInterval(spinInterval);
         s.energy = data.energy; 
         s.cash = data.cash;
+        s.quests.spins++; 
         
         const resEl = $('spinResultText');
         resEl.style.color = 'var(--gold)';
@@ -1221,6 +1277,7 @@ button:disabled {
           resEl.textContent = `Выпало: Облава! -${fmt(-data.payout)} $`; 
         }
         
+        renderQuests();
         render(); 
         save();
       }, 1000);
@@ -1442,23 +1499,6 @@ button:disabled {
     render();
   }
 
-  function renderQuests() { 
-    $('quests').innerHTML = `
-      <div class="quest">
-        <div class="qn">Сделай 100 сделок</div>
-        <button disabled>…</button>
-        <div class="qp">${Math.min(100, s.taps)} / 100</div>
-        <div class="qr">+500 $</div>
-      </div>
-      <div class="quest">
-        <div class="qn">Крути рулетку</div>
-        <button disabled>…</button>
-        <div class="qp">0 / 3</div>
-        <div class="qr">+1500 $</div>
-      </div>
-    `; 
-  }
-  
   $('friendsBtn').addEventListener('click', () => {
     const sorted = [...s.friends].sort((a, b) => (b.cash || 0) - (a.cash || 0));
     
@@ -1558,9 +1598,6 @@ button:disabled {
     else window.open(url, '_blank');
   });
 
-  // ==========================================
-  // ГЕНЕРАЦИЯ КАРТИНКИ ДЛЯ ШЕРИНГА
-  // ==========================================
   $('shareBtn').addEventListener('click', async () => {
     $('shareModal').hidden = false;
     $('sharePreview').style.display = 'none';
