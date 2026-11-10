@@ -25,13 +25,16 @@
   --display: 'Oswald', sans-serif;
   --body: 'Golos Text', sans-serif;
 }
+
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
+
 html {
   background: var(--bg);
 }
+
 body {
   margin: 0;
   min-height: 100dvh;
@@ -42,6 +45,7 @@ body {
   touch-action: manipulation;
   padding-bottom: 75px;
 }
+
 #loader {
   position: fixed;
   inset: 0;
@@ -55,10 +59,12 @@ body {
   font: 700 24px var(--display);
   color: var(--green);
 }
+
 #loader.hidden {
   opacity: 0;
   pointer-events: none;
 }
+
 .spinner {
   width: 40px;
   height: 40px;
@@ -68,9 +74,11 @@ body {
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
 }
+
 @keyframes spin {
   100% { transform: rotate(360deg); }
 }
+
 #app {
   max-width: 480px;
   margin: 0 auto;
@@ -79,6 +87,7 @@ body {
   gap: 12px;
   padding: 12px 14px 20px;
 }
+
 button {
   font: inherit;
   color: inherit;
@@ -86,6 +95,7 @@ button {
   background: none;
   cursor: pointer;
 }
+
 button:disabled {
   opacity: .45;
   cursor: not-allowed;
@@ -98,6 +108,7 @@ button:disabled {
   gap: 10px;
   margin-bottom: 5px;
 }
+
 .avatar {
   width: 42px;
   height: 42px;
@@ -111,20 +122,24 @@ button:disabled {
   font: 700 18px var(--display);
   color: var(--green);
 }
+
 .avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .me b {
   display: block;
   font-weight: 600;
   font-size: 14px;
 }
+
 .me small {
   color: var(--dim);
   font-size: 12px;
 }
+
 .vault {
   background: var(--panel);
   padding: 12px;
@@ -132,17 +147,20 @@ button:disabled {
   border: 1px solid var(--line);
   text-align: center;
 }
+
 .vault .lbl {
   color: var(--dim);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+
 .balance {
   font: 700 clamp(36px, 12vw, 50px)/1.05 var(--display);
   color: var(--green);
   text-shadow: 0 0 18px rgba(49,255,140,.55);
 }
+
 .income {
   color: var(--green);
   opacity: .85;
@@ -155,6 +173,7 @@ button:disabled {
   flex-direction: column;
   gap: 12px;
 }
+
 .tab-content.active {
   display: flex;
 }
@@ -174,6 +193,7 @@ button:disabled {
   z-index: 100;
   padding-bottom: env(safe-area-inset-bottom);
 }
+
 .nav-item {
   display: flex;
   flex-direction: column;
@@ -186,9 +206,11 @@ button:disabled {
   height: 100%;
   transition: color 0.2s;
 }
+
 .nav-item.active {
   color: var(--green);
 }
+
 .nav-item .icon {
   font-size: 22px;
 }
@@ -200,6 +222,7 @@ button:disabled {
   border-radius: 12px;
   padding: 16px;
 }
+
 .card h2 {
   margin: 0 0 10px;
   font: 700 18px var(--display);
@@ -207,6 +230,7 @@ button:disabled {
   align-items: center;
   gap: 8px;
 }
+
 .card p {
   color: var(--dim);
   font-size: 13px;
@@ -227,37 +251,45 @@ button:disabled {
   box-shadow: 0 0 12px rgba(255,45,85,.35);
   transition: transform 0.1s;
 }
+
 .btn:active {
   transform: scale(0.98);
   filter: brightness(1.25);
 }
+
 .btn.g {
   border-color: var(--green);
   background: linear-gradient(180deg, #12502f, #0a2517);
 }
+
 .btn.gold {
   border-color: var(--gold);
   background: linear-gradient(180deg, #5c4200, #2a1e00);
   color: var(--gold);
 }
+
 .btn.o {
   background: transparent;
   border-color: var(--green);
   color: var(--green);
   box-shadow: none;
 }
+
 .btn.o.blue {
   border-color: var(--blue);
   color: var(--blue);
 }
+
 .btn.o.gold {
   border-color: var(--gold);
   color: var(--gold);
 }
+
 .btn-row {
   display: flex;
   gap: 10px;
 }
+
 .btn-row .btn {
   flex: 1;
 }
@@ -275,6 +307,7 @@ button:disabled {
   text-shadow: 0 0 15px var(--gold);
   transition: transform 0.1s;
 }
+
 .spin-result-text {
   text-align: center;
   font-weight: bold;
@@ -283,12 +316,14 @@ button:disabled {
   min-height: 22px;
   color: var(--gold);
 }
+
 .energy-bar {
   display: flex;
   gap: 6px;
   justify-content: center;
   margin: 15px 0;
 }
+
 .energy-cell {
   width: 32px;
   height: 12px;
@@ -297,6 +332,7 @@ button:disabled {
   border: 1px solid var(--line);
   transition: 0.3s;
 }
+
 .energy-cell.active {
   background: var(--gold);
   border-color: var(--gold);
@@ -308,14 +344,17 @@ button:disabled {
   text-align: center;
   padding: 20px 0;
 }
+
 .rr-revolver {
   font-size: 90px;
   margin-bottom: 20px;
   transition: transform 0.1s;
 }
+
 .rr-shake {
   animation: shake 0.4s infinite;
 }
+
 @keyframes shake {
   0% { transform: translate(2px, 2px) rotate(0deg); }
   10% { transform: translate(-2px, -3px) rotate(-2deg); }
@@ -329,6 +368,7 @@ button:disabled {
   90% { transform: translate(2px, 3px) rotate(0deg); }
   100% { transform: translate(2px, -3px) rotate(-2deg); }
 }
+
 .rr-text {
   font: 700 26px var(--display);
   margin-bottom: 10px;
@@ -344,15 +384,18 @@ button:disabled {
   padding: 12px 0;
   border-top: 1px solid var(--line);
 }
+
 .up:first-of-type {
   border-top: 0;
 }
+
 .up .n {
   font-weight: 600;
   font-size: 15px;
   display: flex;
   align-items: center;
 }
+
 .up .n i {
   font-style: normal;
   color: var(--green);
@@ -360,12 +403,14 @@ button:disabled {
   margin-left: 8px;
   font-weight: bold;
 }
+
 .up .d {
   color: var(--dim);
   font-size: 12px;
   grid-column: 1;
   line-height: 1.2;
 }
+
 .up button {
   grid-row: 1 / 3;
   grid-column: 2;
@@ -378,6 +423,7 @@ button:disabled {
   font-size: 13px;
   background: rgba(49,255,140,0.05);
 }
+
 .up button:disabled {
   border-color: var(--line);
   color: var(--dim);
@@ -393,10 +439,12 @@ button:disabled {
   border-bottom: 1px solid var(--line);
   font-size: 14px;
 }
+
 .bp-level.done {
   color: var(--dim);
   text-decoration: line-through;
 }
+
 .bp-level button {
   padding: 6px 12px;
   border-radius: 6px;
@@ -418,9 +466,11 @@ button:disabled {
   padding: 16px;
   backdrop-filter: blur(5px);
 }
+
 .modal[hidden] {
   display: none;
 }
+
 .modal-content {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -431,9 +481,11 @@ button:disabled {
   text-align: center;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
+
 .modal-content h2 {
   margin-top: 0;
 }
+
 .modal-close {
   float: right;
   font-size: 22px;
@@ -462,18 +514,22 @@ button:disabled {
   font-weight: 600;
   box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
+
 .toast.show {
   opacity: 1;
   transform: translate(-50%, 0);
 }
+
 .toast.bad {
   border-color: var(--red);
   color: var(--red);
 }
+
 .toast.gold {
   border-color: var(--gold);
   color: var(--gold);
 }
+
 #log {
   margin: 0;
   padding: 0;
@@ -481,10 +537,12 @@ button:disabled {
   font-size: 13px;
   color: var(--dim);
 }
+
 #log li {
   padding: 8px 0;
   border-top: 1px solid var(--line);
 }
+
 #log li:first-child {
   border-top: 0;
 }
@@ -502,6 +560,7 @@ button:disabled {
   background: var(--panel2);
   margin-bottom: 8px;
 }
+
 .t .n {
   font-weight: 600;
   font-size: 14px;
@@ -509,15 +568,18 @@ button:disabled {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .t .c {
   text-align: right;
   color: var(--green);
   font-weight: 600;
 }
+
 .t .m {
   color: var(--dim);
   font-size: 12px;
 }
+
 .t button {
   grid-row: 2;
   grid-column: 2;
@@ -531,6 +593,7 @@ button:disabled {
   align-self: end;
   background: rgba(255,45,85,0.1);
 }
+
 .t button:disabled {
   opacity: .5;
   border-color: var(--line);
@@ -760,6 +823,7 @@ button:disabled {
 
   const $ = id => document.getElementById(id);
   const now = () => Date.now();
+  
   const fmt = n => { 
     n = Math.floor(n); 
     if (n < 10000) return n.toLocaleString('ru-RU'); 
@@ -774,8 +838,16 @@ button:disabled {
     { name: 'Мадам Вуду', emoji: '💃', income: 2 }, 
     { name: 'Кислый', emoji: '🎩', income: 3 }
   ];
+  
   function makeBot(tpl, power = 1) { 
-    return { id: 'bot_' + Math.random().toString(36).slice(2, 8), name: tpl.name, emoji: tpl.emoji, income: tpl.income * power, cash: tpl.income * 50 * power, lastTick: now() }; 
+    return { 
+      id: 'bot_' + Math.random().toString(36).slice(2, 8), 
+      name: tpl.name, 
+      emoji: tpl.emoji, 
+      income: tpl.income * power, 
+      cash: tpl.income * 50 * power, 
+      lastTick: now() 
+    }; 
   }
   
   function defState() {
@@ -793,12 +865,18 @@ button:disabled {
   let isSaving = false;
   let isSpinning = false;
 
+  // ==========================================
+  // СЕТЬ
+  // ==========================================
   async function loadFromServer() {
     if (!BACKEND_URL || !tgUser) return false;
     try {
       const res = await fetch(`${BACKEND_URL}/load/${tgUser.id}`);
       const data = await res.json();
-      if (data && data.state) { s = Object.assign(defState(), data.state); return true; }
+      if (data && data.state) { 
+        s = Object.assign(defState(), data.state); 
+        return true; 
+      }
     } catch (e) {}
     return false;
   }
@@ -807,6 +885,7 @@ button:disabled {
     if (!BACKEND_URL || !tgUser || isSaving) return;
     isSaving = true;
     s.ips = income();
+    
     fetch(BACKEND_URL + '/save', { 
       method: 'POST', 
       headers: { 'Content-Type': 'application/json' }, 
@@ -814,17 +893,25 @@ button:disabled {
     })
     .then(r => r.json())
     .then(data => {
-      if (data.cash !== undefined && Math.abs(data.cash - s.cash) > 1000) { s.cash = data.cash; }
+      if (data.cash !== undefined && Math.abs(data.cash - s.cash) > 1000) { 
+        s.cash = data.cash; 
+      }
     })
     .catch(e => {})
     .finally(() => { isSaving = false; });
   }
   
   function save() { 
-    try { s.ts = now(); localStorage.setItem(SAVE_KEY, JSON.stringify(s)); } catch (e) {} 
+    try { 
+      s.ts = now(); 
+      localStorage.setItem(SAVE_KEY, JSON.stringify(s)); 
+    } catch (e) {} 
     syncSave(); 
   }
 
+  // ==========================================
+  // ЭКОНОМИКА
+  // ==========================================
   const COST = { 
     point: l => Math.ceil(40 * Math.pow(1.6, l)), 
     conn: l => Math.ceil(25 * Math.pow(1.6, l)), 
@@ -836,12 +923,20 @@ button:disabled {
   const income = () => Math.pow(s.point, 1.3) * 1.5 * (1 + s.prestige * 0.25);
   const tapVal = () => (1 + s.conn * 1.5) * (1 + s.prestige * 0.25);
   
-  function add(n) { s.cash += n; if (n > 0) s.earned += n; if (s.cash < 0) s.cash = 0; }
+  function add(n) { 
+    s.cash += n; 
+    if (n > 0) s.earned += n; 
+    if (s.cash < 0) s.cash = 0; 
+  }
   
   function regenEnergy() {
-    if (s.energy >= 5) { s.energyTs = now(); return; }
+    if (s.energy >= 5) { 
+      s.energyTs = now(); 
+      return; 
+    }
     const timePassed = now() - s.energyTs;
     const gained = Math.floor(timePassed / 1800000);
+    
     if (gained > 0) { 
       s.energy = Math.min(5, s.energy + gained); 
       s.energyTs = s.energyTs + gained * 1800000; 
@@ -849,6 +944,9 @@ button:disabled {
     }
   }
 
+  // ==========================================
+  // ИНИЦИАЛИЗАЦИЯ
+  // ==========================================
   async function initGame() {
     try {
       const loaded = await loadFromServer();
@@ -858,24 +956,43 @@ button:disabled {
           if (Object.keys(raw).length) s = Object.assign(defState(), raw); 
         } catch (e) {} 
       }
+      
       s.cash = Math.max(0, Number(s.cash) || 0);
-      s.combo = 0; regenEnergy();
+      s.combo = 0; 
+      regenEnergy();
       
       $('uname').textContent = userName;
-      if (tgUser && tgUser.photo_url) { $('avatar').innerHTML = `<img src="${tgUser.photo_url}">`; } 
-      else { $('avatar').textContent = userName[0].toUpperCase(); }
+      if (tgUser && tgUser.photo_url) { 
+        $('avatar').innerHTML = `<img src="${tgUser.photo_url}">`; 
+      } else { 
+        $('avatar').textContent = userName[0].toUpperCase(); 
+      }
 
-      buildUI(); renderLog(); renderQuests(); renderBP(); render();
-    } catch (e) { console.error(e); } 
-    finally { $('loader').classList.add('hidden'); $('app').style.opacity = '1'; startLoops(); }
+      buildUI(); 
+      renderLog(); 
+      renderQuests(); 
+      renderBP(); 
+      render();
+      
+    } catch (e) { 
+      console.error(e); 
+    } finally { 
+      $('loader').classList.add('hidden'); 
+      $('app').style.opacity = '1'; 
+      startLoops(); 
+    }
   }
 
+  // ==========================================
+  // ИНТЕРФЕЙС
+  // ==========================================
   function buildUI() {
     document.querySelectorAll('.nav-item').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active'); $(btn.dataset.tab).classList.add('active');
+        btn.classList.add('active'); 
+        $(btn.dataset.tab).classList.add('active');
       });
     });
     
@@ -884,12 +1001,24 @@ button:disabled {
       { k: 'conn', n: 'Связи', d: () => `Тап: +1.5 $` }, 
       { k: 'crew', n: 'Коллекторы', d: () => `Шанс налета: +8%` }
     ];
-    $('ups').innerHTML = UPS.map(u => `<div class="up"><span class="n">${u.n}<i id="l_${u.k}"></i></span><span class="d" id="d_${u.k}"></span><button id="b_${u.k}"></button></div>`).join('');
-    UPS.forEach(u => $('b_' + u.k).addEventListener('click', () => { 
-      const c = COST[u.k](s[u.k]); 
-      if (s.cash < c) return toast('Не хватает', 'bad'); 
-      s.cash -= c; s[u.k]++; render(); 
-    }));
+    
+    $('ups').innerHTML = UPS.map(u => `
+      <div class="up">
+        <span class="n">${u.n}<i id="l_${u.k}"></i></span>
+        <span class="d" id="d_${u.k}"></span>
+        <button id="b_${u.k}"></button>
+      </div>
+    `).join('');
+    
+    UPS.forEach(u => {
+      $('b_' + u.k).addEventListener('click', () => { 
+        const c = COST[u.k](s[u.k]); 
+        if (s.cash < c) return toast('Не хватает', 'bad'); 
+        s.cash -= c; 
+        s[u.k]++; 
+        render(); 
+      });
+    });
   }
 
   function renderBP() {
@@ -898,10 +1027,15 @@ button:disabled {
       const isClaimed = s.bpClaimed.includes(i);
       const canClaim = s.bpLevel >= i && !isClaimed;
       const reward = i * 5000;
-      html += `<div class="bp-level ${isClaimed ? 'done' : ''}">
-        <span>Уровень ${i} <br><small style="color:var(--gold)">+${fmt(reward)} $</small></span>
-        <button data-bp="${i}" ${canClaim ? '' : 'disabled'}>${isClaimed ? 'Получено' : 'Забрать'}</button>
-      </div>`;
+      
+      html += `
+        <div class="bp-level ${isClaimed ? 'done' : ''}">
+          <span>Уровень ${i} <br><small style="color:var(--gold)">+${fmt(reward)} $</small></span>
+          <button data-bp="${i}" ${canClaim ? '' : 'disabled'}>
+            ${isClaimed ? 'Получено' : 'Забрать'}
+          </button>
+        </div>
+      `;
     }
     $('bpList').innerHTML = html;
     
@@ -913,7 +1047,9 @@ button:disabled {
           const reward = lvl * 5000;
           add(reward);
           toast(`Получено: +${fmt(reward)} $`, 'gold');
-          renderBP(); render(); save();
+          renderBP(); 
+          render(); 
+          save();
         }
       });
     });
@@ -921,13 +1057,20 @@ button:disabled {
 
   let lastCashTxt = '';
   function render() {
-    const t = now(); regenEnergy();
+    const t = now(); 
+    regenEnergy();
+    
     let energyHtml = ''; 
-    for(let i=0; i<5; i++) energyHtml += `<div class="energy-cell ${i < s.energy ? 'active' : ''}"></div>`;
+    for(let i=0; i<5; i++) {
+      energyHtml += `<div class="energy-cell ${i < s.energy ? 'active' : ''}"></div>`;
+    }
     if($('energyBar')) $('energyBar').innerHTML = energyHtml;
     
     const cashTxt = fmt(s.cash) + ' $'; 
-    if (cashTxt !== lastCashTxt) { $('cash').textContent = cashTxt; lastCashTxt = cashTxt; }
+    if (cashTxt !== lastCashTxt) { 
+      $('cash').textContent = cashTxt; 
+      lastCashTxt = cashTxt; 
+    }
     
     $('inc').innerHTML = `+${fmt(income())} $/с`;
     $('tapv').textContent = `+${fmt(tapVal())} $`;
@@ -935,17 +1078,22 @@ button:disabled {
     $('l_guard').textContent = `ур. ${s.guards}`;
     $('d_guard').textContent = `Защита от рейдов (макс 30)`;
     $('l_armor').textContent = `ур. ${s.armor}`;
+    
     const lossPct = Math.round((1 - Math.max(0.04, 0.2 * Math.pow(0.7, s.armor))) * 100);
     $('d_armor').textContent = `Снижает потери на ${lossPct}%`;
     
-    $('bpLevel').textContent = s.bpLevel; $('bpXp').textContent = s.bpXp;
+    $('bpLevel').textContent = s.bpLevel; 
+    $('bpXp').textContent = s.bpXp;
     $('bpProgress').style.width = (s.bpXp % 100) + '%';
     $('bpBuyBtn').textContent = s.bpPremium ? 'Куплен' : 'Купить Премиум (300⭐)';
     $('bpBuyBtn').disabled = s.bpPremium;
 
     $('aucBid').textContent = fmt(s.aucBid) + ' $';
-    if (s.aucOwner === tgUser.id) { $('auctionLot').style.display = 'none'; } 
-    else { $('auctionLot').style.display = 'block'; }
+    if (s.aucOwner === tgUser.id) { 
+      $('auctionLot').style.display = 'none'; 
+    } else { 
+      $('auctionLot').style.display = 'block'; 
+    }
 
     const sb = $('spinBtn'); 
     if(sb && !isSpinning) { 
@@ -955,31 +1103,43 @@ button:disabled {
     
     if(t % 1000 < 250) {
       ['point', 'conn', 'crew'].forEach(k => {
-        const b = $('b_' + k); if(!b) return;
+        const b = $('b_' + k); 
+        if(!b) return;
+        
         $('l_' + k).textContent = 'ур. ' + s[k]; 
-        b.textContent = fmt(COST[k](s[k])) + ' $'; b.disabled = s.cash < COST[k](s[k]);
+        b.textContent = fmt(COST[k](s[k])) + ' $'; 
+        b.disabled = s.cash < COST[k](s[k]);
       });
+      
       $('guardBtn').textContent = `Нанять (${fmt(COST.guard(s.guards))}$)`; 
       $('guardBtn').disabled = s.cash < COST.guard(s.guards) || s.guards >= 30;
+      
       $('b_armor').textContent = `Купить (${fmt(COST.armor(s.armor))}$)`; 
       $('b_armor').disabled = s.cash < COST.armor(s.armor);
     }
   }
 
+  // ==========================================
+  // ДЕЙСТВИЯ
+  // ==========================================
   $('deal').addEventListener('pointerdown', e => {
     e.preventDefault(); 
     const t = now(); 
-    if (t - s.lastTap < 1200) s.combo = Math.min(s.combo + 1, 50); 
-    else s.combo = 1; 
+    if (t - s.lastTap < 1200) {
+      s.combo = Math.min(s.combo + 1, 50); 
+    } else {
+      s.combo = 1; 
+    }
     s.lastTap = t;
     
     const v = Math.floor(tapVal() * (1 + Math.min(s.combo - 1, 20) * 0.05)); 
-    add(v); s.taps++;
+    add(v); 
+    s.taps++;
     
-    // Логика Батл Пасса
     s.bpXp += 1; 
     if (s.bpXp >= s.bpLevel * 100) { 
-      s.bpLevel++; s.bpXp = 0; 
+      s.bpLevel++; 
+      s.bpXp = 0; 
       toast(`Уровень пропуска ${s.bpLevel}! Забери награду!`, 'gold'); 
       renderBP();
     }
@@ -987,6 +1147,7 @@ button:disabled {
     const f = document.createElement('div'); 
     f.textContent = '+' + fmt(v); 
     f.style.cssText = `position:fixed;left:${e.clientX-12}px;top:${e.clientY-30}px;color:var(--green);font:700 24px var(--display);pointer-events:none;animation:fly .7s forwards;z-index:20;text-shadow:0 0 10px var(--green);`;
+    
     document.body.appendChild(f); 
     setTimeout(() => f.remove(), 700); 
     render();
@@ -994,46 +1155,84 @@ button:disabled {
 
   $('spinBtn').addEventListener('click', async () => {
     if (!BACKEND_URL) return toast('Нет сервера', 'bad');
-    regenEnergy(); if (s.energy < 1) return toast('Нет Влияния!', 'bad');
+    regenEnergy(); 
+    if (s.energy < 1) return toast('Нет Влияния!', 'bad');
     if (isSpinning) return;
     
     isSpinning = true;
-    const btn = $('spinBtn'); btn.disabled = true; btn.textContent = '⏳...';
+    const btn = $('spinBtn'); 
+    btn.disabled = true; 
+    btn.textContent = '⏳...';
+    
     const slot = $('slot-machine');
     $('spinResultText').textContent = 'Крутим...';
     $('spinResultText').style.color = 'var(--dim)';
     
     const icons = ['💰', '⚔️', '🛡', '⏳', '💀'];
-    let spinInterval = setInterval(() => { slot.textContent = icons[Math.floor(Math.random() * icons.length)]; }, 100);
+    let spinInterval = setInterval(() => { 
+      slot.textContent = icons[Math.floor(Math.random() * icons.length)]; 
+    }, 100);
     
     try {
-      const res = await fetch(`${BACKEND_URL}/spin`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: tgUser.id }) });
+      const res = await fetch(`${BACKEND_URL}/spin`, { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify({ userId: tgUser.id }) 
+      });
       const data = await res.json();
       
       if (data.error) { 
-        clearInterval(spinInterval); toast(data.error, 'bad'); 
-        $('spinResultText').textContent = 'Ошибка!'; isSpinning = false; btn.disabled = false; return; 
+        clearInterval(spinInterval); 
+        toast(data.error, 'bad'); 
+        $('spinResultText').textContent = 'Ошибка!'; 
+        isSpinning = false; 
+        btn.disabled = false; 
+        return; 
       }
       
       setTimeout(() => {
         clearInterval(spinInterval);
-        s.energy = data.energy; s.cash = data.cash;
+        s.energy = data.energy; 
+        s.cash = data.cash;
+        
         const resEl = $('spinResultText');
         resEl.style.color = 'var(--gold)';
         
-        if (data.outcome === 'money') { slot.textContent = '💰'; toast(`+${fmt(data.payout)} $`, 'gold'); resEl.textContent = `Выпало: Куш! +${fmt(data.payout)} $`; }
-        else if (data.outcome === 'shield') { slot.textContent = '🛡'; toast('Щит на 2 часа!', 'gold'); resEl.textContent = `Выпало: Щит на 2 часа`; }
-        else if (data.outcome === 'attack_win') { slot.textContent = '⚔️'; toast(`Налет: +${fmt(data.payout)} $`, 'gold'); resEl.textContent = `Выпало: Налет! Вы украли ${fmt(data.payout)} $`; }
-        else if (data.outcome === 'energy') { slot.textContent = '⏳'; toast('+2 Влияния!', 'gold'); resEl.textContent = `Выпало: +2 Влияния`; }
-        else if (data.outcome === 'raid') { slot.textContent = '💀'; toast(`Облава: -${fmt(-data.payout)} $`, 'bad'); resEl.style.color = 'var(--red)'; resEl.textContent = `Выпало: Облава! -${fmt(-data.payout)} $`; }
+        if (data.outcome === 'money') { 
+          slot.textContent = '💰'; 
+          toast(`+${fmt(data.payout)} $`, 'gold'); 
+          resEl.textContent = `Выпало: Куш! +${fmt(data.payout)} $`; 
+        } else if (data.outcome === 'shield') { 
+          slot.textContent = '🛡'; 
+          toast('Щит на 2 часа!', 'gold'); 
+          resEl.textContent = `Выпало: Щит на 2 часа`; 
+        } else if (data.outcome === 'attack_win') { 
+          slot.textContent = '⚔️'; 
+          toast(`Налет: +${fmt(data.payout)} $`, 'gold'); 
+          resEl.textContent = `Выпало: Налет! Вы украли ${fmt(data.payout)} $`; 
+        } else if (data.outcome === 'energy') { 
+          slot.textContent = '⏳'; 
+          toast('+2 Влияния!', 'gold'); 
+          resEl.textContent = `Выпало: +2 Влияния`; 
+        } else if (data.outcome === 'raid') { 
+          slot.textContent = '💀'; 
+          toast(`Облава: -${fmt(-data.payout)} $`, 'bad'); 
+          resEl.style.color = 'var(--red)'; 
+          resEl.textContent = `Выпало: Облава! -${fmt(-data.payout)} $`; 
+        }
         
-        render(); save();
+        render(); 
+        save();
       }, 1000);
 
-    } catch(e) { clearInterval(spinInterval); toast('Ошибка', 'bad'); } 
-    finally { 
+    } catch(e) { 
+      clearInterval(spinInterval); 
+      toast('Ошибка', 'bad'); 
+    } finally { 
       setTimeout(() => { 
-        btn.textContent = 'Крутить'; render(); isSpinning = false; 
+        btn.textContent = 'Крутить'; 
+        render(); 
+        isSpinning = false; 
       }, 1100); 
     }
   });
@@ -1042,7 +1241,9 @@ button:disabled {
     if (!BACKEND_URL) return toast('Нет сервера', 'bad'); 
     if (s.cash < amount) return toast('Не хватает денег', 'bad');
     
-    $('rr_1000').disabled = true; $('rr_10000').disabled = true; $('rr_max').disabled = true;
+    $('rr_1000').disabled = true; 
+    $('rr_10000').disabled = true; 
+    $('rr_max').disabled = true;
     
     $('rrModal').hidden = false;
     $('rrRevolver').textContent = '🔫';
@@ -1054,7 +1255,11 @@ button:disabled {
 
     try {
       await new Promise(r => setTimeout(r, 2000));
-      const res = await fetch(`${BACKEND_URL}/russian`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: tgUser.id, bet: amount }) });
+      const res = await fetch(`${BACKEND_URL}/russian`, { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify({ userId: tgUser.id, bet: amount }) 
+      });
       const data = await res.json();
       
       $('rrRevolver').classList.remove('rr-shake');
@@ -1079,9 +1284,13 @@ button:disabled {
           $('rrAmount').style.color = 'var(--red)';
           addLog(`Русская рулетка: -${fmt(amount)} $`, 'bad'); 
         }
-        render(); save();
+        render(); 
+        save();
       }
-    } catch(e) { toast('Ошибка', 'bad'); $('rrRevolver').classList.remove('rr-shake'); }
+    } catch(e) { 
+      toast('Ошибка', 'bad'); 
+      $('rrRevolver').classList.remove('rr-shake'); 
+    }
     
     $('rrCloseBtn').style.display = 'block';
   };
@@ -1091,14 +1300,20 @@ button:disabled {
   $('rr_max').addEventListener('click', () => playRussian(Math.floor(s.cash * 0.5)));
   $('rrCloseBtn').addEventListener('click', () => {
     $('rrModal').hidden = true;
-    $('rr_1000').disabled = false; $('rr_10000').disabled = false; $('rr_max').disabled = false;
+    $('rr_1000').disabled = false; 
+    $('rr_10000').disabled = false; 
+    $('rr_max').disabled = false;
   });
 
   $('auctionBidBtn').addEventListener('click', () => {
     const newBid = Math.floor(s.aucBid * 1.1);
     if (s.cash < newBid) return toast('Не хватает', 'bad');
-    s.cash -= newBid; s.aucBid = newBid; s.aucOwner = tgUser.id; 
-    toast(`Ставка ${fmt(newBid)} $ принята!`, 'gold'); render(); save();
+    s.cash -= newBid; 
+    s.aucBid = newBid; 
+    s.aucOwner = tgUser.id; 
+    toast(`Ставка ${fmt(newBid)} $ принята!`, 'gold'); 
+    render(); 
+    save();
   });
 
   const STAR_PACKS = [
@@ -1106,100 +1321,246 @@ button:disabled {
     { id: 'energy_5', title: '5 Влияния', stars: 50, apply: () => { s.energy = Math.min(5, s.energy + 5); } },
     { id: 'bp_premium', title: 'Премиум Пропуск', stars: 300, apply: () => { s.bpPremium = true; add(50000); } }
   ];
-  $('iapShop').innerHTML = STAR_PACKS.map(p => `<div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--line);"><span style="font-weight:500;">${p.title}</span><button class="btn gold" data-pack="${p.id}" style="width:auto; padding:8px 14px; font-size:14px; min-height:auto;">⭐ ${p.stars}</button></div>`).join('');
-  document.addEventListener('click', e => { const b = e.target.closest('[data-pack]'); if(b) buyStarPack(b.dataset.pack); });
+  
+  $('iapShop').innerHTML = STAR_PACKS.map(p => `
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--line);">
+      <span style="font-weight:500;">${p.title}</span>
+      <button class="btn gold" data-pack="${p.id}" style="width:auto; padding:8px 14px; font-size:14px; min-height:auto;">⭐ ${p.stars}</button>
+    </div>
+  `).join('');
+  
+  document.addEventListener('click', e => { 
+    const b = e.target.closest('[data-pack]'); 
+    if(b) buyStarPack(b.dataset.pack); 
+  });
   
   function buyStarPack(id) { 
-    const pack = STAR_PACKS.find(p => p.id === id); if (!pack) return; 
+    const pack = STAR_PACKS.find(p => p.id === id); 
+    if (!pack) return; 
     if (!BACKEND_URL) { pack.apply(); render(); return; } 
-    fetch(BACKEND_URL + '/invoice', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ packId: id, userId: tgUser.id }) })
-    .then(r => r.json()).then(data => { 
-      if (data.invoiceLink) tg.openInvoice(data.invoiceLink, status => { 
-        if (status === 'paid') { pack.apply(); toast('Куплено!', 'gold'); render(); } 
-      }); 
-    }).catch(()=>toast('Ошибка','bad')); 
+    
+    fetch(BACKEND_URL + '/invoice', { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' }, 
+      body: JSON.stringify({ packId: id, userId: tgUser.id }) 
+    })
+    .then(r => r.json())
+    .then(data => { 
+      if (data.invoiceLink) {
+        tg.openInvoice(data.invoiceLink, status => { 
+          if (status === 'paid') { pack.apply(); toast('Куплено!', 'gold'); render(); } 
+        }); 
+      }
+    })
+    .catch(()=>toast('Ошибка','bad')); 
   }
 
   const mg = { active: false, round: 0, maxRounds: 3, pos: 0, dir: 1, speed: 2, zoneStart: 30, zoneWidth: 20, intervalId: null, hits: 0 };
+  
   $('miniGameBtn').addEventListener('click', () => { 
-    $('miniGameModal').hidden = false; $('mgIntro').hidden = false; $('mgGame').hidden = true; $('mgResult').hidden = true; mg.round = 0; mg.hits = 0; if(mg.intervalId) clearInterval(mg.intervalId); 
+    $('miniGameModal').hidden = false; 
+    $('mgIntro').hidden = false; 
+    $('mgGame').hidden = true; 
+    $('mgResult').hidden = true; 
+    mg.round = 0; 
+    mg.hits = 0; 
+    if(mg.intervalId) clearInterval(mg.intervalId); 
   });
+  
   $('mgStartBtn').addEventListener('click', () => { 
-    $('mgIntro').hidden = true; $('mgGame').hidden = false; mg.round = 0; mg.hits = 0; runRound(); 
+    $('mgIntro').hidden = true; 
+    $('mgGame').hidden = false; 
+    mg.round = 0; 
+    mg.hits = 0; 
+    runRound(); 
   });
   
   function runRound() {
     if (mg.round >= mg.maxRounds) return endMiniGame(true);
-    const speeds = [1.8, 2.4, 3.1]; const widths = [22, 16, 11];
-    mg.zoneWidth = widths[mg.round]; mg.speed = speeds[mg.round]; mg.zoneStart = Math.floor(Math.random()*70)+10; mg.pos = 0; mg.dir = 1; mg.active = true;
-    $('mgRoundLbl').textContent = `Раунд ${mg.round + 1} / 3`; $('mgZone').style.left = mg.zoneStart + '%'; $('mgZone').style.width = mg.zoneWidth + '%';
-    const marker = $('mgMarker'); marker.style.left = '0%';
+    const speeds = [1.8, 2.4, 3.1]; 
+    const widths = [22, 16, 11];
+    
+    mg.zoneWidth = widths[mg.round]; 
+    mg.speed = speeds[mg.round]; 
+    mg.zoneStart = Math.floor(Math.random()*70)+10; 
+    mg.pos = 0; 
+    mg.dir = 1; 
+    mg.active = true;
+    
+    $('mgRoundLbl').textContent = `Раунд ${mg.round + 1} / 3`; 
+    $('mgZone').style.left = mg.zoneStart + '%'; 
+    $('mgZone').style.width = mg.zoneWidth + '%';
+    
+    const marker = $('mgMarker'); 
+    marker.style.left = '0%';
+    
     if (mg.intervalId) clearInterval(mg.intervalId);
-    mg.intervalId = setInterval(() => { if (!mg.active) return; mg.pos += mg.dir * mg.speed; if (mg.pos >= 100) { mg.pos = 100; mg.dir = -1; } if (mg.pos <= 0) { mg.pos = 0; mg.dir = 1; } marker.style.left = mg.pos + '%'; }, 16);
+    mg.intervalId = setInterval(() => { 
+      if (!mg.active) return; 
+      mg.pos += mg.dir * mg.speed; 
+      if (mg.pos >= 100) { mg.pos = 100; mg.dir = -1; } 
+      if (mg.pos <= 0) { mg.pos = 0; mg.dir = 1; } 
+      marker.style.left = mg.pos + '%'; 
+    }, 16);
   }
   
   $('mgTapBtn').addEventListener('click', () => {
-    if (!mg.active) return; mg.active = false; if (mg.intervalId) clearInterval(mg.intervalId);
+    if (!mg.active) return; 
+    mg.active = false; 
+    if (mg.intervalId) clearInterval(mg.intervalId);
+    
     const inZone = mg.pos >= mg.zoneStart && mg.pos <= mg.zoneStart + mg.zoneWidth;
-    if (inZone) { mg.hits++; mg.round++; if (mg.round >= mg.maxRounds) setTimeout(() => endMiniGame(true), 200); else setTimeout(runRound, 300); } 
-    else endMiniGame(false);
+    if (inZone) { 
+      mg.hits++; 
+      mg.round++; 
+      if (mg.round >= mg.maxRounds) setTimeout(() => endMiniGame(true), 200); 
+      else setTimeout(runRound, 300); 
+    } else {
+      endMiniGame(false);
+    }
   });
   
   function endMiniGame(allSuccess) {
-    if (mg.intervalId) clearInterval(mg.intervalId); mg.active = false; $('mgGame').hidden = true; $('mgResult').hidden = false;
+    if (mg.intervalId) clearInterval(mg.intervalId); 
+    mg.active = false; 
+    $('mgGame').hidden = true; 
+    $('mgResult').hidden = false;
+    
     let reward = 0; 
     if (allSuccess) { 
-      reward = Math.floor(Math.min(income() * 600, 50000) * 0.6); $('mgResultTxt').textContent = '🎰 ПРОРЫВ УДАЛСЯ!'; $('mgResultTxt').style.color = 'var(--green)'; 
-    } 
-    else { 
-      reward = Math.floor(Math.min(income() * 600, 50000) * 0.15 * (mg.hits / 3)); $('mgResultTxt').textContent = `Провал`; $('mgResultTxt').style.color = 'var(--red)'; 
+      reward = Math.floor(Math.min(income() * 600, 50000) * 0.6); 
+      $('mgResultTxt').textContent = '🎰 ПРОРЫВ УДАЛСЯ!'; 
+      $('mgResultTxt').style.color = 'var(--green)'; 
+    } else { 
+      reward = Math.floor(Math.min(income() * 600, 50000) * 0.15 * (mg.hits / 3)); 
+      $('mgResultTxt').textContent = `Провал`; 
+      $('mgResultTxt').style.color = 'var(--red)'; 
     }
-    $('mgResultAmt').textContent = reward > 0 ? `+${fmt(reward)} $` : 'Ничего'; if (reward > 0) add(reward); render();
+    
+    $('mgResultAmt').textContent = reward > 0 ? `+${fmt(reward)} $` : 'Ничего'; 
+    if (reward > 0) add(reward); 
+    render();
   }
 
   function renderQuests() { 
-    $('quests').innerHTML = `<div class="quest"><div class="qn">Сделай 100 сделок</div><button disabled>…</button><div class="qp">${Math.min(100, s.taps)} / 100</div><div class="qr">+500 $</div></div><div class="quest"><div class="qn">Крути рулетку</div><button disabled>…</button><div class="qp">0 / 3</div><div class="qr">+1500 $</div></div>`; 
+    $('quests').innerHTML = `
+      <div class="quest">
+        <div class="qn">Сделай 100 сделок</div>
+        <button disabled>…</button>
+        <div class="qp">${Math.min(100, s.taps)} / 100</div>
+        <div class="qr">+500 $</div>
+      </div>
+      <div class="quest">
+        <div class="qn">Крути рулетку</div>
+        <button disabled>…</button>
+        <div class="qp">0 / 3</div>
+        <div class="qr">+1500 $</div>
+      </div>
+    `; 
   }
   
   $('friendsBtn').addEventListener('click', () => {
     const sorted = [...s.friends].sort((a, b) => (b.cash || 0) - (a.cash || 0));
+    
     $('friendsList').innerHTML = sorted.map(f => {
       const def = Math.max(1, Math.round(f.income / 3)); 
       const ch = Math.max(0.15, Math.min(0.95, 0.55 + 0.08 * (s.crew - def))); 
       const pct = Math.round(ch * 100);
       const cd = Math.max(0, 30000 - (now() - s.friendsAtkCd));
-      return `<div class="t"><span class="n">${f.emoji} ${f.name}</span><span class="c">${pct}%</span><span class="m">в сейфе ${fmt(f.cash)} $</span><button data-fid="${f.id}" ${cd > 0 ? 'disabled' : ''}>${cd > 0 ? `⏳ ${Math.ceil(cd / 1000)}с` : '⚔️ Атака'}</button></div>`;
+      
+      return `
+        <div class="t">
+          <span class="n">${f.emoji} ${f.name}</span>
+          <span class="c">${pct}%</span>
+          <span class="m">в сейфе ${fmt(f.cash)} $</span>
+          <button data-fid="${f.id}" ${cd > 0 ? 'disabled' : ''}>
+            ${cd > 0 ? `⏳ ${Math.ceil(cd / 1000)}с` : '⚔️ Атака'}
+          </button>
+        </div>
+      `;
     }).join('');
     $('friendsModal').hidden = false;
   });
 
   document.addEventListener('click', e => {
-    const b = e.target.closest('[data-fid]'); if (!b) return;
-    const f = s.friends.find(x => x.id === b.dataset.fid); if (!f || now() - s.friendsAtkCd < 30000) return;
+    const b = e.target.closest('[data-fid]'); 
+    if (!b) return;
+    
+    const f = s.friends.find(x => x.id === b.dataset.fid); 
+    if (!f || now() - s.friendsAtkCd < 30000) return;
+    
     s.friendsAtkCd = now(); 
-    const def = Math.max(1, Math.round(f.income / 3)); const ch = Math.max(0.15, Math.min(0.95, 0.55 + 0.08 * (s.crew - def)));
-    if (Math.random() < ch) { const steal = Math.floor(f.cash * 0.25); add(steal); f.cash -= steal; toast(`Выбил ${fmt(steal)} $`); addLog(`Выбил у ${f.name}: +${fmt(steal)} $`, 'gold'); } 
-    else { const loss = Math.floor(s.cash * 0.04); s.cash -= loss; toast(`Провал! -${fmt(loss)} $`, 'bad'); addLog(`Провал у ${f.name}`, 'bad'); }
-    $('friendsBtn').click(); render();
+    const def = Math.max(1, Math.round(f.income / 3)); 
+    const ch = Math.max(0.15, Math.min(0.95, 0.55 + 0.08 * (s.crew - def)));
+    
+    if (Math.random() < ch) { 
+      const steal = Math.floor(f.cash * 0.25); 
+      add(steal); 
+      f.cash -= steal; 
+      toast(`Выбил ${fmt(steal)} $`); 
+      addLog(`Выбил у ${f.name}: +${fmt(steal)} $`, 'gold'); 
+    } else { 
+      const loss = Math.floor(s.cash * 0.04); 
+      s.cash -= loss; 
+      toast(`Провал! -${fmt(loss)} $`, 'bad'); 
+      addLog(`Провал у ${f.name}`, 'bad'); 
+    }
+    
+    $('friendsBtn').click(); 
+    render();
   });
 
-  $('guardBtn').addEventListener('click', () => { if(s.guards >= 30) return; const c = COST.guard(s.guards); if (s.cash < c) return toast('Не хватает', 'bad'); s.cash -= c; s.guards++; render(); });
-  $('b_armor').addEventListener('click', () => { const c = COST.armor(s.armor); if (s.cash < c) return toast('Не хватает', 'bad'); s.cash -= c; s.armor++; render(); });
-  $('dailyBtn').addEventListener('click', () => { if (s.lastDaily && now() - s.lastDaily < 86400000) return; add(5000); s.lastDaily = now(); toast(`Бонус: +5000 $`); render(); });
-  $('adBtn').addEventListener('click', () => { add(5000); toast('Реклама: +5000 $'); render(); });
+  $('guardBtn').addEventListener('click', () => { 
+    if(s.guards >= 30) return; 
+    const c = COST.guard(s.guards); 
+    if (s.cash < c) return toast('Не хватает', 'bad'); 
+    s.cash -= c; 
+    s.guards++; 
+    render(); 
+  });
+  
+  $('b_armor').addEventListener('click', () => { 
+    const c = COST.armor(s.armor); 
+    if (s.cash < c) return toast('Не хватает', 'bad'); 
+    s.cash -= c; 
+    s.armor++; 
+    render(); 
+  });
+  
+  $('dailyBtn').addEventListener('click', () => { 
+    if (s.lastDaily && now() - s.lastDaily < 86400000) return; 
+    add(5000); 
+    s.lastDaily = now(); 
+    toast(`Бонус: +5000 $`); 
+    render(); 
+  });
+  
+  $('adBtn').addEventListener('click', () => { 
+    add(5000); 
+    toast('Реклама: +5000 $'); 
+    render(); 
+  });
   
   $('settingsBtn').addEventListener('click', () => $('settingsModal').hidden = false);
   document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => $(b.dataset.close).hidden = true));
-  $('resetBtn').addEventListener('click', () => { if(confirm('Сбросить?')) { localStorage.removeItem(SAVE_KEY); location.reload(); } });
+  $('resetBtn').addEventListener('click', () => { 
+    if(confirm('Сбросить?')) { 
+      localStorage.removeItem(SAVE_KEY); 
+      location.reload(); 
+    } 
+  });
 
   $('inviteBtn').addEventListener('click', () => {
     const uid = tgUser ? tgUser.id : '';
     const link = BOT_LINK + '?startapp=ref_' + uid;
     const url = 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent('Зайди в Черный Рынок!');
-    if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, '_blank');
+    if (tg && tg.openTelegramLink) tg.openTelegramLink(url); 
+    else window.open(url, '_blank');
   });
 
-  // ШЕРИНГ КАРТИНКИ
+  // ==========================================
+  // ГЕНЕРАЦИЯ КАРТИНКИ ДЛЯ ШЕРИНГА
+  // ==========================================
   $('shareBtn').addEventListener('click', async () => {
     $('shareModal').hidden = false;
     $('sharePreview').style.display = 'none';
@@ -1209,48 +1570,86 @@ button:disabled {
     try {
       const W = 1080, H = 1080;
       const canvas = document.createElement('canvas');
-      canvas.width = W; canvas.height = H;
+      canvas.width = W; 
+      canvas.height = H;
+      
       const ctx = canvas.getContext('2d');
       const grad = ctx.createLinearGradient(0, 0, W, H);
-      grad.addColorStop(0, '#0a0d11'); grad.addColorStop(1, '#1a0a10');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+      grad.addColorStop(0, '#0a0d11'); 
+      grad.addColorStop(1, '#1a0a10');
+      ctx.fillStyle = grad; 
+      ctx.fillRect(0, 0, W, H);
       
-      ctx.strokeStyle = 'rgba(255,255,255,.03)'; ctx.lineWidth = 2;
-      for (let i = 0; i < W; i += 40) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, H); ctx.stroke(); ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(W, i); ctx.stroke(); }
+      ctx.strokeStyle = 'rgba(255,255,255,.03)'; 
+      ctx.lineWidth = 2;
+      for (let i = 0; i < W; i += 40) { 
+        ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, H); ctx.stroke(); 
+        ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(W, i); ctx.stroke(); 
+      }
       
       const rg = ctx.createRadialGradient(W/2, 100, 50, W/2, 100, 600);
-      rg.addColorStop(0, 'rgba(255,45,85,.25)'); rg.addColorStop(1, 'rgba(255,45,85,0)');
-      ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+      rg.addColorStop(0, 'rgba(255,45,85,.25)'); 
+      rg.addColorStop(1, 'rgba(255,45,85,0)');
+      ctx.fillStyle = rg; 
+      ctx.fillRect(0, 0, W, H);
       
-      ctx.fillStyle = '#ff2d55'; ctx.font = '700 52px Oswald, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillStyle = '#ff2d55'; 
+      ctx.font = '700 52px Oswald, sans-serif'; 
+      ctx.textAlign = 'center';
       ctx.fillText('ЧЕРНЫЙ РЫНОК', W/2, 120);
       
       const cx = W/2, cy = 320, r = 130;
-      ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.closePath(); ctx.clip();
+      ctx.save(); 
+      ctx.beginPath(); 
+      ctx.arc(cx, cy, r, 0, Math.PI*2); 
+      ctx.closePath(); 
+      ctx.clip();
+      
       let avatarDrawn = false;
       if (tgUser && tgUser.photo_url) {
         try {
-          const img = await new Promise((res, rej) => { const i = new Image(); i.crossOrigin = 'anonymous'; i.onload = () => res(i); i.onerror = rej; i.src = tgUser.photo_url; });
-          ctx.drawImage(img, cx-r, cy-r, r*2, r*2); avatarDrawn = true;
+          const img = await new Promise((res, rej) => { 
+            const i = new Image(); 
+            i.crossOrigin = 'anonymous'; 
+            i.onload = () => res(i); 
+            i.onerror = rej; 
+            i.src = tgUser.photo_url; 
+          });
+          ctx.drawImage(img, cx-r, cy-r, r*2, r*2); 
+          avatarDrawn = true;
         } catch (e) {}
       }
+      
       if (!avatarDrawn) {
-        ctx.fillStyle = '#31ff8c'; ctx.fillRect(cx-r, cy-r, r*2, r*2);
-        ctx.fillStyle = '#07080a'; ctx.font = '700 140px Oswald, sans-serif'; ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#31ff8c'; 
+        ctx.fillRect(cx-r, cy-r, r*2, r*2);
+        ctx.fillStyle = '#07080a'; 
+        ctx.font = '700 140px Oswald, sans-serif'; 
+        ctx.textBaseline = 'middle';
         ctx.fillText(userName[0].toUpperCase(), cx, cy);
       }
-      ctx.restore();
-      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.strokeStyle = '#31ff8c'; ctx.lineWidth = 6; ctx.stroke();
       
-      ctx.fillStyle = '#fff'; ctx.font = '700 44px Oswald, sans-serif'; ctx.textBaseline = 'alphabetic';
+      ctx.restore();
+      ctx.beginPath(); 
+      ctx.arc(cx, cy, r, 0, Math.PI*2); 
+      ctx.strokeStyle = '#31ff8c'; 
+      ctx.lineWidth = 6; 
+      ctx.stroke();
+      
+      ctx.fillStyle = '#fff'; 
+      ctx.font = '700 44px Oswald, sans-serif'; 
+      ctx.textBaseline = 'alphabetic';
       ctx.fillText(userName, W/2, 520);
       
-      ctx.fillStyle = '#31ff8c'; ctx.shadowColor = 'rgba(49,255,140,.6)'; ctx.shadowBlur = 40;
+      ctx.fillStyle = '#31ff8c'; 
+      ctx.shadowColor = 'rgba(49,255,140,.6)'; 
+      ctx.shadowBlur = 40;
       ctx.font = '700 140px Oswald, sans-serif';
       ctx.fillText(fmt(s.cash) + ' $', W/2, 740);
       ctx.shadowBlur = 0;
       
-      ctx.fillStyle = '#ff2d55'; ctx.font = '700 30px Oswald, sans-serif';
+      ctx.fillStyle = '#ff2d55'; 
+      ctx.font = '700 30px Oswald, sans-serif';
       ctx.fillText('Играй со мной → ' + BOT_LINK.replace('https://', ''), W/2, 1000);
       
       canvas.toBlob((blob) => {
@@ -1263,21 +1662,47 @@ button:disabled {
           const uid = tgUser ? tgUser.id : '';
           const link = BOT_LINK + '?startapp=ref_' + uid;
           const shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent('Зайди в Черный Рынок!');
-          if (tg && tg.openTelegramLink) tg.openTelegramLink(shareUrl); else window.open(shareUrl, '_blank');
+          if (tg && tg.openTelegramLink) tg.openTelegramLink(shareUrl); 
+          else window.open(shareUrl, '_blank');
         };
       }, 'image/png');
-    } catch(e) { toast('Ошибка генерации картинки', 'bad'); }
+    } catch(e) { 
+      toast('Ошибка генерации картинки', 'bad'); 
+    }
   });
 
-  function addLog(text, cls) { s.log.unshift({t:text,c:cls}); s.log = s.log.slice(0,6); renderLog(); }
-  function renderLog() { $('log').innerHTML = s.log.map(l=>`<li style="color:${l.c==='gold'?'var(--gold)':l.c==='bad'?'var(--red)':'var(--green)'}">${l.t}</li>`).join(''); }
-  function toast(text, kind) { const el = $('toast'); el.textContent = text; el.className = 'toast show ' + (kind||''); setTimeout(() => el.classList.remove('show'), 2500); }
+  function addLog(text, cls) { 
+    s.log.unshift({t:text,c:cls}); 
+    s.log = s.log.slice(0,6); 
+    renderLog(); 
+  }
+  
+  function renderLog() { 
+    $('log').innerHTML = s.log.map(l=>`
+      <li style="color:${l.c==='gold'?'var(--gold)':l.c==='bad'?'var(--red)':'var(--green)'}">
+        ${l.t}
+      </li>
+    `).join(''); 
+  }
+  
+  function toast(text, kind) { 
+    const el = $('toast'); 
+    el.textContent = text; 
+    el.className = 'toast show ' + (kind||''); 
+    setTimeout(() => el.classList.remove('show'), 2500); 
+  }
   
   function startLoops() { 
-    setInterval(() => { add(income() * 0.25); render(); }, 250); 
+    setInterval(() => { 
+      add(income() * 0.25); 
+      render(); 
+    }, 250); 
     setInterval(save, 5000); 
   }
-  document.addEventListener('visibilitychange', () => { if (document.hidden) save(); });
+  
+  document.addEventListener('visibilitychange', () => { 
+    if (document.hidden) save(); 
+  });
   
   initGame();
 })();
