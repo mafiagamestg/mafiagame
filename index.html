@@ -273,7 +273,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 
   function makeBot(tpl, power = 1) { return { id: 'bot_' + Math.random().toString(36).slice(2, 8), name: tpl.name, emoji: tpl.emoji, isBot: true, income: tpl.income * power, cash: tpl.income * 50 * power, lastTick: now(), lastAttack: 0 }; }
   function defState() {
-    return { cash: 50, earned: 0, point: 1, conn: 0, crew: 0, guards: 0, armor: 0, safeMultiplier: 0, prestige: 0, raid: null, nextRaid: now() + 60000, refClaimed: false, friend: null, log: [], ts: now(), taps: 0, wins: 0, raidsHeld: 0, lastDaily: 0, combo: 0, lastTap: 0, achievements: {}, settings: { sound: true, haptics: true }, friends: BOT_TEMPLATES.map((tpl, i) => makeBot(tpl, 1 + i * 0.5)), friendsAtkCd: 0, daily: null, miniGameLast: 0, totalAttacks: 0, totalFriendsBeaten: 0, starsPurchases: {}, adsWatched: 0, lastAdAt: 0, doubleUntil: 0 };
+    return { cash: 50, earned: 0, point: 1, conn: 0, crew: 0, guards: 0, armor: 0, safeMultiplier: 0, prestige: 0, raid: null, nextRaid: now() + 60000, refClaimed: false, friend: null, log: [], ts: now(), taps: 0, wins: 0, raidsHeld: 0, lastDaily: 0, combo: 0, lastTap: 0, achievements: {}, settings: { sound: true, haptics: true }, friends: BOT_TEMPLATES.map((tpl, i) => makeBot(tpl, 1 + i * 0.5)), friendsAtkCd: 0, daily: null, miniGameLast: 0, totalAttacks: 0, totalFriendsBeaten: 0, starsPurchases: {}, adsWatched: 0, lastAdAt: 0, doubleUntil: 0, ips: 0 };
   }
 
   let s = defState();
@@ -281,15 +281,23 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   let globalPlayers = []; // Массив для реальных игроков
 
   // ==========================================
-  // СЕТЕВЫЕ ЗАПРОСЫ
+  // СЕТЕВЫЕ ЗАПРОСЫ (С ЗАЩИТОЙ ОТ ЗАВИСАНИЯ)
   // ==========================================
   async function loadFromServer() {
     if (!BACKEND_URL || !tgUser) return false;
+    
+    // Создаем контроллер для отмены запроса через 2.5 секунды
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500); 
+
     try {
-      const res = await fetch(`${BACKEND_URL}/load/${tgUser.id}`);
+      const res = await fetch(`${BACKEND_URL}/load/${tgUser.id}`, { signal: controller.signal });
+      clearTimeout(timeoutId);
       const data = await res.json();
       if (data.state) { s = Object.assign(defState(), data.state); return true; }
-    } catch (e) { console.warn('Сервер не ответил', e); }
+    } catch (e) { 
+      console.warn('Сервер не ответил вовремя, грузим локально', e); 
+    }
     return false;
   }
 
@@ -314,7 +322,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
       // Если сервер почистил баланс античитом — применяем
       if (data.cash !== undefined && Math.abs(data.cash - s.cash) > 1000) {
         s.cash = data.cash;
-        toast('Античит: баланс был скорректирован', 'warn');
+        toast('Античит: баланс был скорректирован', 'bad');
       }
     }).catch(e => console.warn('Ошибка сохранения', e)).finally(() => { isSavingToServer = false; });
   }
@@ -370,16 +378,13 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   const friendSortFn = (a, b) => (b.cash || 0) - (a.cash || 0);
   function getMyRank() { const all = [{ me: true, cash: s.cash }, ...s.friends, ...globalPlayers.filter(p => p.user_id !== tgUser.id)]; all.sort(friendSortFn); return all.findIndex(x => x.me) + 1; }
 
-  // ГЛОБАЛЬНЫЙ ЛИДЕРБОРД (Боты + Реальные)
   function renderLeaderboard() {
     let all = [{ id: tgUser ? tgUser.id : 'me', me: true, name: userName, emoji: '👤', cash: s.cash }];
     
-    // Если реальных игроков мало (меньше 3), показываем ботов
     if (globalPlayers.length < 3) {
       all = [...all, ...s.friends.map(f => ({ ...f, me: false }))];
     }
     
-    // Добавляем реальных игроков
     globalPlayers.forEach(p => {
       if (p.user_id !== (tgUser ? tgUser.id : 'me')) {
         all.push({ id: p.user_id, me: false, name: 'Игрок ' + String(p.user_id).slice(-4), emoji: '👤', cash: p.cash });
@@ -451,7 +456,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   $('sndChk').addEventListener('change', e => { s.settings.sound = e.target.checked; }); $('hapChk').addEventListener('change', e => { s.settings.haptics = e.target.checked; });
   $('resetBtn').addEventListener('click', () => { const doReset = () => { localStorage.removeItem(SAVE_KEY); location.reload(); }; if (tg && tg.showConfirm) tg.showConfirm('Сбросить прогресс?', ok => { if (ok) doReset(); }); else if (confirm('Сбросить?')) doReset(); });
   document.addEventListener('click', e => { const id = e.target.dataset && e.target.dataset.close; let target = null; if (id) target = $(id); else if (e.target.classList && e.target.classList.contains('modal')) target = e.target; if (target) { target.hidden = true; if (target.id === 'miniGameModal') stopMiniGame(); } });
-  $('friendsBtn').addEventListener('click', () => { renderFriendsList(); $('friendsModal').hidden = false; });
 
   if (/^ref_/.test(startParam) && !s.refClaimed) { const fid = startParam.slice(4); s.refClaimed = true; if (fid && (!tgUser || String(tgUser.id) !== fid)) s.friend = fid.slice(-4); add(500); s.guards++; addLog('Привет от братвы: +500 $', 'ok'); }
 
@@ -475,9 +479,9 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   $('dailyBtn').addEventListener('click', () => { if (s.lastDaily && now() - s.lastDaily < DAILY_MS) return; const reward = Math.floor(Math.max(500, income() * 300)); add(reward); s.lastDaily = now(); haptic('ok'); beep(660, 0.15); toast(`Бонус: +${fmt(reward)} $`); addLog(`Бонус: +${fmt(reward)} $`, 'ok'); render(); });
 
   function startLoops() {
-    let last = now(); let lastFriendsModalRender = 0;
-    setInterval(() => { const t = now(); const dt = Math.min((t - last) / 1000, OFFLINE_CAP); last = t; add(income() * dt); tickFriends(dt); tickRaid(t); render(); if (!$('friendsModal').hidden && t - lastFriendsModalRender > 500) { renderFriendsList(); lastFriendsModalRender = t; } if (s.daily.resetAt <= t) { s.daily = makeDaily(); renderQuests(); } }, 250);
-    setInterval(() => { renderQuests(); fetchLeaderboard(); }, 5000); // Лидерборд обновляем каждые 5 сек
+    let last = now();
+    setInterval(() => { const t = now(); const dt = Math.min((t - last) / 1000, OFFLINE_CAP); last = t; add(income() * dt); tickFriends(dt); tickRaid(t); render(); if (s.daily.resetAt <= t) { s.daily = makeDaily(); renderQuests(); } }, 250);
+    setInterval(() => { renderQuests(); fetchLeaderboard(); }, 5000); 
     setInterval(checkAchievements, 2000);
     setInterval(save, 5000); 
   }
