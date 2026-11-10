@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Черный рынок</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<!-- Скрипт для рекламы ADSGRAM -->
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,6 +22,20 @@ body{
   margin:0;min-height:100dvh;color:var(--text);font:15px/1.4 var(--body);
   user-select:none;-webkit-user-select:none;overscroll-behavior:none;touch-action:manipulation;
 }
+/* Экран загрузки */
+#loader {
+  position: fixed; inset: 0; z-index: 999; background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: opacity 0.3s; font: 700 24px var(--display); color: var(--green);
+}
+#loader.hidden { opacity: 0; pointer-events: none; }
+.spinner {
+  width: 40px; height: 40px; border: 4px solid var(--panel2);
+  border-top-color: var(--green); border-radius: 50%;
+  animation: spin 1s linear infinite; margin-bottom: 16px;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
 body::before{
   content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:
@@ -37,7 +50,6 @@ body::before{
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 
-/* header */
 .me{display:flex;align-items:center;gap:10px}
 .avatar{
   width:42px;height:42px;border-radius:50%;flex:none;overflow:hidden;display:grid;place-items:center;
@@ -50,7 +62,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .gear{font-size:20px;padding:8px;color:var(--dim);min-width:44px;min-height:44px}
 .gear:active{color:var(--green)}
 
-/* vault */
 .vault{padding:4px 2px 0}
 .vault .lbl{color:var(--dim);font-size:12px;letter-spacing:.3px;text-transform:uppercase}
 .balance{
@@ -62,7 +73,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .income.pres{color:var(--gold);opacity:1}
 .income .boost{color:var(--gold);font-weight:600}
 
-/* alert */
 .alert{
   position:sticky;top:8px;z-index:5;padding:10px 12px;border:1px solid var(--red);border-radius:8px;
   background:rgba(40,6,14,.96);box-shadow:0 0 18px rgba(255,45,85,.5);animation:pulse 1s infinite;
@@ -75,7 +85,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .alert .row button.buy{border-color:var(--green);color:var(--green);background:rgba(49,255,140,.08)}
 @keyframes pulse{50%{box-shadow:0 0 4px rgba(255,45,85,.25)}}
 
-/* deal */
 .deal{
   position:relative;height:130px;border-radius:14px;border:2px solid var(--red);
   background:linear-gradient(180deg,#2a0912,#12060a);
@@ -97,7 +106,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .fl.crit{color:var(--gold);font-size:26px;text-shadow:0 0 12px var(--gold)}
 @keyframes fly{to{transform:translateY(-70px);opacity:0}}
 
-/* cards */
 .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px}
 .card.atk{border-left:3px solid var(--red)}
 .card.def{border-left:3px solid var(--green)}
@@ -106,7 +114,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .card h2{margin:0 0 8px;font:700 17px var(--display);letter-spacing:.4px;display:flex;align-items:center;gap:6px}
 .card p{margin:0 0 10px;color:var(--dim);font-size:13px}
 
-/* leaderboard */
 .lb{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
 .lb-row{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:center;padding:8px 10px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);font-size:13px}
 .lb-row.me{border-color:var(--green);background:rgba(15,74,44,.25);box-shadow:0 0 10px rgba(49,255,140,.2)}
@@ -120,7 +127,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .lb-row .nm .you{color:var(--green);font-size:11px;font-weight:500}
 .lb-row .cash{color:var(--green);font-weight:600;text-align:right;font-size:13px}
 
-/* targets / friends */
 .t{
   display:grid;grid-template-columns:1fr auto;gap:2px 8px;text-align:left;width:100%;
   padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);
@@ -133,7 +139,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .t button{grid-row:2;grid-column:2;padding:8px 12px;border:1px solid var(--red);border-radius:6px;color:var(--red);font-size:12px;font-weight:600;min-height:36px;align-self:end}
 .t button:disabled{opacity:.5;border-color:var(--line);color:var(--dim)}
 
-/* buttons */
 .btn{
   width:100%;padding:12px;border-radius:8px;font:700 16px var(--display);letter-spacing:.4px;
   border:1px solid var(--red);color:#fff;background:linear-gradient(180deg,#5a1021,#2a0912);
@@ -149,7 +154,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .btn-row{display:flex;gap:8px}
 .btn-row .btn{flex:1}
 
-/* stats / upgrades */
 .stat{display:flex;justify-content:space-between;margin-bottom:10px}
 .stat b{color:var(--green);font:700 20px var(--display)}
 
@@ -164,13 +168,11 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 }
 .up button:disabled{border-color:var(--line);color:var(--dim);cursor:not-allowed}
 
-/* log */
 .log{margin:0;padding:0;list-style:none;font-size:13px;color:var(--dim)}
 .log li{padding:5px 0;border-top:1px solid var(--line)}
 .log li:first-child{border-top:0}
 .log .ok{color:var(--green)} .log .bad{color:var(--red)} .log .gold{color:var(--gold)}
 
-/* toast */
 .toast{
   position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,30px);
   max-width:90%;padding:10px 16px;border-radius:8px;background:#0b0e11;border:1px solid var(--green);
@@ -180,7 +182,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .toast.bad{border-color:var(--red);color:var(--red)}
 .toast.gold{border-color:var(--gold);color:var(--gold)}
 
-/* modal */
 .modal{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
 .modal[hidden]{display:none}
 .modal-content{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -189,7 +190,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .modal-content input[type=checkbox]{width:20px;height:20px;accent-color:var(--green)}
 .modal-close{position:sticky;top:0;float:right;font-size:20px;color:var(--dim);padding:4px 10px;margin:-4px -6px 0 0}
 
-/* quests */
 .quest{display:grid;grid-template-columns:1fr auto;gap:4px 8px;padding:9px 0;border-top:1px solid var(--line)}
 .quest:first-child{border-top:0}
 .quest .qn{font-weight:600;font-size:13px}
@@ -202,7 +202,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .quest-progress{width:100%;height:3px;background:var(--panel2);border-radius:2px;overflow:hidden;margin-top:4px;grid-column:1/3}
 .quest-progress i{display:block;height:100%;background:var(--green);border-radius:2px}
 
-/* achievements */
 .ach{display:grid;grid-template-columns:22px 1fr;gap:2px 8px;padding:7px 0;border-top:1px solid var(--line);font-size:13px}
 .ach:first-child{border-top:0}
 .ach .ic{grid-row:1/3;color:var(--dim);font-weight:700}
@@ -212,7 +211,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .ach .ds{color:var(--dim);font-size:11px}
 .ach .rw{color:var(--gold);font-size:11px}
 
-/* minigame */
 .mg-track{position:relative;width:100%;height:50px;background:var(--panel2);border-radius:8px;border:1px solid var(--line);overflow:hidden;margin:16px 0}
 .mg-zone{position:absolute;top:0;bottom:0;background:linear-gradient(180deg,rgba(49,255,140,.35),rgba(49,255,140,.15));border-left:2px solid var(--green);border-right:2px solid var(--green)}
 .mg-marker{position:absolute;top:0;bottom:0;width:3px;background:var(--gold);box-shadow:0 0 12px var(--gold);left:0}
@@ -222,7 +220,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .mg-result.bad{color:var(--red)}
 .mg-hint{text-align:center;color:var(--dim);font-size:12px;margin-bottom:8px}
 
-/* iap shop */
 .shop-pack{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--line);gap:8px}
 .shop-pack:first-child{border-top:0}
 .shop-pack .info{flex:1;min-width:0}
@@ -230,7 +227,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .shop-pack .info .d{color:var(--dim);font-size:11px}
 .shop-pack > button{padding:9px 14px;border-radius:8px;background:linear-gradient(180deg,#3a2400,#1a1000);border:1px solid var(--gold);color:var(--gold);font-weight:700;font-size:13px;min-height:44px;min-width:74px;flex:none}
 
-/* share preview */
 .share-preview{width:100%;max-width:400px;border-radius:12px;border:1px solid var(--line);margin:12px 0;display:block}
 
 @media (prefers-reduced-motion:reduce){
@@ -242,7 +238,14 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 </style>
 </head>
 <body>
-<div id="app">
+
+<!-- ЭКРАН ЗАГРУЗКИ -->
+<div id="loader">
+  <div class="spinner"></div>
+  <div>ЗАГРУЗКА СЕЙФА...</div>
+</div>
+
+<div id="app" style="opacity: 0; transition: opacity 0.3s;">
 
   <div class="me">
     <div class="avatar" id="avatar"></div>
@@ -333,7 +336,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 
 <div class="toast" id="toast"></div>
 
-<!-- Settings -->
 <div class="modal" id="settingsModal" hidden>
   <div class="modal-content">
     <button class="modal-close" data-close="settingsModal">✕</button>
@@ -342,11 +344,10 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     <label><input type="checkbox" id="hapChk"> 📳 Вибрация</label>
     <button class="btn" data-close="settingsModal" style="margin-top:16px">Закрыть</button>
     <button class="btn o" id="resetBtn" style="margin-top:8px;border-color:var(--red);color:var(--red)">Сбросить прогресс</button>
-    <div style="margin-top:14px;font-size:11px;color:var(--dim);text-align:center">Черный рынок · v3</div>
+    <div style="margin-top:14px;font-size:11px;color:var(--dim);text-align:center">Черный рынок · v4</div>
   </div>
 </div>
 
-<!-- Friends/PvP -->
 <div class="modal" id="friendsModal" hidden>
   <div class="modal-content">
     <button class="modal-close" data-close="friendsModal">✕</button>
@@ -356,7 +357,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   </div>
 </div>
 
-<!-- Mini-game -->
 <div class="modal" id="miniGameModal" hidden>
   <div class="modal-content">
     <button class="modal-close" data-close="miniGameModal">✕</button>
@@ -381,7 +381,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   </div>
 </div>
 
-<!-- Share -->
 <div class="modal" id="shareModal" hidden>
   <div class="modal-content">
     <button class="modal-close" data-close="shareModal">✕</button>
@@ -403,11 +402,11 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   // ============================================================
   const BOT_LINK = 'https://t.me/black_market_game_bot'; 
   const BACKEND_URL = 'https://black-market-server-l431.onrender.com'; 
-  const AD_BLOCK_ID = '58935'; // Твой ID из ADSGRAM
+  const AD_BLOCK_ID = '58935'; 
 
   const SHARE_TEXT = 'Меня прессуют конкуренты! Зайди и помоги отбиться:';
   const RAID_WARN_MS = 12000;
-  const SAVE_KEY = 'blackmarket_v3';
+  const SAVE_KEY = 'blackmarket_v4'; // Обновили версию ключа
   const OFFLINE_CAP = 7200;
   const MAX_GUARDS = 30;
   const PRESTIGE_BASE = 1e6;
@@ -419,9 +418,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   const MINIGAME_CD = 4 * 60 * 60 * 1000;
   const AD_CD = 60000;
 
-  // ============================================================
-  // TELEGRAM
-  // ============================================================
   const tg = window.Telegram && window.Telegram.WebApp;
   if (tg) {
     try {
@@ -436,9 +432,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   const startParam = (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) ||
     new URLSearchParams(location.search).get('startapp') || '';
 
-  // ============================================================
-  // HELPERS
-  // ============================================================
   const $ = id => document.getElementById(id);
   const rnd = (a, b) => a + Math.random() * (b - a);
   const ri = (a, b) => Math.floor(rnd(a, b + 1));
@@ -465,11 +458,8 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   };
 
   const RANKS = [
-    [0,   'Мелкая сошка'],
-    [2e3, 'Барыга'],
-    [5e4, 'Смотрящий'],
-    [1e6, 'Авторитет'],
-    [5e7, 'Крёстный отец']
+    [0,   'Мелкая сошка'], [2e3, 'Барыга'], [5e4, 'Смотрящий'],
+    [1e6, 'Авторитет'], [5e7, 'Крёстный отец']
   ];
 
   const BOT_TEMPLATES = [
@@ -480,9 +470,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     { name: 'Босс Неон',  emoji: '🌃', income: 18 }
   ];
 
-  // ============================================================
-  // SOUND & HAPTICS
-  // ============================================================
   let audioCtx = null;
   function beep(freq, dur, type = 'sine', vol = 0.08) {
     if (!s.settings.sound) return;
@@ -509,19 +496,12 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     } catch (e) {}
   };
 
-  // ============================================================
-  // STATE
-  // ============================================================
   function makeBot(tpl, power = 1) {
     return {
       id: 'bot_' + Math.random().toString(36).slice(2, 8),
-      name: tpl.name,
-      emoji: tpl.emoji,
-      isBot: true,
-      income: tpl.income * power,
-      cash: tpl.income * 50 * power,
-      lastTick: now(),
-      lastAttack: 0
+      name: tpl.name, emoji: tpl.emoji, isBot: true,
+      income: tpl.income * power, cash: tpl.income * 50 * power,
+      lastTick: now(), lastAttack: 0
     };
   }
 
@@ -533,40 +513,105 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
       refClaimed: false, friend: null, log: [],
       ts: now(), taps: 0, wins: 0, raidsHeld: 0,
       lastDaily: 0, combo: 0, lastTap: 0,
-      achievements: {},
-      settings: { sound: true, haptics: true },
+      achievements: {}, settings: { sound: true, haptics: true },
       friends: BOT_TEMPLATES.map((tpl, i) => makeBot(tpl, 1 + i * 0.3)),
-      friendsAtkCd: 0,
-      daily: null,
-      miniGameLast: 0,
-      totalAttacks: 0, totalFriendsBeaten: 0,
-      starsPurchases: {},
-      adsWatched: 0,
-      lastAdAt: 0,
-      doubleUntil: 0
+      friendsAtkCd: 0, daily: null, miniGameLast: 0,
+      totalAttacks: 0, totalFriendsBeaten: 0, starsPurchases: {},
+      adsWatched: 0, lastAdAt: 0, doubleUntil: 0
     };
   }
 
   let s = defState();
-  try {
-    const raw = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}');
-    if (Object.keys(raw).length) {
-      s = Object.assign(defState(), raw);
-      s.settings = Object.assign(defState().settings, raw.settings || {});
-      s.achievements = raw.achievements || {};
-    }
-  } catch (e) { console.warn('save load failed', e); }
-
-  s.cash = Math.max(0, Number(s.cash) || 0);
-  if (!Array.isArray(s.friends) || !s.friends.length) {
-    s.friends = BOT_TEMPLATES.map((tpl, i) => makeBot(tpl, 1 + i * 0.3));
-  }
-  if (s.nextRaid < now()) s.nextRaid = now() + 20000;
-  s.combo = 0;
-  if (!s.daily || s.daily.resetAt <= now()) s.daily = makeDaily();
+  let isSavingToServer = false;
 
   // ============================================================
-  // ECONOMY
+  // СЕТЕВЫЕ ЗАПРОСЫ
+  // ============================================================
+  async function loadFromServer() {
+    if (!BACKEND_URL || !tgUser) return false;
+    try {
+      const res = await fetch(`${BACKEND_URL}/load/${tgUser.id}`);
+      const data = await res.json();
+      if (data.state) {
+        s = Object.assign(defState(), data.state);
+        return true;
+      }
+    } catch (e) {
+      console.warn('Сервер не ответил, грузим локально', e);
+    }
+    return false;
+  }
+
+  function syncSave() {
+    if (!BACKEND_URL || !tgUser || isSavingToServer) return;
+    isSavingToServer = true;
+    fetch(BACKEND_URL + '/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: tgUser.id, state: s })
+    }).catch(e => console.warn('Ошибка сохранения', e))
+      .finally(() => { isSavingToServer = false; });
+  }
+
+  function save() {
+    try { s.ts = now(); localStorage.setItem(SAVE_KEY, JSON.stringify(s)); } catch (e) {}
+    syncSave();
+  }
+
+  // ============================================================
+  // ИНИЦИАЛИЗАЦИЯ ИГРЫ (BOOT)
+  // ============================================================
+  async function initGame() {
+    // 1. Пытаемся загрузить с сервера
+    const loadedFromServer = await loadFromServer();
+
+    // 2. Если сервер пуст, грузим локально
+    if (!loadedFromServer) {
+      try {
+        const raw = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}');
+        if (Object.keys(raw).length) s = Object.assign(defState(), raw);
+      } catch (e) {}
+    }
+
+    // 3. Восстанавливаем настройки и валидируем
+    s.settings = Object.assign(defState().settings, s.settings || {});
+    s.cash = Math.max(0, Number(s.cash) || 0);
+    if (!Array.isArray(s.friends) || !s.friends.length) {
+      s.friends = BOT_TEMPLATES.map((tpl, i) => makeBot(tpl, 1 + i * 0.3));
+    }
+    if (s.nextRaid < now()) s.nextRaid = now() + 20000;
+    s.combo = 0;
+    if (!s.daily || s.daily.resetAt <= now()) s.daily = makeDaily();
+
+    // 4. Оффлайн доход
+    const awaySec = Math.min((now() - s.ts) / 1000, OFFLINE_CAP);
+    if (awaySec > 300) {
+      const g = Math.floor(awaySec * income());
+      add(g);
+      addLog(`Пока тебя не было (${Math.floor(awaySec / 60)} мин): +${fmt(g)} $`, 'ok');
+    }
+
+    // 5. Рендерим интерфейс
+    $('uname').textContent = userName;
+    const av = $('avatar');
+    if (tgUser && tgUser.photo_url) {
+      const img = new Image(); img.src = tgUser.photo_url; img.alt = '';
+      img.onerror = () => { av.textContent = userName[0].toUpperCase(); };
+      av.appendChild(img);
+    } else av.textContent = userName[0].toUpperCase();
+
+    renderLog(); renderAchievements(); renderQuests(); renderLeaderboard(); render();
+
+    // 6. Прячем загрузчик, показываем игру
+    $('loader').classList.add('hidden');
+    $('app').style.opacity = '1';
+
+    // 7. Запускаем игровые циклы
+    startLoops();
+  }
+
+  // ============================================================
+  // ЭКОНОМИКА
   // ============================================================
   const COST = {
     point: l => Math.ceil(40 * Math.pow(1.5, l)),
@@ -581,7 +626,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   const prestigeMult = () => 1 + s.prestige * 0.25;
   const income = () => s.point * 2 * (1 + s.safeMultiplier * 0.5) * prestigeMult() * (boostActive() ? 2 : 1);
   const tapVal = () => (1 + s.conn * 2) * prestigeMult() * (boostActive() ? 2 : 1);
-  const wealth = () => s.cash * 0.5 + income() * 120 + 300;
   const armorLoss = () => Math.max(0.03, 0.2 * Math.pow(0.75, s.armor));
 
   function add(n) {
@@ -590,13 +634,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     if (s.cash < 0) s.cash = 0;
   }
 
-  function save() {
-    try { s.ts = now(); localStorage.setItem(SAVE_KEY, JSON.stringify(s)); } catch (e) {}
-  }
-
-  // ============================================================
-  // TOAST / LOG
-  // ============================================================
   let toastT;
   function toast(text, kind) {
     const el = $('toast');
@@ -617,11 +654,10 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   }
 
   // ============================================================
-  // DAILY QUESTS
+  // КВЕСТЫ
   // ============================================================
   function makeDaily() {
-    const midnight = new Date();
-    midnight.setHours(24, 0, 0, 0);
+    const midnight = new Date(); midnight.setHours(24, 0, 0, 0);
     return {
       resetAt: midnight.getTime(),
       quests: [
@@ -642,80 +678,40 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   function claimQuest(id) {
     const q = s.daily.quests.find(x => x.id === id);
     if (!q || q.claimed || q.progress < q.target) return;
-    q.claimed = true;
-    add(q.reward);
-    haptic('ok'); beep(800, 0.1);
-    toast(`Квест: +${fmt(q.reward)} $`);
-    addLog(`🎯 Квест «${q.name}»: +${fmt(q.reward)} $`, 'ok');
-    render();
+    q.claimed = true; add(q.reward); haptic('ok'); beep(800, 0.1);
+    toast(`Квест: +${fmt(q.reward)} $`); addLog(`🎯 Квест «${q.name}»: +${fmt(q.reward)} $`, 'ok'); render();
   }
   function renderQuests() {
     if (!s.daily || s.daily.resetAt <= now()) s.daily = makeDaily();
     $('quests').innerHTML = s.daily.quests.map(q => {
       const done = q.progress >= q.target;
       const pct = (q.progress / q.target) * 100;
-      const btn = q.claimed
-        ? '<button class="claimed" disabled>✓</button>'
-        : done
-          ? `<button data-q="${q.id}">Забрать</button>`
-          : '<button disabled>…</button>';
-      return `<div class="quest${done && !q.claimed ? ' done' : ''}">
-        <div class="qn">${esc(q.name)}</div>
-        ${btn}
-        <div class="qp">${q.progress} / ${q.target}</div>
-        <div class="qr">+${fmt(q.reward)} $</div>
-        <div class="quest-progress"><i style="width:${pct}%"></i></div>
-      </div>`;
+      const btn = q.claimed ? '<button class="claimed" disabled>✓</button>' : done ? `<button data-q="${q.id}">Забрать</button>` : '<button disabled>…</button>';
+      return `<div class="quest${done && !q.claimed ? ' done' : ''}"><div class="qn">${esc(q.name)}</div>${btn}<div class="qp">${q.progress} / ${q.target}</div><div class="qr">+${fmt(q.reward)} $</div><div class="quest-progress"><i style="width:${pct}%"></i></div></div>`;
     }).join('');
   }
-  document.addEventListener('click', e => {
-    const b = e.target.closest('[data-q]');
-    if (b) claimQuest(b.dataset.q);
-  });
+  document.addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (b) claimQuest(b.dataset.q); });
 
   // ============================================================
-  // FRIENDS
+  // ДРУЗЬЯ
   // ============================================================
   function tickFriends(dt) {
     const t = now();
-    s.friends.forEach(f => {
-      if (f.isBot) {
-        const elapsed = (t - f.lastTick) / 1000;
-        if (elapsed > 0) { f.cash += f.income * elapsed; f.lastTick = t; }
-      }
-    });
+    s.friends.forEach(f => { if (f.isBot) { const elapsed = (t - f.lastTick) / 1000; if (elapsed > 0) { f.cash += f.income * elapsed; f.lastTick = t; } } });
   }
   const friendSortFn = (a, b) => (b.cash || 0) - (a.cash || 0);
-
-  function getMyRank() {
-    const all = [{ me: true, cash: s.cash }, ...s.friends];
-    all.sort(friendSortFn);
-    return all.findIndex(x => x.me) + 1;
-  }
-
+  function getMyRank() { const all = [{ me: true, cash: s.cash }, ...s.friends]; all.sort(friendSortFn); return all.findIndex(x => x.me) + 1; }
   function renderLeaderboard() {
-    const all = [
-      { me: true, name: userName, emoji: '👤', cash: s.cash },
-      ...s.friends.map(f => ({ ...f, me: false }))
-    ];
+    const all = [{ me: true, name: userName, emoji: '👤', cash: s.cash }, ...s.friends.map(f => ({ ...f, me: false }))];
     all.sort(friendSortFn);
     const meIdx = all.findIndex(x => x.me);
-    let display = all.slice(0, 5);
-    if (meIdx >= 5) display = [...all.slice(0, 4), all[meIdx]];
+    let display = all.slice(0, 5); if (meIdx >= 5) display = [...all.slice(0, 4), all[meIdx]];
     $('leaderboard').innerHTML = display.map(row => {
       const pos = all.indexOf(row) + 1;
       const posCls = pos === 1 ? 'gold' : pos === 2 ? 'silver' : pos === 3 ? 'bronze' : '';
-      const meCls = row.me ? ' me' : '';
-      return `<div class="lb-row ${posCls}${meCls}">
-        <span class="pos">${pos}</span>
-        <span class="nm"><span class="em">${row.me ? '👤' : esc(row.emoji || '🤖')}</span>
-          <span style="overflow:hidden;text-overflow:ellipsis">${esc(row.name)}${row.me ? ' <span class="you">(ты)</span>' : ''}</span>
-        </span>
-        <span class="cash">${fmt(row.cash)} $</span>
-      </div>`;
+      return `<div class="lb-row ${posCls}${row.me ? ' me' : ''}"><span class="pos">${pos}</span><span class="nm"><span class="em">${row.me ? '👤' : esc(row.emoji)}</span><span style="overflow:hidden;text-overflow:ellipsis">${esc(row.name)}${row.me ? ' <span class="you">(ты)</span>' : ''}</span></span><span class="cash">${fmt(row.cash)} $</span></div>`;
     }).join('');
   }
-
   function renderFriendsList() {
     const sorted = [...s.friends].sort(friendSortFn);
     $('friendsList').innerHTML = sorted.map(f => {
@@ -723,605 +719,265 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
       const ch = clamp(0.55 + 0.08 * (s.crew - def), 0.15, 0.95);
       const pct = Math.round(ch * 100);
       const cd = Math.max(0, FRIEND_ATTACK_CD - (now() - s.friendsAtkCd));
-      const disabled = cd > 0 ? 'disabled' : '';
-      const btnTxt = cd > 0 ? `⏳ ${Math.ceil(cd / 1000)}с` : '⚔️ Атака';
-      return `<div class="t">
-        <span class="n">${esc(f.emoji)} ${esc(f.name)}</span>
-        <span class="c${pct < 40 ? ' low' : ''}">${pct}%</span>
-        <span class="m">в сейфе ${fmt(f.cash)} $</span>
-        <button data-fid="${f.id}" ${disabled}>${btnTxt}</button>
-      </div>`;
+      return `<div class="t"><span class="n">${esc(f.emoji)} ${esc(f.name)}</span><span class="c${pct < 40 ? ' low' : ''}">${pct}%</span><span class="m">в сейфе ${fmt(f.cash)} $</span><button data-fid="${f.id}" ${cd > 0 ? 'disabled' : ''}>${cd > 0 ? `⏳ ${Math.ceil(cd / 1000)}с` : '⚔️ Атака'}</button></div>`;
     }).join('');
   }
-
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-fid]');
     if (!b) return;
     const friend = s.friends.find(f => f.id === b.dataset.fid);
-    if (!friend) return;
-    if (now() - s.friendsAtkCd < FRIEND_ATTACK_CD) return;
-
+    if (!friend || now() - s.friendsAtkCd < FRIEND_ATTACK_CD) return;
     const def = Math.max(1, Math.round(friend.income / 3));
     const ch = clamp(0.55 + 0.08 * (s.crew - def), 0.15, 0.95);
-    s.friendsAtkCd = now();
-    s.totalAttacks++;
-    bumpQuest('q_atk');
-
+    s.friendsAtkCd = now(); s.totalAttacks++; bumpQuest('q_atk');
     if (Math.random() < ch) {
       const steal = Math.floor(friend.cash * rnd(0.15, 0.3));
-      add(steal);
-      friend.cash = Math.max(0, friend.cash - steal);
-      s.totalFriendsBeaten++;
-      haptic('ok'); beep(700, 0.15, 'triangle');
-      toast(`Выбил ${fmt(steal)} $ у ${friend.name}`);
-      addLog(`Выбил ${fmt(steal)} $ у «${friend.name}»`, 'ok');
+      add(steal); friend.cash = Math.max(0, friend.cash - steal); s.totalFriendsBeaten++;
+      haptic('ok'); beep(700, 0.15, 'triangle'); toast(`Выбил ${fmt(steal)} $ у ${friend.name}`); addLog(`Выбил ${fmt(steal)} $ у «${friend.name}»`, 'ok');
     } else {
-      const loss = Math.floor(s.cash * 0.04);
-      s.cash -= loss;
-      haptic('err'); beep(180, 0.18, 'sawtooth');
-      toast(`${friend.name} отбился. −${fmt(loss)} $`, 'bad');
-      addLog(`«${friend.name}» отбился: −${fmt(loss)} $`, 'bad');
+      const loss = Math.floor(s.cash * 0.04); s.cash -= loss; haptic('err'); beep(180, 0.18, 'sawtooth'); toast(`${friend.name} отбился. −${fmt(loss)} $`, 'bad'); addLog(`«${friend.name}» отбился: −${fmt(loss)} $`, 'bad');
     }
-    renderFriendsList();
-    renderLeaderboard();
-    render();
+    renderFriendsList(); renderLeaderboard(); render();
   });
 
   // ============================================================
-  // TAP
+  // ТАП
   // ============================================================
   function spawnFloat(x, y, text, crit) {
-    const f = document.createElement('div');
-    f.className = 'fl' + (crit ? ' crit' : '');
-    f.textContent = text;
-    f.style.left = (x - 12) + 'px';
-    f.style.top = (y - 30) + 'px';
-    document.body.appendChild(f);
+    const f = document.createElement('div'); f.className = 'fl' + (crit ? ' crit' : ''); f.textContent = text;
+    f.style.left = (x - 12) + 'px'; f.style.top = (y - 30) + 'px'; document.body.appendChild(f);
     setTimeout(() => f.remove(), 700);
   }
-
   $('deal').addEventListener('pointerdown', e => {
-    e.preventDefault();
-    const t = now();
-    if (t - s.lastTap < COMBO_MS) s.combo = Math.min(s.combo + 1, 50);
-    else s.combo = 1;
+    e.preventDefault(); const t = now();
+    if (t - s.lastTap < COMBO_MS) s.combo = Math.min(s.combo + 1, 50); else s.combo = 1;
     s.lastTap = t;
-
-    const crit = Math.random() < CRIT_CHANCE;
-    const comboMult = 1 + Math.min(s.combo - 1, 20) * 0.05;
+    const crit = Math.random() < CRIT_CHANCE; const comboMult = 1 + Math.min(s.combo - 1, 20) * 0.05;
     const v = Math.floor(tapVal() * comboMult * (crit ? CRIT_MULT : 1));
-    add(v);
-    s.taps++;
-    bumpQuest('q_taps');
-    haptic(crit ? 'ok' : 'tap');
-    beep(crit ? 880 : 440, 0.06, crit ? 'triangle' : 'sine');
+    add(v); s.taps++; bumpQuest('q_taps'); haptic(crit ? 'ok' : 'tap'); beep(crit ? 880 : 440, 0.06, crit ? 'triangle' : 'sine');
     spawnFloat(e.clientX, e.clientY, (crit ? 'КРИТ! ' : '') + '+' + fmt(v), crit);
-    const cb = $('cash');
-    cb.classList.add('bump');
-    setTimeout(() => cb.classList.remove('bump'), 120);
-    render();
+    const cb = $('cash'); cb.classList.add('bump'); setTimeout(() => cb.classList.remove('bump'), 120); render();
   });
 
   // ============================================================
-  // MINI-GAME
+  // МИНИ-ИГРА
   // ============================================================
   const mg = { active: false, round: 0, maxRounds: 3, pos: 0, dir: 1, speed: 2, zoneStart: 30, zoneWidth: 20, intervalId: null, hits: 0 };
-  const MG_ROUNDS = [
-    { zoneWidth: 22, speed: 1.8 },
-    { zoneWidth: 16, speed: 2.4 },
-    { zoneWidth: 11, speed: 3.1 }
-  ];
-
-  function stopMiniGame() {
-    mg.active = false;
-    if (mg.intervalId) { clearInterval(mg.intervalId); mg.intervalId = null; }
-  }
-
-  $('miniGameBtn').addEventListener('click', () => {
-    const cd = MINIGAME_CD - (now() - s.miniGameLast);
-    if (cd > 0) return toast(`Прорыв через ${fmtTime(cd)}`, 'bad');
-    openMiniGame();
-  });
-
+  const MG_ROUNDS = [{ zoneWidth: 22, speed: 1.8 }, { zoneWidth: 16, speed: 2.4 }, { zoneWidth: 11, speed: 3.1 }];
+  function stopMiniGame() { mg.active = false; if (mg.intervalId) { clearInterval(mg.intervalId); mg.intervalId = null; } }
+  $('miniGameBtn').addEventListener('click', () => { const cd = MINIGAME_CD - (now() - s.miniGameLast); if (cd > 0) return toast(`Прорыв через ${fmtTime(cd)}`, 'bad'); openMiniGame(); });
   function openMiniGame() {
-    $('miniGameModal').hidden = false;
-    $('mgIntro').hidden = false;
-    $('mgGame').hidden = true;
-    $('mgResult').hidden = true;
-    mg.round = 0; mg.hits = 0;
-    stopMiniGame();
+    $('miniGameModal').hidden = false; $('mgIntro').hidden = false; $('mgGame').hidden = true; $('mgResult').hidden = true; mg.round = 0; mg.hits = 0; stopMiniGame();
   }
-
-  $('mgStartBtn').addEventListener('click', () => {
-    mg.round = 0; mg.hits = 0;
-    $('mgIntro').hidden = true;
-    $('mgGame').hidden = false;
-    $('mgResult').hidden = true;
-    runRound();
-  });
-
+  $('mgStartBtn').addEventListener('click', () => { mg.round = 0; mg.hits = 0; $('mgIntro').hidden = true; $('mgGame').hidden = false; $('mgResult').hidden = true; runRound(); });
   function runRound() {
     if (mg.round >= mg.maxRounds) return endMiniGame(true);
-    const cfg = MG_ROUNDS[mg.round];
-    mg.zoneWidth = cfg.zoneWidth;
-    mg.speed = cfg.speed;
-    mg.zoneStart = ri(10, 100 - cfg.zoneWidth - 10);
-    mg.pos = 0; mg.dir = 1;
-    mg.active = true;
-    $('mgRoundLbl').textContent = `Раунд ${mg.round + 1} / ${mg.maxRounds}`;
-    $('mgZone').style.left = mg.zoneStart + '%';
-    $('mgZone').style.width = mg.zoneWidth + '%';
-    const marker = $('mgMarker');
-    marker.classList.toggle('fast', mg.round >= 2);
-    marker.style.left = '0%';
-
+    const cfg = MG_ROUNDS[mg.round]; mg.zoneWidth = cfg.zoneWidth; mg.speed = cfg.speed; mg.zoneStart = ri(10, 100 - cfg.zoneWidth - 10); mg.pos = 0; mg.dir = 1; mg.active = true;
+    $('mgRoundLbl').textContent = `Раунд ${mg.round + 1} / ${mg.maxRounds}`; $('mgZone').style.left = mg.zoneStart + '%'; $('mgZone').style.width = mg.zoneWidth + '%';
+    const marker = $('mgMarker'); marker.classList.toggle('fast', mg.round >= 2); marker.style.left = '0%';
     if (mg.intervalId) clearInterval(mg.intervalId);
     mg.intervalId = setInterval(() => {
-      if (!mg.active) return;
-      mg.pos += mg.dir * mg.speed;
-      if (mg.pos >= 100) { mg.pos = 100; mg.dir = -1; }
-      if (mg.pos <= 0) { mg.pos = 0; mg.dir = 1; }
-      marker.style.left = mg.pos + '%';
+      if (!mg.active) return; mg.pos += mg.dir * mg.speed; if (mg.pos >= 100) { mg.pos = 100; mg.dir = -1; } if (mg.pos <= 0) { mg.pos = 0; mg.dir = 1; } marker.style.left = mg.pos + '%';
     }, 16);
   }
-
   $('mgTapBtn').addEventListener('click', () => {
-    if (!mg.active) return;
-    mg.active = false;
-    if (mg.intervalId) { clearInterval(mg.intervalId); mg.intervalId = null; }
+    if (!mg.active) return; mg.active = false; if (mg.intervalId) { clearInterval(mg.intervalId); mg.intervalId = null; }
     const inZone = mg.pos >= mg.zoneStart && mg.pos <= mg.zoneStart + mg.zoneWidth;
-    if (inZone) {
-      mg.hits++;
-      mg.round++;
-      haptic('ok'); beep(880, 0.1, 'triangle');
-      if (mg.round >= mg.maxRounds) setTimeout(() => endMiniGame(true), 200);
-      else setTimeout(runRound, 300);
-    } else {
-      haptic('err'); beep(180, 0.2, 'sawtooth');
-      endMiniGame(false);
-    }
+    if (inZone) { mg.hits++; mg.round++; haptic('ok'); beep(880, 0.1, 'triangle'); if (mg.round >= mg.maxRounds) setTimeout(() => endMiniGame(true), 200); else setTimeout(runRound, 300); }
+    else { haptic('err'); beep(180, 0.2, 'sawtooth'); endMiniGame(false); }
   });
-
   function endMiniGame(allSuccess) {
-    stopMiniGame();
-    s.miniGameLast = now();
-    $('mgGame').hidden = true;
-    $('mgResult').hidden = false;
-
-    const hourlyBase = Math.max(income() * 600, 1000);
-    let reward = 0;
-    if (allSuccess) {
-      reward = Math.floor(Math.min(hourlyBase, 100000) * 0.6);
-      $('mgResultTxt').textContent = '🎰 ПРОРЫВ УДАЛСЯ!';
-      $('mgResultTxt').className = 'mg-result ok';
-      beep(1000, 0.25, 'triangle');
-      bumpQuest('q_mg');
-    } else {
-      reward = Math.floor(Math.min(hourlyBase, 100000) * 0.15 * (mg.hits / mg.maxRounds));
-      $('mgResultTxt').textContent = `Провал на раунде ${mg.round + 1}`;
-      $('mgResultTxt').className = 'mg-result bad';
-      beep(200, 0.3, 'sawtooth');
-    }
-    $('mgResultAmt').textContent = reward > 0 ? `+${fmt(reward)} $` : 'Ничего';
-    $('mgResultAmt').style.color = reward > 0 ? 'var(--green)' : 'var(--dim)';
-    if (reward > 0) { add(reward); addLog(`Прорыв: +${fmt(reward)} $`, allSuccess ? 'ok' : ''); }
-    render();
+    stopMiniGame(); s.miniGameLast = now(); $('mgGame').hidden = true; $('mgResult').hidden = false;
+    const hourlyBase = Math.max(income() * 600, 1000); let reward = 0;
+    if (allSuccess) { reward = Math.floor(Math.min(hourlyBase, 100000) * 0.6); $('mgResultTxt').textContent = '🎰 ПРОРЫВ УДАЛСЯ!'; $('mgResultTxt').className = 'mg-result ok'; beep(1000, 0.25, 'triangle'); bumpQuest('q_mg'); }
+    else { reward = Math.floor(Math.min(hourlyBase, 100000) * 0.15 * (mg.hits / mg.maxRounds)); $('mgResultTxt').textContent = `Провал на раунде ${mg.round + 1}`; $('mgResultTxt').className = 'mg-result bad'; beep(200, 0.3, 'sawtooth'); }
+    $('mgResultAmt').textContent = reward > 0 ? `+${fmt(reward)} $` : 'Ничего'; $('mgResultAmt').style.color = reward > 0 ? 'var(--green)' : 'var(--dim)';
+    if (reward > 0) { add(reward); addLog(`Прорыв: +${fmt(reward)} $`, allSuccess ? 'ok' : ''); } render();
   }
 
   // ============================================================
-  // ADS (ИНТЕГРАЦИЯ С ADSGRAM)
+  // РЕКЛАМА
   // ============================================================
   let AdController = null;
-  if (window.Adsgram) {
-    try {
-      AdController = window.Adsgram.init({
-        blockId: AD_BLOCK_ID,
-        debug: false // Поставь true, чтобы проверить тестовую заглушку
-      });
-    } catch (e) {
-      console.warn('ADSGRAM: Ошибка инициализации', e);
-    }
-  }
-
+  if (window.Adsgram) { try { AdController = window.Adsgram.init({ blockId: AD_BLOCK_ID, debug: false }); } catch (e) { console.warn('ADSGRAM: Ошибка инициализации', e); } }
   function showRewardedAd() {
     return new Promise((resolve) => {
-      if (!AdController) {
-        toast('Реклама временно недоступна', 'bad');
-        return resolve(false);
-      }
-
-      AdController.show().then(() => {
-        resolve(true); // Досмотрел
-      }).catch((err) => {
+      if (!AdController) { toast('Реклама временно недоступна', 'bad'); return resolve(false); }
+      AdController.show().then(() => resolve(true)).catch((err) => {
         console.log('ADSGRAM: Реклама не просмотрена', err);
-        if (err?.description !== 'onSkip') {
-           toast('Не удалось загрузить рекламу', 'bad');
-        }
-        resolve(false); // Закрыл или ошибка
+        if (err?.description !== 'onSkip') toast('Не удалось загрузить рекламу', 'bad');
+        resolve(false);
       });
     });
   }
-
   $('adBtn').addEventListener('click', async () => {
-    const cd = AD_CD - (now() - s.lastAdAt);
-    if (cd > 0) return toast(`Подожди ${fmtTime(cd)}`, 'bad');
-
-    const btn = $('adBtn');
-    btn.disabled = true;
-    btn.textContent = '⏳ Загрузка...';
-
+    const cd = AD_CD - (now() - s.lastAdAt); if (cd > 0) return toast(`Подожди ${fmtTime(cd)}`, 'bad');
+    const btn = $('adBtn'); btn.disabled = true; btn.textContent = '⏳ Загрузка...';
     const ok = await showRewardedAd();
-    
-    btn.disabled = false;
-    btn.textContent = '📺 Смотреть рекламу · +бонус';
-
+    btn.disabled = false; btn.textContent = '📺 Смотреть рекламу · +бонус';
     if (ok) {
       const reward = Math.floor(Math.max(200, income() * 180));
-      add(reward);
-      toast(`Реклама: +${fmt(reward)} $`);
-      addLog(`📺 Реклама: +${fmt(reward)} $`, 'ok');
-      
-      s.lastAdAt = now();
-      s.adsWatched++;
-      bumpQuest('q_ad');
-      render();
+      add(reward); toast(`Реклама: +${fmt(reward)} $`); addLog(`📺 Реклама: +${fmt(reward)} $`, 'ok');
+      s.lastAdAt = now(); s.adsWatched++; bumpQuest('q_ad'); render();
     }
   });
 
   // ============================================================
-  // IAP / STAR PACKS
+  // IAP (ПОКУПКИ)
   // ============================================================
   const STAR_PACKS = [
-    { id: 'cash_small', emoji: '💰', title: 'Пачка кэша', desc: 'x10 дохода за 1 час', stars: 50,
-      apply: () => { add(income() * 3600 * 10); } },
-    { id: 'x2_24h', emoji: '⚡', title: '2× доход на 24 часа', desc: 'Удваивает пассивный и тап', stars: 150,
-      apply: () => { s.doubleUntil = Math.max(s.doubleUntil, now()) + 86400000; } },
-    { id: 'shield', emoji: '🛡', title: 'Щит от рейдов', desc: 'Пропуск следующих 3 налётов', stars: 100,
-      apply: () => { s.nextRaid = now() + 3 * 3600000; } },
-    { id: 'mg_skip', emoji: '🎰', title: 'Быстрый прорыв', desc: 'Сброс кулдауна мини-игры', stars: 80,
-      apply: () => { s.miniGameLast = 0; } },
-    { id: 'guards_bundle', emoji: '👮', title: 'Отряд охраны (+5)', desc: 'Мгновенно +5 бойцов', stars: 120,
-      apply: () => { s.guards = Math.min(MAX_GUARDS, s.guards + 5); } },
-    { id: 'vip_skin', emoji: '👑', title: 'VIP-скин сейфа', desc: 'Косметика + престиж +1', stars: 200,
-      apply: () => { s.prestige++; } }
+    { id: 'cash_small', emoji: '💰', title: 'Пачка кэша', desc: 'x10 дохода за 1 час', stars: 50, apply: () => { add(income() * 3600 * 10); } },
+    { id: 'x2_24h', emoji: '⚡', title: '2× доход на 24 часа', desc: 'Удваивает пассивный и тап', stars: 150, apply: () => { s.doubleUntil = Math.max(s.doubleUntil, now()) + 86400000; } },
+    { id: 'shield', emoji: '🛡', title: 'Щит от рейдов', desc: 'Пропуск следующих 3 налётов', stars: 100, apply: () => { s.nextRaid = now() + 3 * 3600000; } },
+    { id: 'mg_skip', emoji: '🎰', title: 'Быстрый прорыв', desc: 'Сброс кулдауна мини-игры', stars: 80, apply: () => { s.miniGameLast = 0; } },
+    { id: 'guards_bundle', emoji: '👮', title: 'Отряд охраны (+5)', desc: 'Мгновенно +5 бойцов', stars: 120, apply: () => { s.guards = Math.min(MAX_GUARDS, s.guards + 5); } },
+    { id: 'vip_skin', emoji: '👑', title: 'VIP-скин сейфа', desc: 'Косметика + престиж +1', stars: 200, apply: () => { s.prestige++; } }
   ];
-
-  $('iapShop').innerHTML = STAR_PACKS.map(p => `
-    <div class="shop-pack">
-      <div class="info">
-        <div class="t">${p.emoji} ${esc(p.title)}</div>
-        <div class="d">${esc(p.desc)}</div>
-      </div>
-      <button data-pack="${p.id}">⭐ ${p.stars}</button>
-    </div>`).join('');
-
-  document.addEventListener('click', e => {
-    const b = e.target.closest('[data-pack]');
-    if (b) buyStarPack(b.dataset.pack);
-  });
-
+  $('iapShop').innerHTML = STAR_PACKS.map(p => `<div class="shop-pack"><div class="info"><div class="t">${p.emoji} ${esc(p.title)}</div><div class="d">${esc(p.desc)}</div></div><button data-pack="${p.id}">⭐ ${p.stars}</button></div>`).join('');
+  document.addEventListener('click', e => { const b = e.target.closest('[data-pack]'); if (b) buyStarPack(b.dataset.pack); });
   function buyStarPack(id) {
-    const pack = STAR_PACKS.find(p => p.id === id);
-    if (!pack) return;
-
+    const pack = STAR_PACKS.find(p => p.id === id); if (!pack) return;
     if (!BACKEND_URL) {
-      const msg = `[ДЕМО] «${pack.title}» за ${pack.stars} ⭐?\n\nВ продакшене откроется оплата через Telegram Stars.`;
-      if (tg && tg.showConfirm) tg.showConfirm(msg, ok => { if (ok) pack.apply(); render(); });
-      else if (confirm(msg)) { pack.apply(); render(); }
+      const msg = `[ДЕМО] «${pack.title}» за ${pack.stars} ⭐?`;
+      if (tg && tg.showConfirm) tg.showConfirm(msg, ok => { if (ok) pack.apply(); render(); }); else if (confirm(msg)) { pack.apply(); render(); }
       return;
     }
-
     fetch(BACKEND_URL + '/invoice', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ packId: id, userId: tgUser && tgUser.id })
-    })
-      .then(r => r.json())
-      .then(data => {
-        if (!data.invoiceLink) throw new Error('no invoice');
-        tg.openInvoice(data.invoiceLink, status => {
-          if (status === 'paid') {
-            pack.apply();
-            s.starsPurchases[id] = (s.starsPurchases[id] || 0) + 1;
-            toast(`Куплено: ${pack.title}`, 'gold');
-            beep(1000, 0.2, 'triangle');
-            render();
-          } else if (status === 'failed' || status === 'cancelled') {
-            toast('Оплата отменена', 'bad');
-          }
-        });
-      })
-      .catch(err => {
-        console.error(err);
-        toast('Ошибка сервера. Проверь Render.', 'bad');
+    }).then(r => r.json()).then(data => {
+      if (!data.invoiceLink) throw new Error('no invoice');
+      tg.openInvoice(data.invoiceLink, status => {
+        if (status === 'paid') { pack.apply(); s.starsPurchases[id] = (s.starsPurchases[id] || 0) + 1; toast(`Куплено: ${pack.title}`, 'gold'); beep(1000, 0.2, 'triangle'); render(); }
+        else if (status === 'failed' || status === 'cancelled') toast('Оплата отменена', 'bad');
       });
+    }).catch(err => { console.error(err); toast('Ошибка сервера. Проверь Render.', 'bad'); });
   }
 
   // ============================================================
-  // SHARE CARD
+  // ШЕРИНГ
   // ============================================================
   async function generateShareCard() {
-    if (document.fonts && document.fonts.ready) {
-      try { await document.fonts.ready; } catch (e) {}
-    }
-
-    const W = 1080, H = 1080;
-    const canvas = document.createElement('canvas');
-    canvas.width = W; canvas.height = H;
-    const ctx = canvas.getContext('2d');
-
-    const grad = ctx.createLinearGradient(0, 0, W, H);
-    grad.addColorStop(0, '#0a0d11');
-    grad.addColorStop(1, '#1a0a10');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.strokeStyle = 'rgba(255,255,255,.03)';
-    ctx.lineWidth = 2;
-    for (let i = 0; i < W; i += 40) {
-      ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, H); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(W, i); ctx.stroke();
-    }
-
-    const rg = ctx.createRadialGradient(W / 2, 100, 50, W / 2, 100, 600);
-    rg.addColorStop(0, 'rgba(255,45,85,.25)');
-    rg.addColorStop(1, 'rgba(255,45,85,0)');
-    ctx.fillStyle = rg;
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.fillStyle = '#ff2d55';
-    ctx.font = '700 52px Oswald, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('ЧЕРНЫЙ РЫНОК', W / 2, 120);
-
-    const cx = W / 2, cy = 320, r = 130;
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.clip();
+    if (document.fonts && document.fonts.ready) { try { await document.fonts.ready; } catch (e) {} }
+    const W = 1080, H = 1080; const canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H; const ctx = canvas.getContext('2d');
+    const grad = ctx.createLinearGradient(0, 0, W, H); grad.addColorStop(0, '#0a0d11'); grad.addColorStop(1, '#1a0a10'); ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(255,255,255,.03)'; ctx.lineWidth = 2;
+    for (let i = 0; i < W; i += 40) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, H); ctx.stroke(); ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(W, i); ctx.stroke(); }
+    const rg = ctx.createRadialGradient(W / 2, 100, 50, W / 2, 100, 600); rg.addColorStop(0, 'rgba(255,45,85,.25)'); rg.addColorStop(1, 'rgba(255,45,85,0)'); ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#ff2d55'; ctx.font = '700 52px Oswald, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('ЧЕРНЫЙ РЫНОК', W / 2, 120);
+    const cx = W / 2, cy = 320, r = 130; ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.closePath(); ctx.clip();
     let avatarDrawn = false;
     if (tgUser && tgUser.photo_url) {
-      try {
-        const img = await new Promise((res, rej) => {
-          const i = new Image(); i.crossOrigin = 'anonymous';
-          i.onload = () => res(i);
-          i.onerror = rej;
-          i.src = tgUser.photo_url;
-        });
-        ctx.drawImage(img, cx - r, cy - r, r * 2, r * 2);
-        avatarDrawn = true;
-      } catch (e) {}
+      try { const img = await new Promise((res, rej) => { const i = new Image(); i.crossOrigin = 'anonymous'; i.onload = () => res(i); i.onerror = rej; i.src = tgUser.photo_url; }); ctx.drawImage(img, cx - r, cy - r, r * 2, r * 2); avatarDrawn = true; } catch (e) {}
     }
-    if (!avatarDrawn) {
-      ctx.fillStyle = '#31ff8c';
-      ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
-      ctx.fillStyle = '#07080a';
-      ctx.font = '700 140px Oswald, sans-serif';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(userName[0].toUpperCase(), cx, cy);
-    }
-    ctx.restore();
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.strokeStyle = '#31ff8c';
-    ctx.lineWidth = 6;
-    ctx.stroke();
-
-    ctx.fillStyle = '#fff';
-    ctx.font = '700 44px Oswald, sans-serif';
-    ctx.textBaseline = 'alphabetic';
-    ctx.fillText(userName, W / 2, 520);
-
-    let rank = RANKS[0][1];
-    RANKS.forEach(rr => { if (s.earned >= rr[0]) rank = rr[1]; });
-    ctx.fillStyle = '#7f8993';
-    ctx.font = '400 28px "Golos Text", sans-serif';
-    ctx.fillText(rank, W / 2, 570);
-
-    ctx.fillStyle = '#31ff8c';
-    ctx.shadowColor = 'rgba(49,255,140,.6)';
-    ctx.shadowBlur = 40;
-    ctx.font = '700 140px Oswald, sans-serif';
-    ctx.fillText(fmt(s.cash) + ' $', W / 2, 740);
-    ctx.shadowBlur = 0;
-
-    ctx.fillStyle = '#7f8993';
-    ctx.font = '400 26px "Golos Text", sans-serif';
-    ctx.fillText('Грязные деньги · ' + getMyRank() + ' место среди друзей', W / 2, 810);
-
-    if (s.prestige > 0) {
-      ctx.fillStyle = '#ffc93c';
-      ctx.font = '700 28px Oswald, sans-serif';
-      ctx.fillText('👑 ПРЕСТИЖ ' + s.prestige, W / 2, 870);
-    }
-
-    ctx.fillStyle = '#ff2d55';
-    ctx.font = '700 30px Oswald, sans-serif';
-    ctx.fillText('Играй со мной → ' + BOT_LINK.replace('https://', ''), W / 2, 1000);
-
+    if (!avatarDrawn) { ctx.fillStyle = '#31ff8c'; ctx.fillRect(cx - r, cy - r, r * 2, r * 2); ctx.fillStyle = '#07080a'; ctx.font = '700 140px Oswald, sans-serif'; ctx.textBaseline = 'middle'; ctx.fillText(userName[0].toUpperCase(), cx, cy); }
+    ctx.restore(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.strokeStyle = '#31ff8c'; ctx.lineWidth = 6; ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.font = '700 44px Oswald, sans-serif'; ctx.textBaseline = 'alphabetic'; ctx.fillText(userName, W / 2, 520);
+    let rank = RANKS[0][1]; RANKS.forEach(rr => { if (s.earned >= rr[0]) rank = rr[1]; });
+    ctx.fillStyle = '#7f8993'; ctx.font = '400 28px "Golos Text", sans-serif'; ctx.fillText(rank, W / 2, 570);
+    ctx.fillStyle = '#31ff8c'; ctx.shadowColor = 'rgba(49,255,140,.6)'; ctx.shadowBlur = 40; ctx.font = '700 140px Oswald, sans-serif'; ctx.fillText(fmt(s.cash) + ' $', W / 2, 740); ctx.shadowBlur = 0;
+    ctx.fillStyle = '#7f8993'; ctx.font = '400 26px "Golos Text", sans-serif'; ctx.fillText('Грязные деньги · ' + getMyRank() + ' место среди друзей', W / 2, 810);
+    if (s.prestige > 0) { ctx.fillStyle = '#ffc93c'; ctx.font = '700 28px Oswald, sans-serif'; ctx.fillText('👑 ПРЕСТИЖ ' + s.prestige, W / 2, 870); }
+    ctx.fillStyle = '#ff2d55'; ctx.font = '700 30px Oswald, sans-serif'; ctx.fillText('Играй со мной → ' + BOT_LINK.replace('https://', ''), W / 2, 1000);
     return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
   }
-
-  let lastShareBlob = null;
-  let lastShareUrl = null;
-
+  let lastShareBlob = null; let lastShareUrl = null;
   $('shareBtn').addEventListener('click', async () => {
     try {
-      const blob = await generateShareCard();
-      lastShareBlob = blob;
-      if (lastShareUrl) URL.revokeObjectURL(lastShareUrl);
-      lastShareUrl = URL.createObjectURL(blob);
-      $('sharePreview').src = lastShareUrl;
-      $('shareModal').hidden = false;
-    } catch (e) {
-      toast('Не удалось создать картинку', 'bad');
-    }
+      const blob = await generateShareCard(); lastShareBlob = blob; if (lastShareUrl) URL.revokeObjectURL(lastShareUrl);
+      lastShareUrl = URL.createObjectURL(blob); $('sharePreview').src = lastShareUrl; $('shareModal').hidden = false;
+    } catch (e) { toast('Не удалось создать картинку', 'bad'); }
   });
-
   $('shareSendBtn').addEventListener('click', async () => {
     if (!lastShareBlob) return;
-    const uid = tgUser ? tgUser.id : '';
-    const link = BOT_LINK + (BOT_LINK.includes('?') ? '&' : '?') + 'startapp=ref_' + uid;
+    const uid = tgUser ? tgUser.id : ''; const link = BOT_LINK + (BOT_LINK.includes('?') ? '&' : '?') + 'startapp=ref_' + uid;
     const text = SHARE_TEXT + ' ' + link;
-
     if (navigator.share && navigator.canShare) {
       try {
         const file = new File([lastShareBlob], 'blackmarket.png', { type: 'image/png' });
-        if (navigator.canShare({ files: [file] })) {
-          await navigator.share({ files: [file], text });
-          $('shareModal').hidden = true;
-          return;
-        }
+        if (navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text }); $('shareModal').hidden = true; return; }
       } catch (e) {}
     }
-
     const shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(SHARE_TEXT);
-    if (tg && tg.openTelegramLink) tg.openTelegramLink(shareUrl);
-    else window.open(shareUrl, '_blank');
+    if (tg && tg.openTelegramLink) tg.openTelegramLink(shareUrl); else window.open(shareUrl, '_blank');
     $('shareModal').hidden = true;
   });
-
   $('inviteBtn').addEventListener('click', () => {
-    const uid = tgUser ? tgUser.id : '';
-    const link = BOT_LINK + (BOT_LINK.includes('?') ? '&' : '?') + 'startapp=ref_' + uid;
+    const uid = tgUser ? tgUser.id : ''; const link = BOT_LINK + (BOT_LINK.includes('?') ? '&' : '?') + 'startapp=ref_' + uid;
     const url = 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(SHARE_TEXT);
-    if (tg && tg.openTelegramLink) tg.openTelegramLink(url);
-    else window.open(url, '_blank');
+    if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, '_blank');
   });
 
   // ============================================================
-  // HEADER & UPGRADES
+  // УЛУЧШЕНИЯ
   // ============================================================
-  $('uname').textContent = userName;
-  const av = $('avatar');
-  if (tgUser && tgUser.photo_url) {
-    const img = new Image(); img.src = tgUser.photo_url; img.alt = '';
-    img.onerror = () => { av.textContent = userName[0].toUpperCase(); };
-    av.appendChild(img);
-  } else av.textContent = userName[0].toUpperCase();
-
   const UPS = [
     { k: 'point', n: 'Подпольная точка', d: () => `+2 $/с базовых. Сейчас ${fmt(income())} $/с` },
     { k: 'conn',  n: 'Связи',            d: () => `+2 $ за сделку. Сейчас +${fmt(tapVal())} $` },
     { k: 'crew',  n: 'Коллекторы',       d: () => `+8% к шансу PvP. Сейчас +${s.crew * 8}%` }
   ];
-  $('ups').innerHTML = UPS.map(u =>
-    `<div class="up"><span class="n">${u.n}<i id="l_${u.k}"></i></span>
-     <span class="d" id="d_${u.k}"></span><button id="b_${u.k}"></button></div>`).join('');
+  $('ups').innerHTML = UPS.map(u => `<div class="up"><span class="n">${u.n}<i id="l_${u.k}"></i></span><span class="d" id="d_${u.k}"></span><button id="b_${u.k}"></button></div>`).join('');
   UPS.forEach(u => $('b_' + u.k).addEventListener('click', () => {
-    const c = COST[u.k](s[u.k]);
-    if (s.cash < c) return toast('Не хватает денег', 'bad');
-    s.cash -= c; s[u.k]++;
-    bumpQuest('q_upg');
-    haptic('ok'); beep(520, 0.06);
-    render();
+    const c = COST[u.k](s[u.k]); if (s.cash < c) return toast('Не хватает денег', 'bad');
+    s.cash -= c; s[u.k]++; bumpQuest('q_upg'); haptic('ok'); beep(520, 0.06); render();
   }));
 
   const SHOP_UPS = [
     { k: 'armor', n: 'Титановый сейф', d: () => `-25% потерь за ур. Ур. ${s.armor} · потеря ${Math.round(armorLoss()*100)}%` },
     { k: 'safeMultiplier', n: 'Теневой синдикат', d: () => `+50% дохода за ур. Ур. ${s.safeMultiplier}` }
   ];
-  $('shopUps').innerHTML = SHOP_UPS.map(u =>
-    `<div class="up"><span class="n">${u.n}</span>
-     <span class="d" id="d_shop_${u.k}"></span><button id="b_shop_${u.k}"></button></div>`).join('');
+  $('shopUps').innerHTML = SHOP_UPS.map(u => `<div class="up"><span class="n">${u.n}</span><span class="d" id="d_shop_${u.k}"></span><button id="b_shop_${u.k}"></button></div>`).join('');
   SHOP_UPS.forEach(u => $('b_shop_' + u.k).addEventListener('click', () => {
-    const c = COST[u.k](s[u.k]);
-    if (s.cash < c) return toast('Не хватает денег', 'bad');
-    s.cash -= c; s[u.k]++;
-    bumpQuest('q_upg');
-    haptic('ok'); beep(520, 0.06);
-    render();
+    const c = COST[u.k](s[u.k]); if (s.cash < c) return toast('Не хватает денег', 'bad');
+    s.cash -= c; s[u.k]++; bumpQuest('q_upg'); haptic('ok'); beep(520, 0.06); render();
   }));
 
   $('guardBtn').addEventListener('click', () => {
     if (s.guards >= MAX_GUARDS) return toast('Максимум');
-    const c = COST.guard(s.guards);
-    if (s.cash < c) return toast('Не хватает', 'bad');
-    s.cash -= c; s.guards++;
-    haptic('ok'); beep(520, 0.06);
-    render();
+    const c = COST.guard(s.guards); if (s.cash < c) return toast('Не хватает', 'bad');
+    s.cash -= c; s.guards++; haptic('ok'); beep(520, 0.06); render();
   });
 
   // ============================================================
-  // RAID
+  // РЕЙДЫ
   // ============================================================
-  function raidMaxPower() {
-    return Math.max(2, Math.min(s.guards + 4, 2 + Math.floor(Math.sqrt(income() / 2))));
-  }
+  function raidMaxPower() { return Math.max(2, Math.min(s.guards + 4, 2 + Math.floor(Math.sqrt(income() / 2)))); }
   function tickRaid(t) {
     if (!s.raid && t >= s.nextRaid) {
       const friend = s.friends[ri(0, s.friends.length - 1)];
-      s.raid = {
-        end: t + RAID_WARN_MS,
-        power: ri(1, raidMaxPower()),
-        by: friend ? friend.name : 'Неизвестный',
-        emoji: friend ? friend.emoji : '🤖'
-      };
+      s.raid = { end: t + RAID_WARN_MS, power: ri(1, raidMaxPower()), by: friend ? friend.name : 'Неизвестный', emoji: friend ? friend.emoji : '🤖' };
       haptic('warn'); beep(300, 0.12, 'square');
     }
     if (s.raid && t >= s.raid.end) {
-      const r = s.raid;
-      s.raid = null;
-      s.nextRaid = t + rnd(60000, 120000);
+      const r = s.raid; s.raid = null; s.nextRaid = t + rnd(60000, 120000);
       const held = s.guards >= r.power || Math.random() < s.guards / r.power;
-      if (held) {
-        s.raidsHeld++;
-        haptic('ok');
-        toast(`Охрана отбила «${r.by}»`);
-        addLog(`Налёт «${r.by}» отбит (${r.power} vs ${s.guards})`, 'ok');
-      } else {
-        const loss = Math.floor(s.cash * armorLoss());
-        s.cash -= loss;
-        haptic('err'); beep(160, 0.2, 'sawtooth');
-        toast(`Сейф вскрыт: −${fmt(loss)} $`, 'bad');
-        addLog(`«${r.by}» вскрыл сейф: −${fmt(loss)} $`, 'bad');
-      }
+      if (held) { s.raidsHeld++; haptic('ok'); toast(`Охрана отбила «${r.by}»`); addLog(`Налёт «${r.by}» отбит (${r.power} vs ${s.guards})`, 'ok'); }
+      else { const loss = Math.floor(s.cash * armorLoss()); s.cash -= loss; haptic('err'); beep(160, 0.2, 'sawtooth'); toast(`Сейф вскрыт: −${fmt(loss)} $`, 'bad'); addLog(`«${r.by}» вскрыл сейф: −${fmt(loss)} $`, 'bad'); }
     }
   }
-
   $('buyoffBtn').addEventListener('click', () => {
-    if (!s.raid) return;
-    const cost = Math.floor(s.cash * 0.15 + 200);
-    if (s.cash < cost) return toast('Не хватает', 'bad');
-    s.cash -= cost;
-    const who = s.raid.by;
-    s.raid = null;
-    s.nextRaid = now() + rnd(60000, 120000);
-    haptic('ok');
-    toast(`Откупились за ${fmt(cost)} $`);
-    addLog(`Откуп от «${who}»: −${fmt(cost)} $`, 'ok');
-    render();
+    if (!s.raid) return; const cost = Math.floor(s.cash * 0.15 + 200); if (s.cash < cost) return toast('Не хватает', 'bad');
+    s.cash -= cost; const who = s.raid.by; s.raid = null; s.nextRaid = now() + rnd(60000, 120000);
+    haptic('ok'); toast(`Откупились за ${fmt(cost)} $`); addLog(`Откуп от «${who}»: −${fmt(cost)} $`, 'ok'); render();
   });
 
   // ============================================================
-  // PRESTIGE
+  // ПРЕСТИЖ
   // ============================================================
   const prestigeReq = () => PRESTIGE_BASE * Math.pow(2, s.prestige);
   const canPrestige = () => s.earned >= prestigeReq();
-
   $('prestigeBtn').addEventListener('click', () => {
     if (!canPrestige()) return;
     const doIt = () => {
-      s.prestige++;
-      s.cash = 50;
-      s.point = 1; s.conn = 0; s.crew = 0;
-      s.guards = 0; s.armor = 0; s.safeMultiplier = 0;
-      s.raid = null;
-      s.nextRaid = now() + 45000;
-      haptic('ok'); beep(880, 0.3, 'triangle');
-      addLog(`Сменил район. Престиж ${s.prestige}`, 'gold');
-      toast(`Престиж ${s.prestige}! Доход ×${prestigeMult().toFixed(2)}`, 'gold');
-      render();
-      save();
+      s.prestige++; s.cash = 50; s.point = 1; s.conn = 0; s.crew = 0; s.guards = 0; s.armor = 0; s.safeMultiplier = 0; s.raid = null; s.nextRaid = now() + 45000;
+      haptic('ok'); beep(880, 0.3, 'triangle'); addLog(`Сменил район. Престиж ${s.prestige}`, 'gold'); toast(`Престиж ${s.prestige}! Доход ×${prestigeMult().toFixed(2)}`, 'gold'); render(); save();
     };
     const msg = 'Сменить район?\n\nУлучшения сбросятся, но получишь +25% к доходу навсегда.';
-    if (tg && tg.showConfirm) tg.showConfirm(msg, ok => { if (ok) doIt(); });
-    else if (confirm(msg)) doIt();
+    if (tg && tg.showConfirm) tg.showConfirm(msg, ok => { if (ok) doIt(); }); else if (confirm(msg)) doIt();
   });
 
   // ============================================================
-  // ACHIEVEMENTS
+  // ДОСТИЖЕНИЯ
   // ============================================================
   const ACH = [
     { id: 'tap10',   n: 'Разогрев',       d: '10 сделок',              r: 100,    c: () => s.taps >= 10 },
@@ -1334,113 +990,78 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     { id: 'mil',     n: 'Первый миллион', d: 'Заработать 1M $',        r: 50000,  c: () => s.earned >= 1e6 },
     { id: 'pres',    n: 'Новая крыша',    d: 'Первый престиж',         r: 0,      c: () => s.prestige >= 1 }
   ];
-
   function checkAchievements() {
     for (const a of ACH) {
       if (!s.achievements[a.id] && a.c()) {
-        s.achievements[a.id] = true;
-        if (a.r) add(a.r);
-        addLog(`🏆 ${a.n}${a.r ? ` (+${fmt(a.r)} $)` : ''}`, 'gold');
-        toast(`🏆 ${a.n}!`, 'gold');
-        beep(1000, 0.15, 'triangle');
-        renderAchievements();
+        s.achievements[a.id] = true; if (a.r) add(a.r); addLog(`🏆 ${a.n}${a.r ? ` (+${fmt(a.r)} $)` : ''}`, 'gold'); toast(`🏆 ${a.n}!`, 'gold'); beep(1000, 0.15, 'triangle'); renderAchievements();
       }
     }
   }
   function renderAchievements() {
     $('achList').innerHTML = ACH.map(a => {
       const done = !!s.achievements[a.id];
-      return `<div class="ach${done ? ' done' : ''}">
-        <span class="ic">${done ? '✓' : '○'}</span>
-        <span class="nm">${a.n}</span>
-        <span class="ds">${a.d}${a.r ? ` · <span class="rw">+${fmt(a.r)} $</span>` : ''}</span>
-      </div>`;
+      return `<div class="ach${done ? ' done' : ''}"><span class="ic">${done ? '✓' : '○'}</span><span class="nm">${a.n}</span><span class="ds">${a.d}${a.r ? ` · <span class="rw">+${fmt(a.r)} $</span>` : ''}</span></div>`;
     }).join('');
   }
 
   // ============================================================
-  // SETTINGS / MODALS
+  // НАСТРОЙКИ / МОДАЛКИ
   // ============================================================
-  $('settingsBtn').addEventListener('click', () => {
-    $('sndChk').checked = !!s.settings.sound;
-    $('hapChk').checked = !!s.settings.haptics;
-    $('settingsModal').hidden = false;
-  });
+  $('settingsBtn').addEventListener('click', () => { $('sndChk').checked = !!s.settings.sound; $('hapChk').checked = !!s.settings.haptics; $('settingsModal').hidden = false; });
   $('sndChk').addEventListener('change', e => { s.settings.sound = e.target.checked; });
   $('hapChk').addEventListener('change', e => { s.settings.haptics = e.target.checked; });
   $('resetBtn').addEventListener('click', () => {
     const doReset = () => { localStorage.removeItem(SAVE_KEY); location.reload(); };
-    if (tg && tg.showConfirm) tg.showConfirm('Сбросить весь прогресс?', ok => { if (ok) doReset(); });
-    else if (confirm('Сбросить весь прогресс?')) doReset();
+    if (tg && tg.showConfirm) tg.showConfirm('Сбросить весь прогресс?', ok => { if (ok) doReset(); }); else if (confirm('Сбросить весь прогресс?')) doReset();
   });
-
   document.addEventListener('click', e => {
     const id = e.target.dataset && e.target.dataset.close;
     let target = null;
-    if (id) target = $(id);
-    else if (e.target.classList && e.target.classList.contains('modal')) target = e.target;
-
-    if (target) {
-      target.hidden = true;
-      if (target.id === 'miniGameModal') stopMiniGame();
-    }
+    if (id) target = $(id); else if (e.target.classList && e.target.classList.contains('modal')) target = e.target;
+    if (target) { target.hidden = true; if (target.id === 'miniGameModal') stopMiniGame(); }
   });
-
-  $('friendsBtn').addEventListener('click', () => {
-    renderFriendsList();
-    $('friendsModal').hidden = false;
-  });
+  $('friendsBtn').addEventListener('click', () => { renderFriendsList(); $('friendsModal').hidden = false; });
 
   // ============================================================
-  // REFERRAL
+  // РЕФЕРАЛЫ И БУСТЫ
   // ============================================================
   if (/^ref_/.test(startParam) && !s.refClaimed) {
-    const fid = startParam.slice(4);
-    s.refClaimed = true;
+    const fid = startParam.slice(4); s.refClaimed = true;
     if (fid && (!tgUser || String(tgUser.id) !== fid)) s.friend = fid.slice(-4);
-    add(500); s.guards++;
-    addLog('Ты откликнулся на зов: +500 $ и боец', 'ok');
+    add(500); s.guards++; addLog('Ты откликнулся на зов: +500 $ и боец', 'ok');
   }
 
   // ============================================================
-  // MAIN RENDER
+  // ОСНОВНОЙ РЕНДЕР
   // ============================================================
   let lastCashTxt = '';
   function render() {
     const t = now();
-
     const cashTxt = fmt(s.cash) + ' $';
     if (cashTxt !== lastCashTxt) { $('cash').textContent = cashTxt; lastCashTxt = cashTxt; }
 
     const incEl = $('inc');
     const boostTxt = boostActive() ? ' <span class="boost">🔥×2 ' + fmtTime(s.doubleUntil - t) + '</span>' : '';
-    incEl.innerHTML = `+${fmt(income())} $/с` +
-      (s.prestige > 0 ? ` · ×${prestigeMult().toFixed(2)}` : '') + boostTxt;
+    incEl.innerHTML = `+${fmt(income())} $/с` + (s.prestige > 0 ? ` · ×${prestigeMult().toFixed(2)}` : '') + boostTxt;
     incEl.className = 'income' + (s.prestige > 0 ? ' pres' : '');
 
     $('tapv').textContent = `+${fmt(tapVal())} $ за нажатие`;
     $('guards').textContent = s.guards + ' / ' + MAX_GUARDS;
 
-    let rank = RANKS[0][1];
-    RANKS.forEach(r => { if (s.earned >= r[0]) rank = r[1]; });
+    let rank = RANKS[0][1]; RANKS.forEach(r => { if (s.earned >= r[0]) rank = r[1]; });
     $('rank').textContent = rank + (s.prestige > 0 ? ` · П${s.prestige}` : '');
 
     const comboEl = $('combo');
-    if (s.combo >= 5 && t - s.lastTap < COMBO_MS) {
-      comboEl.hidden = false;
-      comboEl.textContent = 'x' + (1 + Math.min(s.combo - 1, 20) * 0.05).toFixed(2);
-    } else comboEl.hidden = true;
+    if (s.combo >= 5 && t - s.lastTap < COMBO_MS) { comboEl.hidden = false; comboEl.textContent = 'x' + (1 + Math.min(s.combo - 1, 20) * 0.05).toFixed(2); }
+    else comboEl.hidden = true;
 
     UPS.forEach(u => {
-      $('l_' + u.k).textContent = 'ур. ' + s[u.k];
-      $('d_' + u.k).textContent = u.d();
-      const b = $('b_' + u.k), c = COST[u.k](s[u.k]);
-      b.textContent = fmt(c) + ' $'; b.disabled = s.cash < c;
+      $('l_' + u.k).textContent = 'ур. ' + s[u.k]; $('d_' + u.k).textContent = u.d();
+      const b = $('b_' + u.k), c = COST[u.k](s[u.k]); b.textContent = fmt(c) + ' $'; b.disabled = s.cash < c;
     });
     SHOP_UPS.forEach(u => {
       $('d_shop_' + u.k).textContent = u.d();
-      const b = $('b_shop_' + u.k), c = COST[u.k](s[u.k]);
-      b.textContent = fmt(c) + ' $'; b.disabled = s.cash < c;
+      const b = $('b_shop_' + u.k), c = COST[u.k](s[u.k]); b.textContent = fmt(c) + ' $'; b.disabled = s.cash < c;
     });
 
     const gc = COST.guard(s.guards), gb = $('guardBtn');
@@ -1449,105 +1070,58 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 
     const al = $('alert');
     if (s.raid) {
-      al.hidden = false;
-      $('alertTitle').textContent = `Налёт! ${s.raid.emoji}`;
+      al.hidden = false; $('alertTitle').textContent = `Налёт! ${s.raid.emoji}`;
       const left = Math.max(0, Math.ceil((s.raid.end - t) / 1000));
-      $('alertTxt').textContent =
-        `«${s.raid.by}» ведёт ${s.raid.power} бойцов. Охрана: ${s.guards}. Через ${left}с` +
-        (s.guards < s.raid.power ? ' — усиль!' : '.');
+      $('alertTxt').textContent = `«${s.raid.by}» ведёт ${s.raid.power} бойцов. Охрана: ${s.guards}. Через ${left}с` + (s.guards < s.raid.power ? ' — усиль!' : '.');
     } else al.hidden = true;
 
     const db = $('dailyBtn');
-    if (!s.lastDaily || t - s.lastDaily >= DAILY_MS) {
-      db.hidden = false; db.disabled = false; db.textContent = '🎁 Бонус';
-    } else {
-      db.hidden = false; db.disabled = true;
-      db.textContent = '🎁 ' + fmtTime(DAILY_MS - (t - s.lastDaily));
-    }
+    if (!s.lastDaily || t - s.lastDaily >= DAILY_MS) { db.hidden = false; db.disabled = false; db.textContent = '🎁 Бонус'; }
+    else { db.hidden = false; db.disabled = true; db.textContent = '🎁 ' + fmtTime(DAILY_MS - (t - s.lastDaily)); }
 
-    const mgb = $('miniGameBtn');
-    const mgCd = MINIGAME_CD - (t - s.miniGameLast);
-    mgb.disabled = mgCd > 0;
-    mgb.textContent = mgCd > 0 ? '🎰 ' + fmtTime(mgCd) : '🎰 Прорыв';
+    const mgb = $('miniGameBtn'); const mgCd = MINIGAME_CD - (t - s.miniGameLast);
+    mgb.disabled = mgCd > 0; mgb.textContent = mgCd > 0 ? '🎰 ' + fmtTime(mgCd) : '🎰 Прорыв';
 
-    const adb = $('adBtn');
-    const adCd = AD_CD - (t - s.lastAdAt);
-    adb.disabled = adCd > 0;
-    adb.textContent = adCd > 0 ? `📺 Через ${fmtTime(adCd)}` : '📺 Смотреть рекламу · +бонус';
+    const adb = $('adBtn'); const adCd = AD_CD - (t - s.lastAdAt);
+    adb.disabled = adCd > 0; adb.textContent = adCd > 0 ? `📺 Через ${fmtTime(adCd)}` : '📺 Смотреть рекламу · +бонус';
 
-    const pc = $('prestigeCard');
-    pc.hidden = !(canPrestige() || s.prestige > 0);
-    $('prestigeDesc').textContent =
-      `Престиж: ${s.prestige} · доход ×${prestigeMult().toFixed(2)}. ` +
-      `Следующий — при ${fmt(prestigeReq())} $ (у тебя ${fmt(s.earned)}).`;
+    const pc = $('prestigeCard'); pc.hidden = !(canPrestige() || s.prestige > 0);
+    $('prestigeDesc').textContent = `Престиж: ${s.prestige} · доход ×${prestigeMult().toFixed(2)}. Следующий — при ${fmt(prestigeReq())} $ (у тебя ${fmt(s.earned)}).`;
     $('prestigeBtn').disabled = !canPrestige();
     $('prestigeBtn').textContent = canPrestige() ? 'Сменить район' : `Нужно ещё ${fmt(prestigeReq() - s.earned)} $`;
   }
 
-  // ============================================================
-  // DAILY BONUS
-  // ============================================================
   $('dailyBtn').addEventListener('click', () => {
     if (s.lastDaily && now() - s.lastDaily < DAILY_MS) return;
     const reward = Math.floor(Math.max(500, income() * 300));
-    add(reward);
-    s.lastDaily = now();
-    haptic('ok'); beep(660, 0.15);
-    toast(`Бонус: +${fmt(reward)} $`);
-    addLog(`Ежедневный бонус: +${fmt(reward)} $`, 'ok');
-    render();
+    add(reward); s.lastDaily = now(); haptic('ok'); beep(660, 0.15);
+    toast(`Бонус: +${fmt(reward)} $`); addLog(`Ежедневный бонус: +${fmt(reward)} $`, 'ok'); render();
   });
 
   // ============================================================
-  // BOOT
+  // ИГРОВОЙ ЦИКЛ
   // ============================================================
-  const awaySec = Math.min((now() - s.ts) / 1000, OFFLINE_CAP);
-  if (awaySec > 300) {
-    const g = Math.floor(awaySec * income());
-    add(g);
-    addLog(`Пока тебя не было (${Math.floor(awaySec / 60)} мин): +${fmt(g)} $`, 'ok');
+  function startLoops() {
+    let last = now();
+    let lastFriendsModalRender = 0;
+
+    setInterval(() => {
+      const t = now(); const dt = Math.min((t - last) / 1000, OFFLINE_CAP); last = t;
+      add(income() * dt); tickFriends(dt); tickRaid(t); render();
+      if (!$('friendsModal').hidden && t - lastFriendsModalRender > 500) { renderFriendsList(); lastFriendsModalRender = t; }
+      if (s.daily.resetAt <= t) { s.daily = makeDaily(); renderQuests(); }
+    }, 250);
+
+    setInterval(() => { renderQuests(); renderLeaderboard(); }, 2000);
+    setInterval(checkAchievements, 2000);
+    setInterval(save, 5000); // Сохраняем каждые 5 секунд
   }
-
-  renderLog();
-  renderAchievements();
-  renderQuests();
-  renderLeaderboard();
-  render();
-
-  // ============================================================
-  // MAIN LOOP
-  // ============================================================
-  let last = now();
-  let lastFriendsModalRender = 0;
-
-  setInterval(() => {
-    const t = now();
-    const dt = Math.min((t - last) / 1000, OFFLINE_CAP);
-    last = t;
-
-    add(income() * dt);
-    tickFriends(dt);
-    tickRaid(t);
-    render();
-
-    if (!$('friendsModal').hidden && t - lastFriendsModalRender > 500) {
-      renderFriendsList();
-      lastFriendsModalRender = t;
-    }
-
-    if (s.daily.resetAt <= t) { s.daily = makeDaily(); renderQuests(); }
-  }, 250);
-
-  setInterval(() => {
-    renderQuests();
-    renderLeaderboard();
-  }, 2000);
-
-  setInterval(checkAchievements, 2000);
-  setInterval(save, 4000);
 
   document.addEventListener('visibilitychange', () => { if (document.hidden) save(); });
   window.addEventListener('pagehide', save);
+
+  // ЗАПУСК!
+  initGame();
 })();
 </script>
 </body>
