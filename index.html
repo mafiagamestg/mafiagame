@@ -260,7 +260,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 
   const RANKS = [[0, 'Мелкая сошка'], [2e3, 'Барыга'], [5e4, 'Смотрящий'], [1e6, 'Авторитет'], [5e7, 'Крёстный отец']];
 
-  // УМЕНЬШИЛИ БОТОВ: Теперь их 3, и доход растет очень медленно
   const BOT_TEMPLATES = [
     { name: 'Тони Лысый', emoji: '🕴️', income: 1 },
     { name: 'Мадам Вуду', emoji: '💃', income: 2 },
@@ -278,25 +277,25 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 
   let s = defState();
   let isSavingToServer = false;
-  let globalPlayers = []; // Массив для реальных игроков
+  let globalPlayers = [];
 
   // ==========================================
-  // СЕТЕВЫЕ ЗАПРОСЫ (С ЗАЩИТОЙ ОТ ЗАВИСАНИЯ)
+  // БЕЗОПАСНЫЕ СЕТЕВЫЕ ЗАПРОСЫ
   // ==========================================
   async function loadFromServer() {
     if (!BACKEND_URL || !tgUser) return false;
-    
-    // Создаем контроллер для отмены запроса через 2.5 секунды
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2500); 
-
     try {
-      const res = await fetch(`${BACKEND_URL}/load/${tgUser.id}`, { signal: controller.signal });
-      clearTimeout(timeoutId);
-      const data = await res.json();
-      if (data.state) { s = Object.assign(defState(), data.state); return true; }
+      // Используем Promise.race для тайм-аута, это безопаснее, чем AbortController
+      const fetchPromise = fetch(`${BACKEND_URL}/load/${tgUser.id}`).then(r => r.json());
+      const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 2000));
+      
+      const data = await Promise.race([fetchPromise, timeoutPromise]);
+      if (data && data.state) { 
+        s = Object.assign(defState(), data.state); 
+        return true; 
+      }
     } catch (e) { 
-      console.warn('Сервер не ответил вовремя, грузим локально', e); 
+      console.warn('Сервер не ответил вовремя, грузим локально'); 
     }
     return false;
   }
@@ -313,16 +312,15 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   function syncSave() {
     if (!BACKEND_URL || !tgUser || isSavingToServer) return;
     isSavingToServer = true;
-    s.ips = income(); // Отправляем доход в секунду для античита
+    s.ips = income();
     fetch(BACKEND_URL + '/save', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId: tgUser.id, state: s })
     }).then(r => r.json()).then(data => {
-      // Если сервер почистил баланс античитом — применяем
       if (data.cash !== undefined && Math.abs(data.cash - s.cash) > 1000) {
         s.cash = data.cash;
-        toast('Античит: баланс был скорректирован', 'bad');
+        toast('Античит: баланс скорректирован', 'bad');
       }
     }).catch(e => console.warn('Ошибка сохранения', e)).finally(() => { isSavingToServer = false; });
   }
@@ -333,26 +331,34 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   }
 
   async function initGame() {
-    const loadedFromServer = await loadFromServer();
-    if (!loadedFromServer) {
-      try { const raw = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}'); if (Object.keys(raw).length) s = Object.assign(defState(), raw); } catch (e) {}
+    try {
+      const loadedFromServer = await loadFromServer();
+      if (!loadedFromServer) {
+        try { const raw = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}'); if (Object.keys(raw).length) s = Object.assign(defState(), raw); } catch (e) {}
+      }
+      s.settings = Object.assign(defState().settings, s.settings || {});
+      s.cash = Math.max(0, Number(s.cash) || 0);
+      if (!Array.isArray(s.friends) || !s.friends.length) s.friends = BOT_TEMPLATES.map((tpl, i) => makeBot(tpl, 1 + i * 0.5));
+      if (s.nextRaid < now()) s.nextRaid = now() + 20000;
+      s.combo = 0;
+      if (!s.daily || s.daily.resetAt <= now()) s.daily = makeDaily();
+
+      const awaySec = Math.min((now() - s.ts) / 1000, OFFLINE_CAP);
+      if (awaySec > 300) { const g = Math.floor(awaySec * income()); add(g); addLog(`Пока тебя не было: +${fmt(g)} $`, 'ok'); }
+
+      $('uname').textContent = userName;
+      const av = $('avatar');
+      if (tgUser && tgUser.photo_url) { const img = new Image(); img.src = tgUser.photo_url; img.alt = ''; img.onerror = () => { av.textContent = userName[0].toUpperCase(); }; av.appendChild(img); } else av.textContent = userName[0].toUpperCase();
+
+      renderLog(); renderAchievements(); renderQuests(); render(); fetchLeaderboard();
+    } catch (e) {
+      console.error("Ошибка инициализации:", e);
+    } finally {
+      // В ЛЮБОМ СЛУЧАЕ УБИРАЕМ ЗАГРУЗКУ
+      $('loader').classList.add('hidden'); 
+      $('app').style.opacity = '1'; 
+      startLoops();
     }
-    s.settings = Object.assign(defState().settings, s.settings || {});
-    s.cash = Math.max(0, Number(s.cash) || 0);
-    if (!Array.isArray(s.friends) || !s.friends.length) s.friends = BOT_TEMPLATES.map((tpl, i) => makeBot(tpl, 1 + i * 0.5));
-    if (s.nextRaid < now()) s.nextRaid = now() + 20000;
-    s.combo = 0;
-    if (!s.daily || s.daily.resetAt <= now()) s.daily = makeDaily();
-
-    const awaySec = Math.min((now() - s.ts) / 1000, OFFLINE_CAP);
-    if (awaySec > 300) { const g = Math.floor(awaySec * income()); add(g); addLog(`Пока тебя не было: +${fmt(g)} $`, 'ok'); }
-
-    $('uname').textContent = userName;
-    const av = $('avatar');
-    if (tgUser && tgUser.photo_url) { const img = new Image(); img.src = tgUser.photo_url; img.alt = ''; img.onerror = () => { av.textContent = userName[0].toUpperCase(); }; av.appendChild(img); } else av.textContent = userName[0].toUpperCase();
-
-    renderLog(); renderAchievements(); renderQuests(); render(); fetchLeaderboard();
-    $('loader').classList.add('hidden'); $('app').style.opacity = '1'; startLoops();
   }
 
   const COST = { point: l => Math.ceil(40 * Math.pow(1.5, l)), conn: l => Math.ceil(25 * Math.pow(1.55, l)), crew: l => Math.ceil(120 * Math.pow(1.8, l)), guard: l => Math.ceil(150 * Math.pow(1.6, l)), armor: l => Math.ceil(400 * Math.pow(1.8, l)), safeMultiplier: l => Math.ceil(1000 * Math.pow(2.5, l)) };
@@ -380,22 +386,18 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 
   function renderLeaderboard() {
     let all = [{ id: tgUser ? tgUser.id : 'me', me: true, name: userName, emoji: '👤', cash: s.cash }];
-    
     if (globalPlayers.length < 3) {
       all = [...all, ...s.friends.map(f => ({ ...f, me: false }))];
     }
-    
     globalPlayers.forEach(p => {
       if (p.user_id !== (tgUser ? tgUser.id : 'me')) {
         all.push({ id: p.user_id, me: false, name: 'Игрок ' + String(p.user_id).slice(-4), emoji: '👤', cash: p.cash });
       }
     });
-
     all.sort(friendSortFn);
     const meIdx = all.findIndex(x => x.me);
     let display = all.slice(0, 5);
     if (meIdx >= 5) display = [...all.slice(0, 4), all[meIdx]];
-
     $('leaderboard').innerHTML = display.map(row => {
       const pos = all.indexOf(row) + 1;
       const posCls = pos === 1 ? 'gold' : pos === 2 ? 'silver' : pos === 3 ? 'bronze' : '';
