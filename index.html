@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Черный рынок</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<!-- Скрипт для рекламы ADSGRAM -->
+<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -228,11 +230,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 .shop-pack .info .d{color:var(--dim);font-size:11px}
 .shop-pack > button{padding:9px 14px;border-radius:8px;background:linear-gradient(180deg,#3a2400,#1a1000);border:1px solid var(--gold);color:var(--gold);font-weight:700;font-size:13px;min-height:44px;min-width:74px;flex:none}
 
-/* ad modal */
-.ad-modal-content{text-align:center;padding:30px 20px}
-.ad-modal-content .big-em{font-size:64px;margin-bottom:16px;animation:bob 1s infinite}
-@keyframes bob{50%{transform:translateY(-8px)}}
-
 /* share preview */
 .share-preview{width:100%;max-width:400px;border-radius:12px;border:1px solid var(--line);margin:12px 0;display:block}
 
@@ -241,7 +238,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   .fl{animation-duration:.01s}
   .deal:active{transform:none}
   .quest.done button{animation:none}
-  .ad-modal-content .big-em{animation:none}
 }
 </style>
 </head>
@@ -355,7 +351,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   <div class="modal-content">
     <button class="modal-close" data-close="friendsModal">✕</button>
     <h2>👥 Друзья и PvP</h2>
-    <p style="color:var(--dim);font-size:13px;margin:0 0 12px">Выбивай долги у знакомых. Победа — крадёшь часть их сейфа. Провал — теряешь своих.</p>
+    <p style="color:var(--dim);font-size:13px;margin:0 0 12px">Выбивай долги у знакомых. Победа — крадёшь часть их сейфа.</p>
     <div id="friendsList" style="display:flex;flex-direction:column;gap:6px"></div>
   </div>
 </div>
@@ -366,7 +362,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     <button class="modal-close" data-close="miniGameModal">✕</button>
     <h2>🎰 Прорыв охраны</h2>
     <div id="mgIntro">
-      <p style="color:var(--dim);font-size:13px;margin:0 0 12px">Три раунда на реакцию. Тапни, когда золотой маркер в зелёной зоне. Три успеха — крупный куш.</p>
+      <p style="color:var(--dim);font-size:13px;margin:0 0 12px">Три раунда на реакцию. Тапни, когда золотой маркер в зелёной зоне.</p>
       <button class="btn gold" id="mgStartBtn">Начать прорыв</button>
     </div>
     <div id="mgGame" hidden>
@@ -398,25 +394,16 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   </div>
 </div>
 
-<!-- Ad modal -->
-<div class="modal" id="adModal" hidden>
-  <div class="modal-content ad-modal-content">
-    <div class="big-em">📺</div>
-    <h2>Реклама</h2>
-    <p style="color:var(--dim);font-size:13px" id="adStatus">Смотрим рекламу…</p>
-    <div style="margin-top:20px;font-size:48px;font-weight:700;color:var(--gold)" id="adTimer">5</div>
-  </div>
-</div>
-
 <script>
 (() => {
   'use strict';
 
   // ============================================================
-  // НАСТРОЙКИ (ТВОИ ССЫЛКИ)
+  // НАСТРОЙКИ
   // ============================================================
-  const BOT_LINK = 'https://t.me/black_market_game_bot'; // Твой бот
-  const BACKEND_URL = 'https://black-market-server-l431.onrender.com'; // URL твоего сервера на Render
+  const BOT_LINK = 'https://t.me/black_market_game_bot'; 
+  const BACKEND_URL = 'https://black-market-server-l431.onrender.com'; 
+  const AD_BLOCK_ID = '58935'; // Твой ID из ADSGRAM
 
   const SHARE_TEXT = 'Меня прессуют конкуренты! Зайди и помоги отбиться:';
   const RAID_WARN_MS = 12000;
@@ -447,8 +434,7 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
   const userName = tgUser ? (tgUser.first_name || tgUser.username || 'Аноним') : 'Гость';
   const startParam = (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) ||
-    new URLSearchParams(location.search).get('startapp') ||
-    new URLSearchParams(location.search).get('tgWebAppStartParam') || '';
+    new URLSearchParams(location.search).get('startapp') || '';
 
   // ============================================================
   // HELPERS
@@ -493,17 +479,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     { name: 'Дон Кибер',  emoji: '🤖', income: 13 },
     { name: 'Босс Неон',  emoji: '🌃', income: 18 }
   ];
-
-  // ============================================================
-  // ANALYTICS
-  // ============================================================
-  const analyticsQueue = [];
-  function track(event, props = {}) {
-    const evt = { event, props, t: now(), uid: tgUser ? tgUser.id : 'anon' };
-    analyticsQueue.push(evt);
-    if (analyticsQueue.length > 200) analyticsQueue.shift();
-    if (window.__DEBUG_TRACK__) console.log('[track]', event, props);
-  }
 
   // ============================================================
   // SOUND & HAPTICS
@@ -672,7 +647,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     haptic('ok'); beep(800, 0.1);
     toast(`Квест: +${fmt(q.reward)} $`);
     addLog(`🎯 Квест «${q.name}»: +${fmt(q.reward)} $`, 'ok');
-    track('quest_claim', { id });
     render();
   }
   function renderQuests() {
@@ -781,14 +755,12 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
       haptic('ok'); beep(700, 0.15, 'triangle');
       toast(`Выбил ${fmt(steal)} $ у ${friend.name}`);
       addLog(`Выбил ${fmt(steal)} $ у «${friend.name}»`, 'ok');
-      track('pvp_win', { steal });
     } else {
       const loss = Math.floor(s.cash * 0.04);
       s.cash -= loss;
       haptic('err'); beep(180, 0.18, 'sawtooth');
       toast(`${friend.name} отбился. −${fmt(loss)} $`, 'bad');
       addLog(`«${friend.name}» отбился: −${fmt(loss)} $`, 'bad');
-      track('pvp_loss', { loss });
     }
     renderFriendsList();
     renderLeaderboard();
@@ -866,7 +838,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     $('mgGame').hidden = false;
     $('mgResult').hidden = true;
     runRound();
-    track('minigame_start');
   });
 
   function runRound() {
@@ -925,13 +896,11 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
       $('mgResultTxt').className = 'mg-result ok';
       beep(1000, 0.25, 'triangle');
       bumpQuest('q_mg');
-      track('minigame_win', { reward });
     } else {
       reward = Math.floor(Math.min(hourlyBase, 100000) * 0.15 * (mg.hits / mg.maxRounds));
       $('mgResultTxt').textContent = `Провал на раунде ${mg.round + 1}`;
       $('mgResultTxt').className = 'mg-result bad';
       beep(200, 0.3, 'sawtooth');
-      track('minigame_fail', { hits: mg.hits });
     }
     $('mgResultAmt').textContent = reward > 0 ? `+${fmt(reward)} $` : 'Ничего';
     $('mgResultAmt').style.color = reward > 0 ? 'var(--green)' : 'var(--dim)';
@@ -940,48 +909,67 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   }
 
   // ============================================================
-  // ADS
+  // ADS (ИНТЕГРАЦИЯ С ADSGRAM)
   // ============================================================
-  let adTimerId = null;
+  let AdController = null;
+  if (window.Adsgram) {
+    try {
+      AdController = window.Adsgram.init({
+        blockId: AD_BLOCK_ID,
+        debug: false // Поставь true, чтобы проверить тестовую заглушку
+      });
+    } catch (e) {
+      console.warn('ADSGRAM: Ошибка инициализации', e);
+    }
+  }
+
   function showRewardedAd() {
-    return new Promise(resolve => {
-      $('adModal').hidden = false;
-      let sec = 5;
-      $('adTimer').textContent = sec;
-      $('adStatus').textContent = 'Смотрим рекламу…';
-      clearInterval(adTimerId);
-      adTimerId = setInterval(() => {
-        sec--;
-        $('adTimer').textContent = sec;
-        if (sec <= 0) {
-          clearInterval(adTimerId);
-          adTimerId = null;
-          $('adModal').hidden = true;
-          s.adsWatched++;
-          s.lastAdAt = now();
-          bumpQuest('q_ad');
-          track('ad_watched');
-          resolve(true);
+    return new Promise((resolve) => {
+      if (!AdController) {
+        toast('Реклама временно недоступна', 'bad');
+        return resolve(false);
+      }
+
+      AdController.show().then(() => {
+        resolve(true); // Досмотрел
+      }).catch((err) => {
+        console.log('ADSGRAM: Реклама не просмотрена', err);
+        if (err?.description !== 'onSkip') {
+           toast('Не удалось загрузить рекламу', 'bad');
         }
-      }, 1000);
+        resolve(false); // Закрыл или ошибка
+      });
     });
   }
 
   $('adBtn').addEventListener('click', async () => {
     const cd = AD_CD - (now() - s.lastAdAt);
     if (cd > 0) return toast(`Подожди ${fmtTime(cd)}`, 'bad');
+
+    const btn = $('adBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Загрузка...';
+
     const ok = await showRewardedAd();
+    
+    btn.disabled = false;
+    btn.textContent = '📺 Смотреть рекламу · +бонус';
+
     if (ok) {
       const reward = Math.floor(Math.max(200, income() * 180));
       add(reward);
       toast(`Реклама: +${fmt(reward)} $`);
       addLog(`📺 Реклама: +${fmt(reward)} $`, 'ok');
+      
+      s.lastAdAt = now();
+      s.adsWatched++;
+      bumpQuest('q_ad');
       render();
     }
   });
 
   // ============================================================
-  // IAP / STAR PACKS (ИНТЕГРАЦИЯ С RENDER)
+  // IAP / STAR PACKS
   // ============================================================
   const STAR_PACKS = [
     { id: 'cash_small', emoji: '💰', title: 'Пачка кэша', desc: 'x10 дохода за 1 час', stars: 50,
@@ -1016,7 +1004,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     const pack = STAR_PACKS.find(p => p.id === id);
     if (!pack) return;
 
-    // Заглушка, если сервер недоступен (например, не запущен на Render)
     if (!BACKEND_URL) {
       const msg = `[ДЕМО] «${pack.title}» за ${pack.stars} ⭐?\n\nВ продакшене откроется оплата через Telegram Stars.`;
       if (tg && tg.showConfirm) tg.showConfirm(msg, ok => { if (ok) pack.apply(); render(); });
@@ -1024,7 +1011,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
       return;
     }
 
-    // Боевой режим — запрос на Render
     fetch(BACKEND_URL + '/invoice', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1037,7 +1023,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
           if (status === 'paid') {
             pack.apply();
             s.starsPurchases[id] = (s.starsPurchases[id] || 0) + 1;
-            track('iap_success', { id });
             toast(`Куплено: ${pack.title}`, 'gold');
             beep(1000, 0.2, 'triangle');
             render();
@@ -1169,10 +1154,8 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
       lastShareUrl = URL.createObjectURL(blob);
       $('sharePreview').src = lastShareUrl;
       $('shareModal').hidden = false;
-      track('share_open');
     } catch (e) {
       toast('Не удалось создать картинку', 'bad');
-      console.error(e);
     }
   });
 
@@ -1187,7 +1170,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
         const file = new File([lastShareBlob], 'blackmarket.png', { type: 'image/png' });
         if (navigator.canShare({ files: [file] })) {
           await navigator.share({ files: [file], text });
-          track('share_image');
           $('shareModal').hidden = true;
           return;
         }
@@ -1197,7 +1179,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     const shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(SHARE_TEXT);
     if (tg && tg.openTelegramLink) tg.openTelegramLink(shareUrl);
     else window.open(shareUrl, '_blank');
-    track('share_text');
     $('shareModal').hidden = true;
   });
 
@@ -1207,7 +1188,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     const url = 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(SHARE_TEXT);
     if (tg && tg.openTelegramLink) tg.openTelegramLink(url);
     else window.open(url, '_blank');
-    track('invite');
   });
 
   // ============================================================
@@ -1235,7 +1215,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     s.cash -= c; s[u.k]++;
     bumpQuest('q_upg');
     haptic('ok'); beep(520, 0.06);
-    track('upgrade', { key: u.k, level: s[u.k] });
     render();
   }));
 
@@ -1280,7 +1259,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
         emoji: friend ? friend.emoji : '🤖'
       };
       haptic('warn'); beep(300, 0.12, 'square');
-      track('raid_start');
     }
     if (s.raid && t >= s.raid.end) {
       const r = s.raid;
@@ -1334,7 +1312,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
       haptic('ok'); beep(880, 0.3, 'triangle');
       addLog(`Сменил район. Престиж ${s.prestige}`, 'gold');
       toast(`Престиж ${s.prestige}! Доход ×${prestigeMult().toFixed(2)}`, 'gold');
-      track('prestige', { level: s.prestige });
       render();
       save();
     };
@@ -1366,7 +1343,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
         addLog(`🏆 ${a.n}${a.r ? ` (+${fmt(a.r)} $)` : ''}`, 'gold');
         toast(`🏆 ${a.n}!`, 'gold');
         beep(1000, 0.15, 'triangle');
-        track('achievement', { id: a.id });
         renderAchievements();
       }
     }
@@ -1424,7 +1400,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     if (fid && (!tgUser || String(tgUser.id) !== fid)) s.friend = fid.slice(-4);
     add(500); s.guards++;
     addLog('Ты откликнулся на зов: +500 $ и боец', 'ok');
-    track('referral_join', { from: fid });
   }
 
   // ============================================================
@@ -1520,7 +1495,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
     haptic('ok'); beep(660, 0.15);
     toast(`Бонус: +${fmt(reward)} $`);
     addLog(`Ежедневный бонус: +${fmt(reward)} $`, 'ok');
-    track('daily_claim', { reward });
     render();
   });
 
@@ -1539,7 +1513,6 @@ button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
   renderQuests();
   renderLeaderboard();
   render();
-  track('app_open');
 
   // ============================================================
   // MAIN LOOP
