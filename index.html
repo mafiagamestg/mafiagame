@@ -228,7 +228,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 'use strict';
 var BOT_LINK='https://t.me/black_market_game_bot/play';
 var BACKEND_URL='https://black-market-server-l431.onrender.com';
-var SAVE_KEY='blackmarket_v20';
+var SAVE_KEY='blackmarket_v21';
 var AD_BLOCK_ID='58935';
 var AD_CD=60000;
 
@@ -272,16 +272,13 @@ document.addEventListener('pointerdown',function(){ensureAudio()},{once:true,pas
 // ===== РЕКЛАМА ADSGRAM =====
 var AdController=null;
 if(window.Adsgram){
-  try{AdController=window.Adsgram.init({blockId:AD_BLOCK_ID,debug:false})}catch(e){}
-}
-function showRewardedAd(){
-  return new Promise(function(resolve){
-    if(!AdController){
-      toast('Реклама недоступна','bad');
-      return resolve(false);
-    }
-    AdController.show().then(function(){resolve(true)}).catch(function(){resolve(false)});
-  });
+  try{
+    AdController=window.Adsgram.init({blockId:AD_BLOCK_ID,debug:false});
+  }catch(e){
+    console.error('Adsgram Init Error:', e);
+  }
+}else{
+  console.warn('Adsgram SDK not loaded');
 }
 
 var BT=[{name:'Тони Лысый',emoji:'🕴️',income:1},{name:'Мадам Вуду',emoji:'💃',income:2},{name:'Кислый',emoji:'🎩',income:3}];
@@ -512,7 +509,7 @@ $('deal').addEventListener('pointerdown',function(e){
   renderQuests();render();
 });
 
-// РЕКЛАМА (КНОПКА)
+// РЕКЛАМА (КНОПКА С ОТЛАДКОЙ)
 $('adBtn').addEventListener('click',function(){
   var t=now();
   if(s.lastAdAt&&t-s.lastAdAt<AD_CD){
@@ -520,22 +517,36 @@ $('adBtn').addEventListener('click',function(){
     return;
   }
   
+  if(!window.Adsgram){
+    toast('Реклама не загрузилась (SDK блок)','bad');
+    return;
+  }
+  if(!AdController){
+    toast('Ошибка: AdBlock не создан. Проверь BlockID','bad');
+    return;
+  }
+
   var btn=$('adBtn');
   btn.disabled=true;
   btn.textContent='⏳...';
   
-  showRewardedAd().then(function(ok){
-    if(ok){
-      var reward=Math.floor(Math.max(5000,income()*180));
-      add(reward);
-      s.lastAdAt=now();
-      toast('Реклама: +'+fmt(reward)+' $','gold');
-      playBeep(900,0.2,'triangle');vibrate([50,30,50]);
-      render();save();
-    }else{
-      btn.disabled=false;
-      btn.textContent='📺 Реклама';
-    }
+  AdController.show().then(function(){
+    var reward=Math.floor(Math.max(5000,income()*180));
+    add(reward);
+    s.lastAdAt=now();
+    toast('Реклама: +'+fmt(reward)+' $','gold');
+    playBeep(900,0.2,'triangle');vibrate([50,30,50]);
+    btn.disabled=false;
+    render();save();
+  }).catch(function(err){
+    console.error('ADSGRAM ERROR:',err);
+    // Выводим текст ошибки прямо в игру
+    var msg='Ошибка';
+    if(err && err.description) msg=err.description;
+    else if(typeof err === 'string') msg=err;
+    toast('AdsGram: '+msg,'bad');
+    btn.disabled=false;
+    btn.textContent='📺 Реклама';
   });
 });
 
@@ -839,7 +850,7 @@ $('shareBtn').addEventListener('click',function(){
 
 function addLog(text,cls){s.log.unshift({t:text,c:cls});s.log=s.log.slice(0,6);renderLog()}
 function renderLog(){$('log').innerHTML=s.log.map(function(l){return '<li style="color:'+(l.c==='gold'?'var(--gold)':l.c==='bad'?'var(--red)':'var(--green)')+'">'+l.t+'</li>'}).join('')}
-function toast(text,kind){var el=$('toast');el.textContent=text;el.className='toast show '+(kind||'');setTimeout(function(){el.classList.remove('show')},2500)}
+function toast(text,kind){var el=$('toast');el.textContent=text;el.className='toast show '+(kind||'');setTimeout(function(){el.classList.remove('show')},3000)}
 function startLoops(){setInterval(function(){add(income()*0.25);render()},250);setInterval(save,5000)}
 document.addEventListener('visibilitychange',function(){if(document.hidden)save()});
 
