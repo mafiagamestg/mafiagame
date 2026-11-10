@@ -75,24 +75,20 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .quest button{padding:8px 14px;border-radius:8px;border:1px solid var(--gold);color:var(--gold);font-size:12px;font-weight:600;background:rgba(255,201,60,.1);white-space:nowrap}
 .quest button.claimed{border-color:var(--line);color:var(--dim);background:transparent}
 .quest.done button{border-color:var(--green);color:var(--green);background:rgba(49,255,140,.1)}
-/* REBIRTH */
 .rebirth-card{background:linear-gradient(180deg,#1a1400,#0a0800);border:1px solid var(--gold);border-radius:12px;padding:16px;box-shadow:0 0 20px rgba(255,201,60,.2)}
 .rebirth-card h2{margin:0 0 8px;font:700 18px var(--d);color:var(--gold)}
 .rebirth-stats{display:flex;justify-content:space-between;font-size:13px;font-weight:bold;margin:12px 0}
 .rebirth-progress{background:var(--panel2);height:8px;border-radius:4px;overflow:hidden;margin:10px 0}
 .rebirth-progress>div{height:100%;background:linear-gradient(90deg,var(--gold),#ffaa00);transition:width .3s;box-shadow:0 0 10px var(--gold)}
-/* Модалки */
 .modal{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(5px)}
 .modal[hidden]{display:none}
 .modal-content{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;width:100%;max-width:400px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.5)}
 .modal-content h2{margin-top:0}
 .modal-close{float:right;font-size:22px;color:var(--dim);padding:4px}
-/* Настройки */
 .settings-label{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;cursor:pointer}
 .settings-label:last-of-type{border-bottom:0}
 .settings-label input[type=checkbox]{width:22px;height:22px;accent-color:var(--green);cursor:pointer}
 .danger-btn{margin-top:15px;border-color:var(--red)!important;color:var(--red)!important}
-/* Тосты */
 .toast{position:fixed;left:50%;bottom:80px;transform:translate(-50%,30px);max-width:90%;padding:12px 18px;border-radius:10px;background:#0b0e11;border:1px solid var(--green);color:var(--green);opacity:0;transition:.3s;z-index:200;text-align:center;pointer-events:none;font-size:14px;font-weight:600;box-shadow:0 5px 15px rgba(0,0,0,.5)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.bad{border-color:var(--red);color:var(--red)}
@@ -123,9 +119,11 @@ button:disabled{opacity:.45;cursor:not-allowed}
 <span style="font:700 32px var(--d);color:#fff;text-shadow:0 0 12px var(--red)">СДЕЛКА</span>
 <small id="tapv" style="color:#ff8da3;font-size:14px;margin-top:4px">+1 $</small>
 </button>
-<div class="btn-row"><button class="btn gold" id="dailyBtn">🎁 Бонус</button><button class="btn o blue" id="adBtn">📺 Реклама</button></div>
+<div class="btn-row">
+<button class="btn gold" id="dailyBtn">🎁 Бонус</button>
+<button class="btn o blue" id="adBtn">📺 Реклама</button>
+</div>
 
-<!-- REBIRTH КАРТОЧКА - СРАЗУ ВИДНА -->
 <div class="rebirth-card">
 <h2>👑 Смена района</h2>
 <p style="margin:0;font-size:12px">Начни заново в обмен на <b>+25% к доходу навсегда</b>. Сбрасываются: деньги, улучшения, охрана. Остаются: престиж, друзья, квесты.</p>
@@ -230,7 +228,9 @@ button:disabled{opacity:.45;cursor:not-allowed}
 'use strict';
 var BOT_LINK='https://t.me/black_market_game_bot/play';
 var BACKEND_URL='https://black-market-server-l431.onrender.com';
-var SAVE_KEY='blackmarket_v19';
+var SAVE_KEY='blackmarket_v20';
+var AD_BLOCK_ID='58935';
+var AD_CD=60000;
 
 var tg=window.Telegram&&window.Telegram.WebApp;
 if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#07080a');tg.setBackgroundColor('#07080a');tg.disableVerticalSwipes()}catch(e){}}
@@ -267,13 +267,27 @@ function vibrate(ms){
   if(!s.settings||!s.settings.haptics)return;
   try{if(navigator.vibrate)navigator.vibrate(ms)}catch(e){}
 }
-// Разблокировка аудио при первом тапе
 document.addEventListener('pointerdown',function(){ensureAudio()},{once:true,passive:true});
+
+// ===== РЕКЛАМА ADSGRAM =====
+var AdController=null;
+if(window.Adsgram){
+  try{AdController=window.Adsgram.init({blockId:AD_BLOCK_ID,debug:false})}catch(e){}
+}
+function showRewardedAd(){
+  return new Promise(function(resolve){
+    if(!AdController){
+      toast('Реклама недоступна','bad');
+      return resolve(false);
+    }
+    AdController.show().then(function(){resolve(true)}).catch(function(){resolve(false)});
+  });
+}
 
 var BT=[{name:'Тони Лысый',emoji:'🕴️',income:1},{name:'Мадам Вуду',emoji:'💃',income:2},{name:'Кислый',emoji:'🎩',income:3}];
 function makeBot(t,p){p=p||1;return{id:'b_'+Math.random().toString(36).slice(2,8),name:t.name,emoji:t.emoji,income:t.income*p,cash:t.income*50*p,lastTick:now()}}
 function defState(){
-  return{cash:50,earned:0,point:1,conn:0,crew:0,guards:0,armor:0,prestige:0,log:[],ts:now(),taps:0,lastDaily:0,combo:0,lastTap:0,friends:BT.map(function(t,i){return makeBot(t,1+i*0.5)}),friendsAtkCd:0,miniGameLast:0,ips:0,energy:5,energyTs:now(),bpXp:0,bpLevel:1,bpPremium:false,bpClaimed:[],aucBid:10000,aucOwner:null,quests:{taps:0,spins:0,claimed:[false,false]},settings:{sound:true,haptics:true}}
+  return{cash:50,earned:0,point:1,conn:0,crew:0,guards:0,armor:0,prestige:0,log:[],ts:now(),taps:0,lastDaily:0,lastAdAt:0,combo:0,lastTap:0,friends:BT.map(function(t,i){return makeBot(t,1+i*0.5)}),friendsAtkCd:0,miniGameLast:0,ips:0,energy:5,energyTs:now(),bpXp:0,bpLevel:1,bpPremium:false,bpClaimed:[],aucBid:10000,aucOwner:null,quests:{taps:0,spins:0,claimed:[false,false]},settings:{sound:true,haptics:true}}
 }
 var s=defState();
 var isSaving=false,isSpinning=false;
@@ -438,6 +452,19 @@ function render(){
   }
   if($('rebirthText'))$('rebirthText').textContent='Заработано: '+fmt(s.earned)+' / '+fmt(req)+' $';
   
+  // ADS CD UI
+  var adb=$('adBtn');
+  if(adb){
+    var adCd=AD_CD-(t-(s.lastAdAt||0));
+    if(adCd>0){
+      adb.disabled=true;
+      adb.textContent='📺 '+Math.ceil(adCd/1000)+'с';
+    }else{
+      adb.disabled=false;
+      adb.textContent='📺 Реклама';
+    }
+  }
+  
   $('bpLevel').textContent=s.bpLevel;
   $('bpXp').textContent=s.bpXp;
   $('bpProgress').style.width=(s.bpXp%100)+'%';
@@ -483,6 +510,33 @@ $('deal').addEventListener('pointerdown',function(e){
   f.style.cssText='position:fixed;left:'+(e.clientX-12)+'px;top:'+(e.clientY-30)+'px;color:var(--green);font:700 24px var(--d);pointer-events:none;animation:fly .7s forwards;z-index:20;text-shadow:0 0 10px var(--green)';
   document.body.appendChild(f);setTimeout(function(){f.remove()},700);
   renderQuests();render();
+});
+
+// РЕКЛАМА (КНОПКА)
+$('adBtn').addEventListener('click',function(){
+  var t=now();
+  if(s.lastAdAt&&t-s.lastAdAt<AD_CD){
+    toast('Подожди '+Math.ceil((AD_CD-(t-s.lastAdAt))/1000)+'с','bad');
+    return;
+  }
+  
+  var btn=$('adBtn');
+  btn.disabled=true;
+  btn.textContent='⏳...';
+  
+  showRewardedAd().then(function(ok){
+    if(ok){
+      var reward=Math.floor(Math.max(5000,income()*180));
+      add(reward);
+      s.lastAdAt=now();
+      toast('Реклама: +'+fmt(reward)+' $','gold');
+      playBeep(900,0.2,'triangle');vibrate([50,30,50]);
+      render();save();
+    }else{
+      btn.disabled=false;
+      btn.textContent='📺 Реклама';
+    }
+  });
 });
 
 // REBIRTH
@@ -696,7 +750,6 @@ $('dailyBtn').addEventListener('click',function(){
   if(s.lastDaily&&now()-s.lastDaily<86400000){toast('Уже получено','bad');return}
   add(5000);s.lastDaily=now();toast('Бонус: +5000 $');playBeep(900,0.2,'triangle');vibrate([30,30,30]);render();
 });
-$('adBtn').addEventListener('click',function(){add(5000);toast('Реклама: +5000 $');playBeep(700,0.15);render()});
 
 $('settingsBtn').addEventListener('click',function(){
   $('soundChk').checked=!!s.settings.sound;
